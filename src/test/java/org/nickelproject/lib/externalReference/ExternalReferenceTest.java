@@ -17,11 +17,15 @@ package org.nickelproject.lib.externalReference;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.nickelproject.lib.TestModule;
+
+import com.google.inject.Guice;
 
 public final class ExternalReferenceTest {
 
     @Test
     public void testGet() {
+        Guice.createInjector(new TestModule());
         final String testString = "This is a test string.";
         final ExternalReference<String> reference = ExternalReference.of(testString);
         Assert.assertEquals(testString, reference.get());

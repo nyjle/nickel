@@ -38,6 +38,7 @@ dependencies {
 	compile "commons-io:commons-io:2.4"
    	compile "commons-lang:commons-lang:2.6"
    	compile "com.google.code.findbugs:annotations:2.0.0"
+   	compile "com.google.inject:guice:3.0"
 	testCompile "junit:junit:4.11"	
 }
 

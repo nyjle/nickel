@@ -15,9 +15,12 @@
  */
 package org.nickelproject.applications.blobStore;
 
+import org.nickelproject.lib.S3Module;
 import org.nickelproject.lib.blobStore.BlobRef;
 import org.nickelproject.lib.blobStore.BlobStore;
-import org.nickelproject.lib.blobStore.S3BlobStore;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 public final class Get {
 
@@ -27,7 +30,8 @@ public final class Get {
 
     public static void main(final String[] args) throws Exception {
         final String blobName = args[0];
-        final BlobStore blobStore = new S3BlobStore();
+        final Injector injector = Guice.createInjector(new S3Module());
+        final BlobStore blobStore = injector.getInstance(BlobStore.class);
         final byte[] bytes = blobStore.get(BlobRef.of(blobName));
         System.out.write(bytes);
     }

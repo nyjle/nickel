@@ -20,7 +20,9 @@ import java.io.InputStream;
 import java.util.Map;
 
 import com.google.common.collect.MapMaker;
+import com.google.inject.Singleton;
 
+@Singleton
 public final class InMemoryBlobStore extends BlobStoreBase {
     private final Map<BlobRef, byte[]> store = new MapMaker().makeMap();
 

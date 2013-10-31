@@ -18,14 +18,15 @@ package org.nickelproject.lib.externalReference;
 import java.io.Serializable;
 
 import org.nickelproject.lib.blobStore.BlobRef;
-import org.nickelproject.lib.blobStore.InMemoryBlobStore;
-import org.nickelproject.lib.objectStore.CachingObjectStore;
 import org.nickelproject.lib.objectStore.ObjectStore;
+
+import com.google.inject.Inject;
 
 // The data must be immutable
 public final class ExternalReference<T> implements Serializable {
     private static final long serialVersionUID = 1L;
-    private static final ObjectStore objectStore = new CachingObjectStore(new InMemoryBlobStore()); // new
+    @Inject private static ObjectStore objectStore;
+    // = new CachingObjectStore(new InMemoryBlobStore()); // new
     // S3BlobStore();
     private final BlobRef            blobRef;
 

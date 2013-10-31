@@ -28,10 +28,18 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 public class S3BlobStore extends BlobStoreBase {
-    private static final String   bucketName = "BlobStore";
     private static final AmazonS3 s3Client   = new AmazonS3Client(new ClasspathPropertiesFileCredentialsProvider());
+    private final String bucketName;
+
+    @Inject
+    S3BlobStore(@Named("BucketName") final String bucketName) {
+        this.bucketName = bucketName;
+        System.out.println(bucketName);
+    }
 
     @Override
     public final byte[] get(final BlobRef blobRef) {

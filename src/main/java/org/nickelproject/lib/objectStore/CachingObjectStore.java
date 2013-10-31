@@ -25,7 +25,10 @@ import org.nickelproject.lib.util.RetryProxy;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
+@Singleton
 public final class CachingObjectStore implements ObjectStore {
     private final ObjectStore                   objectStore;
     private final LoadingCache<BlobRef, Object> cache = CacheBuilder.newBuilder().build(
@@ -41,6 +44,7 @@ public final class CachingObjectStore implements ObjectStore {
         this.objectStore = RetryProxy.newInstance(objectStore);
     }
 
+    @Inject
     public CachingObjectStore(final BlobStore blobStore) {
         this(new WrappedBlobStore(blobStore));
     }

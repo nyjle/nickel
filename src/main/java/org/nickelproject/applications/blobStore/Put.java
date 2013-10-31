@@ -18,9 +18,12 @@ package org.nickelproject.applications.blobStore;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
+import org.nickelproject.lib.S3Module;
 import org.nickelproject.lib.blobStore.BlobRef;
 import org.nickelproject.lib.blobStore.BlobStore;
-import org.nickelproject.lib.blobStore.S3BlobStore;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 /**
  * Basic application to put a file into the BlobStore.
@@ -37,7 +40,8 @@ public final class Put {
     }
 
     public static void main(final String[] args) throws Exception {
-        final BlobStore blobStore = new S3BlobStore();
+        final Injector injector = Guice.createInjector(new S3Module());
+        final BlobStore blobStore = injector.getInstance(BlobStore.class);
         final InputStream inputStream = args.length > 0 ? new FileInputStream(args[0]) : System.in;
         final BlobRef blobRef = blobStore.put(inputStream);
         System.out.println(blobRef);
