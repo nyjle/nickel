@@ -19,7 +19,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-// Need to add a random delay
+// TODO Need to add a random delay
 public final class RetryProxy<T> implements InvocationHandler {
     private static final long initialDelay = 1;
     private static final long increment    = 2;
