@@ -18,9 +18,9 @@ package org.nickelproject.applications.blobStore;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-import org.nickelproject.lib.S3Module;
-import org.nickelproject.lib.blobStore.BlobRef;
-import org.nickelproject.lib.blobStore.BlobStore;
+import org.nickelproject.applications.S3Module;
+import org.nickelproject.nickel.blobStore.BlobRef;
+import org.nickelproject.nickel.blobStore.BlobStore;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;

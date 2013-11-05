@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nickelproject.lib.util;
+package org.nickelproject.util;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.nickelproject.util.RetryProxy;
 
 public final class RetryProxyTest {
 

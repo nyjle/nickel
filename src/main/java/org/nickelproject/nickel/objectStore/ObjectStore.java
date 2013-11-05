@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nickelproject.lib.objectStore;
+package org.nickelproject.nickel.objectStore;
 
-import org.nickelproject.lib.blobStore.BlobRef;
+import org.nickelproject.nickel.blobStore.BlobRef;
 
 public interface ObjectStore {
     boolean contains(BlobRef blobRef);

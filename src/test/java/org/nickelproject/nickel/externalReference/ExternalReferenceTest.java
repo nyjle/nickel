@@ -13,18 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nickelproject.lib.blobStore;
+package org.nickelproject.nickel.externalReference;
 
-import java.io.InputStream;
+import org.junit.Assert;
+import org.junit.Test;
+import org.nickelproject.nickel.TestModule;
+import org.nickelproject.nickel.externalReference.ExternalReference;
 
-public interface BlobStore {
-    boolean contains(BlobRef blobRef);
+import com.google.inject.Guice;
 
-    byte[] get(BlobRef blobRef);
+public final class ExternalReferenceTest {
 
-    BlobRef put(byte[] bytes);
-
-    InputStream getAsStream(BlobRef blobRef);
-
-    BlobRef put(InputStream stream);
+    @Test
+    public void testGet() {
+        Guice.createInjector(new TestModule());
+        final String testString = "This is a test string.";
+        final ExternalReference<String> reference = ExternalReference.of(testString);
+        Assert.assertEquals(testString, reference.get());
+    }
 }

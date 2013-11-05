@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nickelproject.lib.objectStore;
+package org.nickelproject.nickel.objectStore;
 
 import java.util.concurrent.ExecutionException;
 
-import org.nickelproject.lib.blobStore.BlobRef;
-import org.nickelproject.lib.blobStore.BlobStore;
-import org.nickelproject.lib.util.RethrownException;
-import org.nickelproject.lib.util.RetryProxy;
+import org.nickelproject.nickel.blobStore.BlobRef;
+import org.nickelproject.nickel.blobStore.BlobStore;
+import org.nickelproject.util.RethrownException;
+import org.nickelproject.util.RetryProxy;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;

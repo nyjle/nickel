@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nickelproject.lib;
+package org.nickelproject.nickel;
 
-import org.nickelproject.lib.blobStore.BlobStore;
-import org.nickelproject.lib.blobStore.InMemoryBlobStore;
-import org.nickelproject.lib.externalReference.ExternalReference;
-import org.nickelproject.lib.objectStore.CachingObjectStore;
-import org.nickelproject.lib.objectStore.ObjectStore;
+import org.nickelproject.nickel.blobStore.BlobStore;
+import org.nickelproject.nickel.blobStore.InMemoryBlobStore;
+import org.nickelproject.nickel.externalReference.ExternalReference;
+import org.nickelproject.nickel.objectStore.CachingObjectStore;
+import org.nickelproject.nickel.objectStore.ObjectStore;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;

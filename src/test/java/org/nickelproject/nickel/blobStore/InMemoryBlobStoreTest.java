@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nickelproject.lib.blobStore;
+package org.nickelproject.nickel.blobStore;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -23,6 +23,9 @@ import java.util.Arrays;
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.nickelproject.nickel.blobStore.BlobRef;
+import org.nickelproject.nickel.blobStore.BlobStore;
+import org.nickelproject.nickel.blobStore.InMemoryBlobStore;
 
 public final class InMemoryBlobStoreTest {
     private final BlobStore blobStore = new InMemoryBlobStore();

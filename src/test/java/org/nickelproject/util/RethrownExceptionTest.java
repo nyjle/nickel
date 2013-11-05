@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nickelproject.lib.util;
+package org.nickelproject.util;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
@@ -23,6 +23,7 @@ import static org.junit.Assert.fail;
 import java.io.IOException;
 
 import org.junit.Test;
+import org.nickelproject.util.RethrownException;
 
 /**
  * Unit tests for {@link RethrownException}.

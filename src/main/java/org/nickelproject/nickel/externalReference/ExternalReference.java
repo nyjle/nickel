@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nickelproject.lib.externalReference;
+package org.nickelproject.nickel.externalReference;
 
 import java.io.Serializable;
 
-import org.nickelproject.lib.blobStore.BlobRef;
-import org.nickelproject.lib.objectStore.ObjectStore;
+import org.nickelproject.nickel.blobStore.BlobRef;
+import org.nickelproject.nickel.objectStore.ObjectStore;
 
 import com.google.inject.Inject;
 

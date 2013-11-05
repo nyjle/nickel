@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nickelproject.lib.objectStore;
+package org.nickelproject.nickel.objectStore;
 
 import java.io.InputStream;
 import java.io.Serializable;
 
 import org.apache.commons.lang.SerializationUtils;
-import org.nickelproject.lib.blobStore.BlobRef;
-import org.nickelproject.lib.blobStore.BlobStore;
+import org.nickelproject.nickel.blobStore.BlobRef;
+import org.nickelproject.nickel.blobStore.BlobStore;
 
 public final class WrappedBlobStore implements ObjectStore {
     private final BlobStore blobStore;
