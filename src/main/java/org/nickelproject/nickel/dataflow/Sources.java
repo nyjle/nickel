@@ -39,6 +39,7 @@ public final class Sources {
     }
     
     private static class ConcatSource<S> implements Source<S> {
+        private static final long serialVersionUID = 1L;
         private final Source<Source<S>> sources;
         
         public ConcatSource(final Source<Source<S>> sources) {

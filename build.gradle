@@ -23,8 +23,8 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 	from sourceSets.main.allSource
 }
 
-compileJava.options.compilerArgs << '-Xlint'
-compileJava.options.compilerArgs << '-Werror'
+//compileJava.options.compilerArgs << '-Xlint'
+//compileJava.options.compilerArgs << '-Werror'
 
 repositories {
 	mavenCentral()
@@ -75,4 +75,4 @@ apply plugin: 'checkstyle'
 	}
 	
 apply plugin: 'pmd'
-apply plugin: 'jdepend'	
+apply plugin: 'jdepend'

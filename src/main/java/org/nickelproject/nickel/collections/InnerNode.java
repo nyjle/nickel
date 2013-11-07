@@ -15,12 +15,12 @@ final class InnerNode<T> extends DistributedCollection<T> {
     private static final long serialVersionUID = 1L;
     private ExternalReference<DistributedCollection<T>[]> nodes; // Not final as serializable
     
-    public InnerNode(final DistributedCollection<T>... nodes) {
+    public InnerNode(final DistributedCollection<T>[] nodes) {
         this.nodes = ExternalReference.of(nodes);
     }
 
     @SuppressWarnings("unchecked")
-    public InnerNode(final List<DistributedCollection<? extends T>> nodes) {
+    public InnerNode(final List<DistributedCollection<T>> nodes) {
         this(nodes.toArray(new DistributedCollection[0]));
     }
     

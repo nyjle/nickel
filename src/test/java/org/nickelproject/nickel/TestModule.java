@@ -28,9 +28,7 @@ public final class TestModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(String.class)
-            .annotatedWith(Names.named("BucketName"))
-            .toInstance("BlobStore");
+        bind(String.class).annotatedWith(Names.named("BucketName")).toInstance("BlobStore");
         bind(BlobStore.class).to(InMemoryBlobStore.class);
         bind(ObjectStore.class).to(CachingObjectStore.class);
         requestStaticInjection(ExternalReference.class);

@@ -26,8 +26,6 @@ import com.google.inject.Inject;
 public final class ExternalReference<T> implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject private static ObjectStore objectStore;
-    // = new CachingObjectStore(new InMemoryBlobStore()); // new
-    // S3BlobStore();
     private final BlobRef            blobRef;
 
     private ExternalReference(final T data) {
