@@ -3,6 +3,7 @@ package org.nickelproject.lib.csvUtil;
 import java.util.List;
 
 import org.nickelproject.lib.types.DataType;
+import org.nickelproject.lib.types.DoubleDataType;
 import org.nickelproject.lib.types.IntegerDataType;
 import org.nickelproject.lib.types.RecordDataType;
 import org.nickelproject.lib.types.StringDataType;
@@ -44,6 +45,8 @@ public final class Header {
             dataType = new IntegerDataType();
         } else if (dataTypeString.equals("String")) {
             dataType = new StringDataType();
+        } else if (dataTypeString.equals("Double")) {
+            dataType = new DoubleDataType();
         }
         Preconditions.checkState(dataType != null);
         return dataType;
