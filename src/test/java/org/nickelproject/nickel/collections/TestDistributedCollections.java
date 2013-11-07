@@ -9,7 +9,7 @@ import org.nickelproject.nickel.dataflow.Source;
 import com.google.common.base.Preconditions;
 import com.google.inject.Guice;
 
-public class TestDistributedCollections {
+public final class TestDistributedCollections {
     private static final int testSize = 1000;
     private static final int concatSize = 10;
     
@@ -51,7 +51,7 @@ public class TestDistributedCollections {
         Assert.assertEquals(concatSize, counter);
     }
     
-    private final DistributedCollection<Double>[] createMany(final int size, final int count) {
+    private DistributedCollection<Double>[] createMany(final int size, final int count) {
         @SuppressWarnings("unchecked")
         final DistributedCollection<Double>[] array = new DistributedCollection[concatSize];
         for (int i = 0; i < count; i++) {
@@ -60,11 +60,11 @@ public class TestDistributedCollections {
         return array;
     }
     
-    private final DistributedCollection<Double> create(final int first, final int last) {
+    private DistributedCollection<Double> create(final int first, final int last) {
         Preconditions.checkArgument(last > first);
         final Double[] array = new Double[last - first];
         for (int i = first; i < last; i++) {
-            array[i-first] = Double.valueOf(i);
+            array[i - first] = Double.valueOf(i);
         }
         return DistributedCollectionUtil.from(array);
     }

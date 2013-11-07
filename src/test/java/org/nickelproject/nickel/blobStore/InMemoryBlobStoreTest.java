@@ -23,9 +23,6 @@ import java.util.Arrays;
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
-import org.nickelproject.nickel.blobStore.BlobRef;
-import org.nickelproject.nickel.blobStore.BlobStore;
-import org.nickelproject.nickel.blobStore.InMemoryBlobStore;
 
 public final class InMemoryBlobStoreTest {
     private final BlobStore blobStore = new InMemoryBlobStore();

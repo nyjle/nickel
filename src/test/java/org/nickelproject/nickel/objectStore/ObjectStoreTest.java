@@ -19,8 +19,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.nickelproject.nickel.blobStore.BlobRef;
 import org.nickelproject.nickel.blobStore.InMemoryBlobStore;
-import org.nickelproject.nickel.objectStore.CachingObjectStore;
-import org.nickelproject.nickel.objectStore.ObjectStore;
 
 public final class ObjectStoreTest {
     private final ObjectStore objectStore = new CachingObjectStore(new InMemoryBlobStore());

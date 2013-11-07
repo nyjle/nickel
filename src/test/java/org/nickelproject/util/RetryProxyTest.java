@@ -17,7 +17,6 @@ package org.nickelproject.util;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.nickelproject.util.RetryProxy;
 
 public final class RetryProxyTest {
 

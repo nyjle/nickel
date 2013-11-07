@@ -59,7 +59,7 @@ public final class Sources {
         }
 
         @Override
-        public Source<Source<S>> partition(int partitionSize) {
+        public Source<Source<S>> partition(final int partitionSize) {
             return sources;
         }
     }
@@ -80,7 +80,7 @@ public final class Sources {
         @Override
         public Source<Source<S>> partition(final int partitionSize) {
             return from(Iterables.transform(Iterables.partition(iterable, partitionSize),
-                    new Function<Iterable<S>,Source<S>>() {
+                    new Function<Iterable<S>, Source<S>>() {
                         @Override
                         public Source<S> apply(final Iterable<S> partition) {
                             return from(partition);
@@ -105,9 +105,9 @@ public final class Sources {
         }
 
         @Override
-        public Source<Source<T>> partition(int partitionSize) {
+        public Source<Source<T>> partition(final int partitionSize) {
             return transform(wrappedSource.partition(partitionSize), 
-                    new Function<Source<S>, Source<T>>(){
+                    new Function<Source<S>, Source<T>>() {
                         @Override
                         public Source<T> apply(final Source<S> input) {
                             return transform(input, transform);

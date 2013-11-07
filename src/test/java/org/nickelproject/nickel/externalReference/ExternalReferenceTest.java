@@ -18,7 +18,6 @@ package org.nickelproject.nickel.externalReference;
 import org.junit.Assert;
 import org.junit.Test;
 import org.nickelproject.nickel.TestModule;
-import org.nickelproject.nickel.externalReference.ExternalReference;
 
 import com.google.inject.Guice;
 

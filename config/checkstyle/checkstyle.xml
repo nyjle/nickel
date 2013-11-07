@@ -29,8 +29,8 @@
   Finally, it is worth reading the documentation.
 
 -->
-
 <module name="Checker">
+	<module name="SuppressionCommentFilter"/>
     <!--
         If you set the basedir property below, then all reported file
         names will be relative to the specified directory. See
@@ -61,12 +61,14 @@
 
     <!-- Miscellaneous other checks.                   -->
     <!-- See http://checkstyle.sf.net/config_misc.html -->
-    <module name="RegexpSingleline">
+<!--   This is just annoying
+	   <module name="RegexpSingleline">
        <property name="format" value="\s+$"/>
        <property name="minimum" value="0"/>
        <property name="maximum" value="0"/>
        <property name="message" value="Line has trailing spaces."/>
-    </module>
+    </module> 
+    -->
 
     <!-- Checks for Headers                                -->
     <!-- See http://checkstyle.sf.net/config_header.html   -->
@@ -76,6 +78,7 @@
     <!-- </module> -->
 
     <module name="TreeWalker">
+		<module name="FileContentsHolder"/>
 
         <!-- Checks for Javadoc comments.                     -->
         <!-- See http://checkstyle.sf.net/config_javadoc.html -->

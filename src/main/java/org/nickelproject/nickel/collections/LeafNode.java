@@ -1,8 +1,10 @@
 package org.nickelproject.nickel.collections;
 
+import java.util.Collections;
 import java.util.Iterator;
 
 import org.nickelproject.nickel.dataflow.Source;
+import org.nickelproject.nickel.dataflow.Sources;
 import org.nickelproject.nickel.externalReference.ExternalReference;
 
 import com.google.common.collect.Iterators;
@@ -16,9 +18,8 @@ final class LeafNode<T> extends DistributedCollection<T> {
     }
 
     @Override
-    public Source<Source<T>> partition(int partitionSize) {
-        // TODO Auto-generated method stub
-        return null;
+    public Source<Source<T>> partition(final int partitionSize) {
+        return Sources.from(Collections.<Source<T>>singletonList(this));
     }
 
     @Override

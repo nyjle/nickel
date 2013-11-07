@@ -23,7 +23,6 @@ import static org.junit.Assert.fail;
 import java.io.IOException;
 
 import org.junit.Test;
-import org.nickelproject.util.RethrownException;
 
 /**
  * Unit tests for {@link RethrownException}.

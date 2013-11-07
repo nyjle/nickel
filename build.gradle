@@ -13,10 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 apply plugin: 'eclipse'
 
 apply plugin: 'java'
+
+version = '0.0.1'
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'nickel', 'Implementation-Version': version
+    }
+}
 
 task sourcesJar(type: Jar, dependsOn: classes) {
 	classifier = 'sources'
@@ -24,7 +31,7 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 }
 
 //compileJava.options.compilerArgs << '-Xlint'
-//compileJava.options.compilerArgs << '-Werror'
+compileJava.options.compilerArgs << '-Werror'
 
 repositories {
 	mavenCentral()
@@ -54,7 +61,7 @@ apply plugin: 'findbugs'
 apply plugin: 'checkstyle'
 
 	checkstyle {
-		ignoreFailures = false
+		ignoreFailures = true
 	}
 
 	task checkstyleReport (dependsOn: [checkstyleMain, checkstyleTest]) << {
