@@ -21,7 +21,7 @@ import java.lang.reflect.Method;
 
 import com.google.common.reflect.Reflection;
 
-// Need to add a random delay
+// TODO Need to add a random delay
 public final class RetryProxy<T> implements InvocationHandler {
     private static final long initialDelay = 1;
     private static final long increment    = 2;
