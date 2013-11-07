@@ -26,13 +26,13 @@ import org.nickelproject.lib.util.tuple.Triple;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-public final class RecordDataType implements DataType<Record>, Serializable {
+public final class RecordDataType implements DataType, Serializable {
     private static final long serialVersionUID = 1L;
     private final Map<String, DataType> memberTypes   = Maps.newHashMap();
     private final Map<Integer, String>  memberIndices = Maps.newHashMap();
     private final Map<String, Integer>  nameToIndex   = Maps.newHashMap();
 
-    private RecordDataType(final Triple<Integer, String, DataType>... members) {
+    private RecordDataType(final Iterable<Triple<Integer, String, DataType>> members) {
         for (final Triple<Integer, String, DataType> member : members) {
             memberTypes.put(member.getB(), member.getC());
             memberIndices.put(member.getA(), member.getB());
@@ -49,7 +49,7 @@ public final class RecordDataType implements DataType<Record>, Serializable {
         }
 
         public RecordDataType build() {
-            return new RecordDataType(members.toArray(new Triple[0]));
+            return new RecordDataType(members);
         }
     }
 

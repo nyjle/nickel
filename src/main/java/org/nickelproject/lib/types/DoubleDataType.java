@@ -15,7 +15,7 @@
  */
 package org.nickelproject.lib.types;
 
-public class IntegerDataType implements DataType {
+public class DoubleDataType implements DataType {
     @Override
     public final <S> S visit(final DataTypeVisitor<S> visitor) {
         return visitor.visit(this);

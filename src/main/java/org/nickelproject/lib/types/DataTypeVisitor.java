@@ -16,15 +16,13 @@
 package org.nickelproject.lib.types;
 
 public abstract class DataTypeVisitor<S> {
-    public final S visit(final DataType<?> dataType) {
+    public final S visit(final DataType dataType) {
         return dataType.visit(this);
     }
 
     protected abstract S visit(IntegerDataType dataType);
-
+    protected abstract S visit(DoubleDataType dataType);
     protected abstract S visit(StringDataType dataType);
-
     protected abstract S visit(ByteArrayDataType dataType);
-
     protected abstract S visit(RecordDataType dataType);
 }

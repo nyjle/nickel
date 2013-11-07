@@ -15,6 +15,6 @@
  */
 package org.nickelproject.lib.types;
 
-public interface DataType<T> {
+public interface DataType {
     <S> S visit(DataTypeVisitor<S> visitor);
 }

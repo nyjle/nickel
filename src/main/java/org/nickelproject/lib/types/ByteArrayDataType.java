@@ -15,7 +15,7 @@
  */
 package org.nickelproject.lib.types;
 
-public class ByteArrayDataType implements DataType<byte[]> {
+public class ByteArrayDataType implements DataType {
     @Override
     public final <S> S visit(final DataTypeVisitor<S> visitor) {
         return visitor.visit(this);
