@@ -19,6 +19,8 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import com.google.common.reflect.Reflection;
+
 // Need to add a random delay
 public final class RetryProxy<T> implements InvocationHandler {
     private static final long initialDelay = 1;
@@ -27,10 +29,8 @@ public final class RetryProxy<T> implements InvocationHandler {
     private static final int  secondsToMillis = 1000;
     private final T           obj;
 
-    @SuppressWarnings("unchecked")
-    public static <T> T newInstance(final T obj) {
-        return (T) java.lang.reflect.Proxy.newProxyInstance(obj.getClass().getClassLoader(), obj.getClass()
-                .getInterfaces(), new RetryProxy<T>(obj));
+    public static <T> T newInstance(final Class<T> pClass, final T obj) {
+        return Reflection.newProxy(pClass, new RetryProxy<T>(obj));
     }
 
     private RetryProxy(final T obj) {

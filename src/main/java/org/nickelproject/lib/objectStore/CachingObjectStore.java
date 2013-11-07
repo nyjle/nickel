@@ -41,7 +41,7 @@ public final class CachingObjectStore implements ObjectStore {
             });
 
     public CachingObjectStore(final ObjectStore objectStore) {
-        this.objectStore = RetryProxy.newInstance(objectStore);
+        this.objectStore = RetryProxy.newInstance(ObjectStore.class, objectStore);
     }
 
     @Inject
