@@ -22,32 +22,32 @@ public final class RetryProxyTest {
 
     @Test(expected = Exception.class)
     public void testAlwaysThrowException() throws Exception {
-        final DumbInterface dumb = RetryProxy.newInstance(new DumbClass());
+        final DumbInterface dumb = RetryProxy.newInstance(DumbInterface.class, new DumbClass());
         dumb.alwaysThrowException();
     }
 
     @Test(expected = Error.class)
     public void testAlwaysThrowError() {
-        final DumbInterface dumb = RetryProxy.newInstance(new DumbClass());
+        final DumbInterface dumb = RetryProxy.newInstance(DumbInterface.class, new DumbClass());
         dumb.alwaysThrowError();
     }
 
     @Test
     public void testAlwaysSucceed() {
-        final DumbInterface dumb = RetryProxy.newInstance(new DumbClass());
+        final DumbInterface dumb = RetryProxy.newInstance(DumbInterface.class, new DumbClass());
         Assert.assertTrue(dumb.alwaysSucceed());
     }
 
     @Test
     public void test2Throws() throws Exception {
-        final DumbInterface dumb = RetryProxy.newInstance(new DumbClass());
+        final DumbInterface dumb = RetryProxy.newInstance(DumbInterface.class, new DumbClass());
         Assert.assertTrue(dumb.throwNTimes(2));
     }
 
     @Test(expected = Exception.class)
     public void test4Throws() throws Exception {
         final int n = 4;
-        final DumbInterface dumb = RetryProxy.newInstance(new DumbClass());
+        final DumbInterface dumb = RetryProxy.newInstance(DumbInterface.class, new DumbClass());
         Assert.assertTrue(dumb.throwNTimes(n));
     }
 

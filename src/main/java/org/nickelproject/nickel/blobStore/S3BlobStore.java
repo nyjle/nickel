@@ -43,11 +43,20 @@ public class S3BlobStore extends BlobStoreBase {
 
     @Override
     public final byte[] get(final BlobRef blobRef) {
+        InputStream inputStream = null;
         try {
-            final InputStream inputStream = getAsStream(blobRef);
+            inputStream = getAsStream(blobRef);
             return inputStream == null ? null : IOUtils.toByteArray(getAsStream(blobRef));
         } catch (final IOException e) {
             throw RethrownException.rethrow(e);
+        } finally {
+           if (inputStream != null) {
+               try {
+                   inputStream.close();
+               } catch (final IOException e) {
+                   throw RethrownException.rethrow(e);
+               }
+           }
         }
     }
 
