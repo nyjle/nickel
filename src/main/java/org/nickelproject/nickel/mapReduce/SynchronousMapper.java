@@ -13,21 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nickelproject.nickel.collections;
+package org.nickelproject.nickel.mapReduce;
+
+import java.util.Iterator;
+
+import com.google.common.base.Function;
+import com.google.common.collect.Iterators;
 
 
-public final class DistributedCollectionUtil {
-
-    private DistributedCollectionUtil() {
-        // Prevents construction
-    }
+/**
+ * A {@link Mapper} that applies a {@link Function} to each element of an {@link Iterator}
+ * in order in the parent thread.
+ */
+final class SynchronousMapper implements Mapper {
     
-    public static <T> DistributedCollection<T> from(final T[] data) {
-        return new LeafNode<T>(data);
-    }
-    
-    // This needs to be careful about size
-    public static <T> DistributedCollection<T> concat(final DistributedCollection<T>[] collections) {
-        return new InnerNode<T>(collections);
+    @Override
+    public <F, T> Iterator<T> map(final Iterator<F> iterator, final Function<F, T> function) {
+        return Iterators.transform(iterator, function);
     }
 }

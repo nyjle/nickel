@@ -13,21 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nickelproject.nickel.collections;
+package org.nickelproject.nickel.mapReduce;
 
+import java.util.Iterator;
 
-public final class DistributedCollectionUtil {
+import com.google.common.base.Function;
+import com.google.common.collect.Iterators;
 
-    private DistributedCollectionUtil() {
-        // Prevents construction
-    }
+/**
+ * A Mapper applies a {@link Function} to a sequence of data, returning an
+ * {@link Iterator}. 
+ */
+public interface Mapper {
     
-    public static <T> DistributedCollection<T> from(final T[] data) {
-        return new LeafNode<T>(data);
-    }
-    
-    // This needs to be careful about size
-    public static <T> DistributedCollection<T> concat(final DistributedCollection<T>[] collections) {
-        return new InnerNode<T>(collections);
-    }
+    /**
+     * Applies the given {@link Function} to the input data, returning an {@link Iterator}. 
+     * Results may be returned out-of-order. Returned
+     * {@link Iterators} are not guaranteed to be thread safe.
+     */
+     <F, T> Iterator<T> map(Iterator<F> pInputs, Function<F, T> function);
 }

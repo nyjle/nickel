@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Nigel Duffy
+ * Copyright (c) 2013 Numerate, Inc
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,21 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nickelproject.nickel.collections;
+package org.nickelproject.nickel.mapReduce;
 
 
-public final class DistributedCollectionUtil {
-
-    private DistributedCollectionUtil() {
-        // Prevents construction
-    }
+/**
+ * Tests for {@link MapReduceUtil} with a SynchronousMapper.
+ */
+public class SynchronousMapReduceUtilTest extends BaseMapReduceUtilTest {
     
-    public static <T> DistributedCollection<T> from(final T[] data) {
-        return new LeafNode<T>(data);
-    }
-    
-    // This needs to be careful about size
-    public static <T> DistributedCollection<T> concat(final DistributedCollection<T>[] collections) {
-        return new InnerNode<T>(collections);
+    @Override
+    protected Mapper getMapper() {
+        return new SynchronousMapper();
     }
 }

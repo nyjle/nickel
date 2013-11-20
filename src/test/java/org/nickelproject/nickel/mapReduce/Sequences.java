@@ -13,21 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nickelproject.nickel.collections;
+package org.nickelproject.nickel.mapReduce;
 
+import org.nickelproject.nickel.dataflow.Source;
+import org.nickelproject.nickel.dataflow.Sources;
 
-public final class DistributedCollectionUtil {
+import com.google.common.collect.ContiguousSet;
+import com.google.common.collect.DiscreteDomain;
+import com.google.common.collect.Range;
 
-    private DistributedCollectionUtil() {
-        // Prevents construction
+public final class Sequences {
+
+    private Sequences() {
+        // Prevents Construction
     }
     
-    public static <T> DistributedCollection<T> from(final T[] data) {
-        return new LeafNode<T>(data);
-    }
-    
-    // This needs to be careful about size
-    public static <T> DistributedCollection<T> concat(final DistributedCollection<T>[] collections) {
-        return new InnerNode<T>(collections);
+    public static Source<Integer> integer(final int min, final int max) {
+        return Sources.from(ContiguousSet.create(Range.closedOpen(min, max), DiscreteDomain.integers()));
     }
 }
