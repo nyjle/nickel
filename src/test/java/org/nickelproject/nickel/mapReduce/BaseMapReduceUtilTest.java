@@ -39,12 +39,12 @@ public abstract class BaseMapReduceUtilTest {
     protected abstract Mapper getMapper();
 
     @Test
-    public void testBasic() {
+    public final void testBasic() {
         final int kNumElements = 1000;
 
         final Integer vResult = MapReduceUtil.mapReduce(new SeqSource(kNumElements),
                 new MultiplyFunction(), new IntegerSumReducer(), getMapper());
-        assertEquals(4995000, vResult.intValue());
+        assertEquals((kNumElements * (kNumElements - 1)) / 2 * MultiplyFunction.kFactor, vResult.intValue());
     }
 
     private static class MultiplyFunction implements Function<Integer, Integer> {
@@ -66,7 +66,7 @@ public abstract class BaseMapReduceUtilTest {
 
         @Override
         public Iterator<Integer> iterator() {
-            return ContiguousSet.create(Range.openClosed(0, mNumElements), DiscreteDomain.integers()).iterator();
+            return ContiguousSet.create(Range.closedOpen(0, mNumElements), DiscreteDomain.integers()).iterator();
         }
 
         @Override

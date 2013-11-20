@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2013 Numerate, Inc
+ * Copyright (c) 2013 Nigel Duffy
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +20,7 @@ package org.nickelproject.nickel.mapReduce;
 /**
  * Tests SynchronousMapper.
  */
-public class SynchronousMapperTest extends BaseMapperTest {
+public final class SynchronousMapperTest extends BaseMapperTest {
 
     @Override
     public void testBasicFunctionality() {
@@ -28,7 +29,14 @@ public class SynchronousMapperTest extends BaseMapperTest {
 
     @Override
     public void testThroughput() throws Exception {
-        testMapper(new SynchronousMapper(), 10, 0, 1000, 0, 10100);
-        testMapper(new SynchronousMapper(), 10000, 0, 1, 0, 15000); // Allow 0.5ms per-apply overhead
+        final double overheadFactor = 0.5;
+        final double overhead = 100;
+        final int numBig = 10;
+        final int bigSize = 1000;
+        final int numSmall = 10000;
+        final int smallSize = 1;
+        testMapper(new SynchronousMapper(), numBig, 0, bigSize, 0, overhead + (bigSize + overheadFactor) * numBig);
+        testMapper(new SynchronousMapper(), numSmall, 0, smallSize, 0,
+                overhead + (smallSize + overheadFactor) * numSmall); 
     }
 }

@@ -20,7 +20,7 @@ import java.util.concurrent.Callable;
 
 import com.google.common.base.Function;
 
-public class FunctionCallable<F, T> implements Callable<T>, Serializable {
+public final class FunctionCallable<F, T> implements Callable<T>, Serializable {
     private static final long serialVersionUID = 1L;
     private final Function<F, ? extends T> function;
     private final F argument;
@@ -31,7 +31,7 @@ public class FunctionCallable<F, T> implements Callable<T>, Serializable {
     }
     
     public static <F, T> FunctionCallable<F, T> of(final Function<F, ? extends T> function, final F argument) {
-        return new FunctionCallable<F,T>(function, argument);
+        return new FunctionCallable<F, T>(function, argument);
     }
     
     @Override

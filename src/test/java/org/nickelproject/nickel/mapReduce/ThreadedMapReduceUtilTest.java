@@ -19,7 +19,7 @@ package org.nickelproject.nickel.mapReduce;
 /**
  * Tests for {@link MapReduceUtil} with a ThreadedMapper.
  */
-public class ThreadedMapReduceUtilTest extends BaseMapReduceUtilTest {
+public final class ThreadedMapReduceUtilTest extends BaseMapReduceUtilTest {
     
     @Override
     protected Mapper getMapper() {

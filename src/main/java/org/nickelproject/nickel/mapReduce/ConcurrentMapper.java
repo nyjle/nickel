@@ -85,7 +85,7 @@ public abstract class ConcurrentMapper implements Mapper {
                     throw new NoSuchElementException();
                 }
                 
-                while (true) {// polling loop on mCompletionService 
+                while (true) { // polling loop on mCompletionService 
                     while (inputs.hasNext() && outstandingCount < getMaxOutstanding()) {
                         final F input = inputs.next();
                         final Callable<T> vCallable = FunctionCallable.of(function, input);

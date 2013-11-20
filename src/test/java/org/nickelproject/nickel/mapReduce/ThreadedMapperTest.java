@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2013 Numerate, Inc
+ * Copyright (c) 2013 Nigel Duffy
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +20,7 @@ package org.nickelproject.nickel.mapReduce;
 /**
  * Tests SynchronousMapper.
  */
-public class ThreadedMapperTest extends BaseMapperTest {
+public final class ThreadedMapperTest extends BaseMapperTest {
     
     @Override
     public void testBasicFunctionality() {
@@ -28,11 +29,20 @@ public class ThreadedMapperTest extends BaseMapperTest {
 
     @Override
     public void testThroughput() throws Exception {
+        final double overheadFactor = 0.5;
+        final double overhead = 100;
+        final int numBig = 10;
+        final int bigSize = 1000;
+        final int numSmall = 10000;
+        final int smallSize = 1;
+        final int safeNumberOfThreads = 8;
         // Assume we're ok up to 8x as we're not doing any real work
-        for (int i = 1; i <= Runtime.getRuntime().availableProcessors() * 8; i*=2) {
-            BaseMapperTest.kLogger.info("Testing threads " + i);
-            testMapper(new ThreadedMapper(i), 10 * i, 0, 1000, 0, 10100);
-            testMapper(new ThreadedMapper(i), 10000 * i, 0, 1, 0, 15000); // Allow 0.5ms per-apply overhead
+        for (int i = 1; i <= Runtime.getRuntime().availableProcessors() * safeNumberOfThreads; i *= 2) {
+            getLogger().info("Testing threads " + i);
+            testMapper(new ThreadedMapper(i), numBig, 0, bigSize, 0,
+                    overhead + (smallSize + overheadFactor) * numSmall); 
+            testMapper(new ThreadedMapper(i), numSmall, 0, smallSize, 0,
+                    overhead + (smallSize + overheadFactor) * numSmall); 
         }
     }
 }

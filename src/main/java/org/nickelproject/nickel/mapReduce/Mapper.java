@@ -18,7 +18,6 @@ package org.nickelproject.nickel.mapReduce;
 import java.util.Iterator;
 
 import com.google.common.base.Function;
-import com.google.common.collect.Iterators;
 
 /**
  * A Mapper applies a {@link Function} to a sequence of data, returning an
