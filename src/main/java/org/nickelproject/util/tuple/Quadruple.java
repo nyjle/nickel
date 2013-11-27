@@ -15,7 +15,10 @@
  */
 package org.nickelproject.util.tuple;
 
-public final class Quadruple<A, B, C, D> {
+import java.io.Serializable;
+
+public final class Quadruple<A, B, C, D> implements Serializable {
+    private static final long serialVersionUID = 1L;
     private final A a;
     private final B b;
     private final C c;

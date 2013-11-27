@@ -13,6 +13,10 @@ public final class Sources {
     private Sources() {
         // Prevents construction
     }
+    
+    public static <S> Source<S> limit(final Source<S> pSource, final int pLimit) {
+        return from(Iterables.limit(pSource, pLimit));
+    }
 
     public static <T> Source<T> concat(final Source<T>... sources) {
         return concat(from(sources));

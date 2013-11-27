@@ -15,7 +15,10 @@
  */
 package org.nickelproject.util.tuple;
 
-public final class Triple<A, B, C> {
+import java.io.Serializable;
+
+public final class Triple<A, B, C> implements Serializable {
+    private static final long serialVersionUID = 1L;
     private final A a;
     private final B b;
     private final C c;

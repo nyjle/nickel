@@ -15,7 +15,10 @@
  */
 package org.nickelproject.util.tuple;
 
-public final class Pair<A, B> {
+import java.io.Serializable;
+
+public final class Pair<A, B> implements Serializable {
+    private static final long serialVersionUID = 1L;
     private final A a;
     private final B b;
 
