@@ -1,6 +1,7 @@
 package org.nickelproject.nickel.dataflow;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 
 import com.google.common.base.Function;
@@ -18,6 +19,10 @@ public final class Sources {
         return from(Iterables.limit(pSource, pLimit));
     }
 
+    public static <S> Source<S> singleton(final S object) {
+        return from(Collections.singleton(object));
+    }
+    
     public static <T> Source<T> concat(final Source<T>... sources) {
         return concat(from(sources));
     }

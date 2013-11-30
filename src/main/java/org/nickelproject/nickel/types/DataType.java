@@ -15,6 +15,8 @@
  */
 package org.nickelproject.nickel.types;
 
-public interface DataType {
+import java.io.Serializable;
+
+public interface DataType extends Serializable {
     <S> S visit(DataTypeVisitor<S> visitor);
 }

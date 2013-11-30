@@ -44,8 +44,9 @@ public final class RecordDataType implements DataType, Serializable {
         private final List<Triple<Integer, String, DataType>> members = Lists.newArrayList();
         private int                                           counter = 0;
 
-        public void add(final String name, final DataType type) {
+        public Builder add(final String name, final DataType type) {
             members.add(Triple.of(counter++, name, type));
+            return this;
         }
 
         public RecordDataType build() {

@@ -13,12 +13,32 @@ import org.supercsv.io.CsvListReader;
 import org.supercsv.io.ICsvListReader;
 import org.supercsv.prefs.CsvPreference;
 
-class CsvIterator implements Iterator<Record> {
+public class CsvIterator implements Iterator<Record> {
     private final ICsvListReader  listReader;
     private Record                data;
     private final RecordDataType  schema;
     private final CellProcessor[] cellProcessors;
 
+    public static RecordDataType readSchema(final Reader reader) {
+        ICsvListReader listReader = null;
+        final RecordDataType schema;
+        try {
+            listReader = new CsvListReader(reader, CsvPreference.STANDARD_PREFERENCE);
+            schema = Header.parseHeader(listReader.getHeader(true));
+        } catch (final Exception e) {
+            throw RethrownException.rethrow(e);
+        } finally {
+            if (listReader != null) {
+                try {
+                    listReader.close();
+                } catch (final Exception e) {
+                    throw RethrownException.rethrow(e);
+                }
+            }
+        }
+        return schema;
+    }
+    
     public CsvIterator(final Reader reader) {
         try {
             listReader = new CsvListReader(reader, CsvPreference.STANDARD_PREFERENCE);
@@ -31,6 +51,18 @@ class CsvIterator implements Iterator<Record> {
         }
     }
 
+    public CsvIterator(final Reader reader, final RecordDataType schema) {
+        this.schema = schema;
+        try {
+            listReader = new CsvListReader(reader, CsvPreference.STANDARD_PREFERENCE);
+            cellProcessors = Header.getCellProcessors(schema);
+            final List<Object> fields = listReader.read(cellProcessors);
+            data = fields == null ? null : Record.fromList(schema, fields);
+        } catch (final Exception e) {
+            throw RethrownException.rethrow(e);
+        }
+    }
+    
     @Override
     public boolean hasNext() {
         return data != null;

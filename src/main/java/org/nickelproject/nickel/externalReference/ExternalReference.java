@@ -40,4 +40,9 @@ public final class ExternalReference<T> implements Serializable {
     public T get() {
         return (T) objectStore.get(blobRef);
     }
+    
+    @Override
+    public String toString() {
+        return blobRef.toString();
+    }
 }
