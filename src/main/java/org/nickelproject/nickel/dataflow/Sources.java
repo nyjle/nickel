@@ -115,13 +115,15 @@ public final class Sources {
 
         @Override
         public Source<Source<T>> partition(final int partitionSize) {
-            return transform(wrappedSource.partition(partitionSize), 
-                    new Function<Source<S>, Source<T>>() {
-                        @Override
-                        public Source<T> apply(final Source<S> input) {
-                            return transform(input, transform);
-                        }
-                    });
+            final Function<Source<S>, Source<T>> sourceTransform = new Function<Source<S>, Source<T>>() {
+                    @Override
+                    public Source<T> apply(final Source<S> input) {
+                        return transform(input, transform);
+                    }
+                };
+            final Source<Source<S>> wrappedPartitions = 
+                    (Source<Source<S>>) wrappedSource.partition(partitionSize);
+            return transform(wrappedPartitions, sourceTransform);
         }
     }
 
@@ -142,7 +144,9 @@ public final class Sources {
 
         @Override
         public Source<Source<T>> partition(final int partitionSize) {
-            return transform(wrappedSource.partition(partitionSize),
+            final Source<Source<T>> wrappedPartition =
+                    (Source<Source<T>>) wrappedSource.partition(partitionSize);
+            return transform(wrappedPartition,
                     new Function<Source<T>, Source<T>>() {
                         @Override
                         public Source<T> apply(final Source<T> input) {

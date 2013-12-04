@@ -59,15 +59,15 @@ apply plugin: 'findbugs'
 
 	tasks.withType(FindBugs) {
 	    reports {
-	        xml.enabled = true
-	        html.enabled = false
+	        xml.enabled = false
+	        html.enabled = true
 	    }
 	 }
  
 apply plugin: 'checkstyle'
 
 	checkstyle {
-		ignoreFailures = true
+		ignoreFailures = false
 	}
 	
 	checkstyleMain {

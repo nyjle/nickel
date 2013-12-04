@@ -21,7 +21,11 @@ import org.nickelproject.nickel.externalReference.ExternalReference;
 import org.nickelproject.nickel.objectStore.CachingObjectStore;
 import org.nickelproject.nickel.objectStore.ObjectStore;
 
+import com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
 import com.google.inject.name.Names;
 
 public final class S3Module extends AbstractModule {
@@ -34,5 +38,10 @@ public final class S3Module extends AbstractModule {
         bind(BlobStore.class).to(S3BlobStore.class);
         bind(ObjectStore.class).to(CachingObjectStore.class);
         requestStaticInjection(ExternalReference.class);
+    }
+    
+    @Provides
+    AmazonS3 provideS3Client() {
+        return new AmazonS3Client(new ClasspathPropertiesFileCredentialsProvider());
     }
 }

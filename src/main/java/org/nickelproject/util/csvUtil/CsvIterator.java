@@ -13,7 +13,7 @@ import org.supercsv.io.CsvListReader;
 import org.supercsv.io.ICsvListReader;
 import org.supercsv.prefs.CsvPreference;
 
-public class CsvIterator implements Iterator<Record> {
+public final class CsvIterator implements Iterator<Record> {
     private final ICsvListReader  listReader;
     private Record                data;
     private final RecordDataType  schema;

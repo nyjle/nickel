@@ -2,7 +2,12 @@ package org.nickelproject.nickel.dataflow;
 
 import com.google.common.base.Function;
 
-public class Reducers {
+public final class Reducers {
+    
+    private Reducers() {
+        // Prevents construction
+    }
+    
     public static <S, T, U, V> Reducer<S, V> compose(final Function<S, T> preFunctor, final Reducer<T, U> reducer,
             final Function<U, V> postFunctor) {
         return new ComposingReducer<S, T, U, V>(preFunctor, reducer, postFunctor);

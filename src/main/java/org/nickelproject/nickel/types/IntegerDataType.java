@@ -16,8 +16,10 @@
 package org.nickelproject.nickel.types;
 
 public class IntegerDataType implements DataType {
+    private static final long serialVersionUID = 1L;
+
     @Override
-    public final <S> S visit(final DataTypeVisitor<S> visitor) {
-        return visitor.visit(this);
+    public final <S, T> S visit(final DataTypeVisitor<S, T> visitor, final T data) {
+        return visitor.visit(this, data);
     }
 }

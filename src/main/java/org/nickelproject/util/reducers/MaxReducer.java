@@ -6,7 +6,7 @@ import org.nickelproject.nickel.dataflow.Reductor;
 /**
  * @author Nigel
  */
-public class MaxReducer<T extends Comparable<T>> implements Reducer<T, T> {
+public final class MaxReducer<T extends Comparable<T>> implements Reducer<T, T> {
     private static final long serialVersionUID = 1L;
 
     @Override

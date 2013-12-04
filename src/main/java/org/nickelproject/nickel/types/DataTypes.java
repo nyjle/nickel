@@ -15,4 +15,12 @@ public final class DataTypes {
         }
         return builder.build();
     }
+    
+    public static int[] indices(final RecordDataType schema, final String... fieldNames) {
+        final int[] retVal = new int[fieldNames.length];
+        for (int i = 0; i < retVal.length; i++) {
+            retVal[i] = schema.getIndex(fieldNames[i]);
+        }
+        return retVal;
+    }
 }

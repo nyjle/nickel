@@ -3,8 +3,6 @@ package org.nickelproject.util.sources;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.annotation.Nullable;
-
 import org.nickelproject.nickel.dataflow.Source;
 import org.nickelproject.nickel.dataflow.Sources;
 import org.nickelproject.nickel.types.Record;
@@ -16,19 +14,18 @@ import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
 
 public final class S3MultiFileSource implements Source<Record> {
     private static final long serialVersionUID = 1L;
     private final String bucketName;
     private final String key;
-    private final AmazonS3 s3Client;
+    @Inject private static AmazonS3 s3Client;
     private final RecordDataType schema;
     
-    public S3MultiFileSource(final String bucketName, final String key, final AmazonS3 s3Client,
-            final RecordDataType schema) {
+    public S3MultiFileSource(final String bucketName, final String key, final RecordDataType schema) {
         this.bucketName = bucketName;
         this.key = key;
-        this.s3Client = s3Client;
         this.schema = schema;
     }
     
@@ -39,28 +36,25 @@ public final class S3MultiFileSource implements Source<Record> {
 
     @Override
     public Source<Source<Record>> partition(final int partitionSize) {
-        final Source<String> keys = Sources.from(listKeysInDirectory(bucketName, key));
+        final Source<String> keys = Sources.from(listKeysInDirectory(key));
         return Sources.transform(keys, new Function<String, Source<Record>>() {
                 @Override
-                public Source<Record> apply(final String key) {
-                    return new S3CsvSource(bucketName, key, s3Client, schema);
+                public Source<Record> apply(final String partKey) {
+                    return new S3CsvSource(bucketName, partKey, schema);
                 }
             });
     }
     
-    private final List<String> listKeysInDirectory(final String bucketName, String prefix) {
-        String delimiter = "/";
-        if (!prefix.endsWith(delimiter)) {
-            prefix += delimiter;
-        }
+    private List<String> listKeysInDirectory(final String prefix) {
+        final String delimiter = "/";
+        final String fixedPrefix = prefix.endsWith(delimiter) ? prefix : prefix + delimiter;
 
         ListObjectsRequest listObjectsRequest = new ListObjectsRequest()
-                .withBucketName(bucketName).withPrefix(prefix).withDelimiter(delimiter);
+                .withBucketName(bucketName).withPrefix(fixedPrefix).withDelimiter(delimiter);
         ObjectListing objects = s3Client.listObjects(listObjectsRequest);
         return Lists.transform(objects.getObjectSummaries(), new Function<S3ObjectSummary, String>() {
                 @Override
-                @Nullable
-                public String apply(@Nullable S3ObjectSummary input) {
+                public String apply(final S3ObjectSummary input) {
                     return input.getKey();
                 }            
             });

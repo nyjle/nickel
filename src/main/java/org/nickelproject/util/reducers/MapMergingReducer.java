@@ -1,13 +1,14 @@
 package org.nickelproject.util.reducers;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.nickelproject.nickel.dataflow.Reducer;
 import org.nickelproject.nickel.dataflow.Reductor;
 
 import com.google.common.collect.Maps;
 
-public class MapMergingReducer<T, S, U> implements Reducer<Map<T, S>, Map<T, U>> {
+public final class MapMergingReducer<T, S, U> implements Reducer<Map<T, S>, Map<T, U>> {
     private static final long   serialVersionUID = 1L;
     private final Reducer<S, U> reducer;
 
@@ -29,13 +30,13 @@ public class MapMergingReducer<T, S, U> implements Reducer<Map<T, S>, Map<T, U>>
 
         @Override
         public void collect(final Map<T, S> pVal) {
-            for (final T key : pVal.keySet()) {
-                Reductor<S, U> reductor = reductorMap.get(key);
+            for (final Entry<T, S> entry : pVal.entrySet()) {
+                Reductor<S, U> reductor = reductorMap.get(entry.getKey());
                 if (reductor == null) {
                     reductor = reducer.reductor();
-                    reductorMap.put(key, reductor);
+                    reductorMap.put(entry.getKey(), reductor);
                 }
-                reductor.collect(pVal.get(key));
+                reductor.collect(pVal.get(entry.getKey()));
             }
         }
 

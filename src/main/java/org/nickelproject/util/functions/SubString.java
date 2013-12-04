@@ -1,8 +1,10 @@
 package org.nickelproject.util.functions;
 
+import javax.annotation.Nonnull;
+
 import com.google.common.base.Function;
 
-public class SubString implements Function<String, String> {
+public final class SubString implements Function<String, String> {
     private final int start;
     private final int end;
     
@@ -12,7 +14,7 @@ public class SubString implements Function<String, String> {
     }
     
     @Override
-    public String apply(final String input) {
+    public String apply(@Nonnull final String input) {
         return input.substring(start, end);
     }
 }

@@ -56,7 +56,7 @@ public final class Header {
         final List<CellProcessor> vRetVal = Lists.newArrayList();
         final CellProcessorVisitor visitor = new CellProcessorVisitor();
         for (final Pair<String, DataType> pair : schema.getMembers()) {
-            vRetVal.add(visitor.visit(pair.getB()));
+            vRetVal.add(visitor.visit(pair.getB(), null));
         }
         return vRetVal.toArray(new CellProcessor[0]);
     }

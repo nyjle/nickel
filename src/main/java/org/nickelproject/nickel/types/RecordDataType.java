@@ -15,7 +15,6 @@
  */
 package org.nickelproject.nickel.types;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +25,7 @@ import org.nickelproject.util.tuple.Triple;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-public final class RecordDataType implements DataType, Serializable {
+public final class RecordDataType implements DataType {
     private static final long serialVersionUID = 1L;
     private final Map<String, DataType> memberTypes   = Maps.newHashMap();
     private final Map<Integer, String>  memberIndices = Maps.newHashMap();
@@ -55,8 +54,8 @@ public final class RecordDataType implements DataType, Serializable {
     }
 
     @Override
-    public <S> S visit(final DataTypeVisitor<S> visitor) {
-        return visitor.visit(this);
+    public <S, T> S visit(final DataTypeVisitor<S, T> visitor, final T data) {
+        return visitor.visit(this, data);
     }
 
     public int getIndex(final String name) {
