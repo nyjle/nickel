@@ -13,22 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nickelproject.nickel.dataflow;
+package org.nickelproject.nickel.types;
 
-import com.google.common.base.Function;
+import org.nickelproject.nickel.dataflow.Source;
 
-public final class Functors {
 
-    private Functors() {
-        // Prevents construction
-    }
-    
-    public static <S, T> Function<S, T> constant(final T value) {
-        return new Function<S, T>() {
-            @Override
-            public T apply(final S input) {
-                return value;
-            }
-        };
-    }
+public interface RecordSource extends Source<Record> {
+    RecordDataType schema();
 }

@@ -18,6 +18,10 @@ apply plugin: 'eclipse'
 
 apply plugin: 'java'
 
+test {
+	maxHeapSize = "1024m"
+}
+
 version = '0.0.1'
 jar {
     manifest {

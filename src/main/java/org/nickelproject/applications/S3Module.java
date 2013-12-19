@@ -32,9 +32,7 @@ public final class S3Module extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(String.class)
-            .annotatedWith(Names.named("BucketName"))
-            .toInstance("BlobStore");
+        bind(String.class).annotatedWith(Names.named("BucketName")).toInstance("BlobStoreNigel");
         bind(BlobStore.class).to(S3BlobStore.class);
         bind(ObjectStore.class).to(CachingObjectStore.class);
         requestStaticInjection(ExternalReference.class);
