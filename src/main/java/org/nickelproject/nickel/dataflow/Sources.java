@@ -50,7 +50,7 @@ public final class Sources {
         return new FilteredSource<T>(source, predicate);
     }
 
-    public static <S, T> Source<T> transform(final Source<S> source, final Function<S, T> function) {
+    public static <S, T> Source<T> transform(final Source<? extends S> source, final Function<S, T> function) {
         return new TransformedSource<S, T>(source, function);
     }
 
@@ -115,10 +115,10 @@ public final class Sources {
 
     private static class TransformedSource<S, T> implements Source<T> {
         private static final long    serialVersionUID = 1L;
-        private final Source<S>      wrappedSource;
+        private final Source<? extends S>      wrappedSource;
         private final Function<S, T> transform;
 
-        public TransformedSource(final Source<S> wrappedSource, final Function<S, T> transform) {
+        public TransformedSource(final Source<? extends S> wrappedSource, final Function<S, T> transform) {
             this.wrappedSource = wrappedSource;
             this.transform = transform;
         }

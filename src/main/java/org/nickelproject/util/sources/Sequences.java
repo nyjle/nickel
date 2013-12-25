@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nickelproject.nickel.mapReduce;
+package org.nickelproject.util.sources;
 
 import org.nickelproject.nickel.dataflow.Source;
 import org.nickelproject.nickel.dataflow.Sources;
 
+import com.google.common.base.Function;
 import com.google.common.collect.ContiguousSet;
 import com.google.common.collect.DiscreteDomain;
 import com.google.common.collect.Range;
@@ -30,5 +31,14 @@ public final class Sequences {
     
     public static Source<Integer> integer(final int min, final int max) {
         return Sources.from(ContiguousSet.create(Range.closedOpen(min, max), DiscreteDomain.integers()));
+    }
+    
+    public static Source<Integer> integer(final int min, final int max, final int step) {
+        return Sources.transform(integer(0, (max-min) / step), new Function<Integer, Integer>() {
+                @Override
+                public Integer apply(final Integer input) {
+                    return input * step + min;
+                }
+            });
     }
 }

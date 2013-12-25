@@ -25,6 +25,7 @@ import org.junit.Test;
 import org.nickelproject.nickel.dataflow.Source;
 import org.nickelproject.nickel.dataflow.Sources;
 import org.nickelproject.util.reducers.IntegerSumReducer;
+import org.nickelproject.util.sources.Sequences;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ContiguousSet;
