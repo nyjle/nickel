@@ -20,6 +20,7 @@ import org.nickelproject.nickel.types.DataType;
 import org.nickelproject.nickel.types.DataTypeVisitor;
 import org.nickelproject.nickel.types.DoubleDataType;
 import org.nickelproject.nickel.types.IntegerDataType;
+import org.nickelproject.nickel.types.JavaClassDataType;
 import org.nickelproject.nickel.types.RecordDataType;
 import org.nickelproject.nickel.types.StringDataType;
 
@@ -56,5 +57,10 @@ public final class DataTypeNameVisitor extends DataTypeVisitor<String, Void> {
     @Override
     protected String visit(final DoubleDataType dataType, final Void data) {
         return "Double";
+    }
+
+    @Override
+    protected String visit(JavaClassDataType dataType, Void data) {
+        return dataType.getJavaClass();
     }
 }

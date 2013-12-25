@@ -15,15 +15,24 @@
  */
 package org.nickelproject.nickel.types;
 
-public abstract class DataTypeVisitor<S, T> {
-    public final S visit(final DataType dataType, final T data) {
-        return dataType.visit(this, data);
-    }
+public final class JavaClassDataType implements DataType {
+    private static final long serialVersionUID = 1L;
+    private final String javaClassName;
 
-    protected abstract S visit(IntegerDataType dataType, T data);
-    protected abstract S visit(DoubleDataType dataType, T data);
-    protected abstract S visit(StringDataType dataType, T data);
-    protected abstract S visit(ByteArrayDataType dataType, T data);
-    protected abstract S visit(JavaClassDataType dataType, T data);
-    protected abstract S visit(RecordDataType dataType, T data);
+    public JavaClassDataType(final Class javaClass) {
+        this(javaClass.getCanonicalName());
+    }
+    
+    public JavaClassDataType(final String javaClassName) {
+        this.javaClassName = javaClassName;
+    }
+    
+    @Override
+    public <S, T> S visit(final DataTypeVisitor<S, T> visitor, final T data) {
+        return visitor.visit(this, data);
+    }
+    
+    public String getJavaClass() {
+        return javaClassName;
+    }
 }

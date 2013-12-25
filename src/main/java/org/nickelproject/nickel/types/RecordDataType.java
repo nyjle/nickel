@@ -47,6 +47,10 @@ public final class RecordDataType implements DataType {
             members.add(Triple.of(counter++, name, type));
             return this;
         }
+        
+        public Builder add(final String name, final Class javaClass) {
+            return add(name, new JavaClassDataType(javaClass));
+        }
 
         public RecordDataType build() {
             return new RecordDataType(members);

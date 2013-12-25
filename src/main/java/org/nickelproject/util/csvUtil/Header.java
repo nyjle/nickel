@@ -20,6 +20,7 @@ import java.util.List;
 import org.nickelproject.nickel.types.DataType;
 import org.nickelproject.nickel.types.DoubleDataType;
 import org.nickelproject.nickel.types.IntegerDataType;
+import org.nickelproject.nickel.types.JavaClassDataType;
 import org.nickelproject.nickel.types.RecordDataType;
 import org.nickelproject.nickel.types.StringDataType;
 import org.nickelproject.util.tuple.Pair;
@@ -62,6 +63,8 @@ public final class Header {
             dataType = new StringDataType();
         } else if (dataTypeString.equals("Double")) {
             dataType = new DoubleDataType();
+        } else {
+            dataType = new JavaClassDataType(dataTypeString);
         }
         Preconditions.checkState(dataType != null);
         return dataType;

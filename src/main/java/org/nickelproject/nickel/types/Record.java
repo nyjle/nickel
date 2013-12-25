@@ -27,7 +27,7 @@ public final class Record {
         this.fields = fields;
     }
 
-    public static Record of(final RecordDataType schema, final Object[] fields) {
+    public static Record of(final RecordDataType schema, final Object... fields) {
         return new Record(schema, fields);
     }
 
