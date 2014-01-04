@@ -19,13 +19,13 @@ public final class SequencesTest {
         doTest(start, end, step);
     }
     
-    private void doTest(final int start, final int end, final int step) {
-        final Source<Integer> sequence = Sequences.integer(start, end, step);
-        int count = start;
+    private void doTest(final int pStart, final int pEnd, final int pStep) {
+        final Source<Integer> sequence = Sequences.integer(pStart, pEnd, pStep);
+        int count = pStart;
         for (final Integer val : sequence) {
              Assert.assertEquals(count, val.intValue());
-             count += step;
+             count += pStep;
         }
-        Assert.assertTrue(count >= end);
+        Assert.assertTrue(count >= pEnd);
     }
 }

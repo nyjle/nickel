@@ -1,12 +1,15 @@
 package org.nickelproject.nickel.dataflow;
 
-import java.util.Collections;
 import java.util.List;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
-public class CrossProduct {
+public final class CrossProduct {
+    
+    private CrossProduct() {
+        // Prevents construction
+    }
     
     public static Source<List<Object>> crossProduct(final List<Source<? extends Object>> sources) {
         final Source<? extends Object> firstSource = sources.get(0);

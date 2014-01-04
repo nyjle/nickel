@@ -60,7 +60,7 @@ public final class DataTypeNameVisitor extends DataTypeVisitor<String, Void> {
     }
 
     @Override
-    protected String visit(JavaClassDataType dataType, Void data) {
+    protected String visit(final JavaClassDataType dataType, final Void data) {
         return dataType.getJavaClass();
     }
 }

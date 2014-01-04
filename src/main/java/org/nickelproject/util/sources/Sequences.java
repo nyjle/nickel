@@ -15,6 +15,8 @@
  */
 package org.nickelproject.util.sources;
 
+import javax.annotation.Nonnull;
+
 import org.nickelproject.nickel.dataflow.Source;
 import org.nickelproject.nickel.dataflow.Sources;
 
@@ -34,9 +36,9 @@ public final class Sequences {
     }
     
     public static Source<Integer> integer(final int min, final int max, final int step) {
-        return Sources.transform(integer(0, (max-min) / step), new Function<Integer, Integer>() {
+        return Sources.transform(integer(0, (max - min) / step), new Function<Integer, Integer>() {
                 @Override
-                public Integer apply(final Integer input) {
+                public Integer apply(@Nonnull final Integer input) {
                     return input * step + min;
                 }
             });

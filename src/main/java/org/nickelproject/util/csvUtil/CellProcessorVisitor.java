@@ -61,7 +61,7 @@ public final class CellProcessorVisitor extends DataTypeVisitor<CellProcessor, V
     }
 
     @Override
-    protected CellProcessor visit(JavaClassDataType dataType, Void data) {
+    protected CellProcessor visit(final JavaClassDataType dataType, final Void data) {
         return new Trim(new ParseObject());
     }
     
