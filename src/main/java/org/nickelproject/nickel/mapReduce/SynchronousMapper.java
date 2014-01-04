@@ -19,13 +19,19 @@ import java.util.Iterator;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Iterators;
+import com.google.inject.Inject;
 
 
 /**
  * A {@link Mapper} that applies a {@link Function} to each element of an {@link Iterator}
  * in order in the parent thread.
  */
-final class SynchronousMapper implements Mapper {
+public final class SynchronousMapper implements Mapper {
+    
+    @Inject
+    public SynchronousMapper() {
+        // Just for injection
+    }
     
     @Override
     public <F, T> Iterator<T> map(final Iterator<F> iterator, final Function<F, T> function) {
