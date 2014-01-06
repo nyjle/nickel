@@ -15,10 +15,12 @@
  */
 package org.nickelproject.nickel.types;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
-public final class Record {
+public final class Record implements Serializable {
+    private static final long serialVersionUID = 1L;
     private final RecordDataType schema;
     private final Object[]       fields;
 
