@@ -5,10 +5,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.nickelproject.nickel.TestModule;
 import org.nickelproject.nickel.dataflow.Source;
+import org.nickelproject.suites.UnitAnnotation;
 
 import com.google.common.base.Preconditions;
 import com.google.inject.Guice;
 
+@UnitAnnotation
 public final class TestDistributedCollections {
     private static final int testSize = 1000;
     private static final int concatSize = 10;

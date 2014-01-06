@@ -24,6 +24,7 @@ import java.util.List;
 import org.junit.Test;
 import org.nickelproject.nickel.dataflow.Source;
 import org.nickelproject.nickel.dataflow.Sources;
+import org.nickelproject.suites.UnitAnnotation;
 import org.nickelproject.util.reducers.IntegerSumReducer;
 import org.nickelproject.util.sources.Sequences;
 
@@ -36,6 +37,7 @@ import com.google.common.collect.Range;
 /**
  * Tests for {@link MapReduceUtil}.
  */
+@UnitAnnotation
 public abstract class BaseMapReduceUtilTest {
     protected abstract Mapper getMapper();
 

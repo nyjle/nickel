@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.nickelproject.suites.UnitAnnotation;
 import org.nickelproject.util.sources.Sequences;
 
 import com.google.common.collect.Lists;
 
+@UnitAnnotation
 public class CrossProductTest {
 
     @Test

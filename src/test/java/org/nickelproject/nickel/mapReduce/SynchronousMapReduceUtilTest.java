@@ -15,10 +15,13 @@
  */
 package org.nickelproject.nickel.mapReduce;
 
+import org.nickelproject.suites.UnitAnnotation;
+
 
 /**
  * Tests for {@link MapReduceUtil} with a SynchronousMapper.
  */
+@UnitAnnotation
 public final class SynchronousMapReduceUtilTest extends BaseMapReduceUtilTest {
     
     @Override

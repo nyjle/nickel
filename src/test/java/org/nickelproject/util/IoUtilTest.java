@@ -22,10 +22,12 @@ import java.util.Random;
 import org.apache.commons.codec.binary.Base64;
 import org.junit.Assert;
 import org.junit.Test;
+import org.nickelproject.suites.UnitAnnotation;
 
 /**
  * Unit tests for {@link IoUtil}.
  */
+@UnitAnnotation
 public final class IoUtilTest {
     private static final int testSize  = 1024;
     private static final int sizeOfInt = 4;

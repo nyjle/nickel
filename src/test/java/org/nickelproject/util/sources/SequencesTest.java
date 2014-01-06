@@ -3,7 +3,9 @@ package org.nickelproject.util.sources;
 import org.junit.Assert;
 import org.junit.Test;
 import org.nickelproject.nickel.dataflow.Source;
+import org.nickelproject.suites.UnitAnnotation;
 
+@UnitAnnotation
 public final class SequencesTest {
     private static final int start = 1;
     private static final int end = 7;

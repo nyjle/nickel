@@ -16,14 +16,26 @@
 package org.nickelproject.nickel.objectStore;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.nickelproject.nickel.TestModule;
 import org.nickelproject.nickel.blobStore.BlobRef;
-import org.nickelproject.nickel.blobStore.InMemoryBlobStore;
+import org.nickelproject.suites.UnitAnnotation;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
+@UnitAnnotation
 public final class ObjectStoreTest {
-    private final ObjectStore objectStore = new CachingObjectStore(new InMemoryBlobStore());
+    private ObjectStore objectStore;
     private static final String testString  = "This is a test";
 
+    @Before
+    public void initialize() {
+        Injector injector = Guice.createInjector(new TestModule());
+        objectStore = injector.getInstance(ObjectStore.class);
+    }
+    
     @Test
     public void testContains() {
         final BlobRef blobRef = objectStore.put(testString);

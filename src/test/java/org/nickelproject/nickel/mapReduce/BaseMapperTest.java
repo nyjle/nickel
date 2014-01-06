@@ -26,6 +26,7 @@ import java.util.Set;
 import org.junit.Assert;
 import org.junit.Test;
 import org.nickelproject.nickel.dataflow.Source;
+import org.nickelproject.suites.UnitAnnotation;
 import org.nickelproject.util.RethrownException;
 import org.nickelproject.util.tuple.Pair;
 import org.slf4j.Logger;
@@ -40,6 +41,7 @@ import com.google.common.collect.Sets;
 /**
  * Tests {@link Mapper} implementations.
  */
+@UnitAnnotation
 public abstract class BaseMapperTest {  
     private static Logger kLogger = LoggerFactory.getLogger(BaseMapperTest.class);
     

@@ -13,23 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nickelproject.nickel.externalReference;
+package org.nickelproject.suites;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.nickelproject.nickel.TestModule;
-import org.nickelproject.suites.UnitAnnotation;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import com.google.inject.Guice;
-
-@UnitAnnotation
-public final class ExternalReferenceTest {
-
-    @Test
-    public void testGet() {
-        Guice.createInjector(new TestModule());
-        final String testString = "This is a test string.";
-        final ExternalReference<String> reference = ExternalReference.of(testString);
-        Assert.assertEquals(testString, reference.get());
-    }
+/**
+ * Annotation to identify classes that are part of the
+ * {@link TestSuite}.
+ */
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+@Inherited
+public @interface UnitAnnotation {
 }

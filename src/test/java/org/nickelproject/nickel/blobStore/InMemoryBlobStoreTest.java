@@ -23,7 +23,9 @@ import java.util.Arrays;
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.nickelproject.suites.UnitAnnotation;
 
+@UnitAnnotation
 public final class InMemoryBlobStoreTest {
     private final BlobStore blobStore = new InMemoryBlobStore();
     private final byte[]    testBytes = "This is a test".getBytes(Charset.forName("UTF-8"));

@@ -23,10 +23,12 @@ import static org.junit.Assert.fail;
 import java.io.IOException;
 
 import org.junit.Test;
+import org.nickelproject.suites.UnitAnnotation;
 
 /**
  * Unit tests for {@link RethrownException}.
  */
+@UnitAnnotation
 public final class RethrownExceptionTest {
     /*
      * Note that NONE of these methods have a "throws" clause. They never

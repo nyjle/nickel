@@ -16,10 +16,13 @@
  */
 package org.nickelproject.nickel.mapReduce;
 
+import org.nickelproject.suites.UnitAnnotation;
+
 
 /**
  * Tests SynchronousMapper.
  */
+@UnitAnnotation
 public final class SynchronousMapperTest extends BaseMapperTest {
 
     @Override

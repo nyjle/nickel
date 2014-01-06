@@ -17,7 +17,9 @@ package org.nickelproject.util;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.nickelproject.suites.UnitAnnotation;
 
+@UnitAnnotation
 public final class RetryProxyTest {
 
     @Test(expected = Exception.class)
