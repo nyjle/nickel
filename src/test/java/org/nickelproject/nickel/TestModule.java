@@ -21,7 +21,9 @@ import org.nickelproject.nickel.externalReference.ExternalReference;
 import org.nickelproject.nickel.objectStore.CachingObjectStore;
 import org.nickelproject.nickel.objectStore.ObjectStore;
 
+import com.google.common.cache.CacheBuilderSpec;
 import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
 import com.google.inject.name.Names;
 
 public final class TestModule extends AbstractModule {
@@ -32,5 +34,10 @@ public final class TestModule extends AbstractModule {
         bind(BlobStore.class).to(InMemoryBlobStore.class);
         bind(ObjectStore.class).to(CachingObjectStore.class);
         requestStaticInjection(ExternalReference.class);
+    }
+    
+    @Provides
+    CacheBuilderSpec providesCacheBuilderSpec() {
+        return CacheBuilderSpec.parse("softValues");
     }
 }

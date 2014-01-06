@@ -23,6 +23,7 @@ import org.nickelproject.util.RethrownException;
 import org.nickelproject.util.RetryProxy;
 
 import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheBuilderSpec;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.inject.Inject;
@@ -31,22 +32,23 @@ import com.google.inject.Singleton;
 @Singleton
 public final class CachingObjectStore implements ObjectStore {
     private final ObjectStore                   objectStore;
-    private final LoadingCache<BlobRef, Object> cache = CacheBuilder.newBuilder().build(
-            new CacheLoader<BlobRef, Object>() {
-                @Override
-                public Object load(final BlobRef key)
-                        throws Exception {
-                    return objectStore.get(key);
-                }
-            });
+    private final LoadingCache<BlobRef, Object> cache;
 
-    public CachingObjectStore(final ObjectStore objectStore) {
-        this.objectStore = RetryProxy.newInstance(ObjectStore.class, objectStore);
+    public CachingObjectStore(final ObjectStore pObjectStore, final CacheBuilderSpec cacheBuilderSpec) {
+        this.objectStore = RetryProxy.newInstance(ObjectStore.class, pObjectStore);
+        this.cache = CacheBuilder.from(cacheBuilderSpec)
+                .build(
+                    new CacheLoader<BlobRef, Object>() {
+                        @Override
+                        public Object load(final BlobRef key) throws Exception {
+                            return objectStore.get(key);
+                        }
+                    });
     }
 
     @Inject
-    public CachingObjectStore(final BlobStore blobStore) {
-        this(new WrappedBlobStore(blobStore));
+    public CachingObjectStore(final BlobStore blobStore, final CacheBuilderSpec cacheBuilderSpec) {
+        this(new WrappedBlobStore(blobStore), cacheBuilderSpec);
     }
 
     @Override

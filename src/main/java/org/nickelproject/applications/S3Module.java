@@ -24,6 +24,7 @@ import org.nickelproject.nickel.objectStore.ObjectStore;
 import com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.google.common.cache.CacheBuilderSpec;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.name.Names;
@@ -41,5 +42,10 @@ public final class S3Module extends AbstractModule {
     @Provides
     AmazonS3 provideS3Client() {
         return new AmazonS3Client(new ClasspathPropertiesFileCredentialsProvider());
+    }
+    
+    @Provides
+    CacheBuilderSpec providesCacheBuilderSpec() {
+        return CacheBuilderSpec.parse("softValues");
     }
 }

@@ -26,6 +26,7 @@ import org.nickelproject.util.RetryProxy;
 
 import com.google.common.base.Preconditions;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheBuilderSpec;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.inject.Inject;
@@ -34,17 +35,19 @@ import com.google.inject.Singleton;
 @Singleton
 public final class CachingBlobStore implements BlobStore {
     private final BlobStore                   blobStore;
-    private final LoadingCache<BlobRef, byte[]> cache = CacheBuilder.newBuilder().build(
-            new CacheLoader<BlobRef, byte[]>() {
-                @Override
-                public byte[] load(final BlobRef key) throws Exception {
-                    return blobStore.get(key);
-                }
-            });
+    private final LoadingCache<BlobRef, byte[]> cache; 
 
     @Inject
-    public CachingBlobStore(final BlobStore objectStore) {
+    public CachingBlobStore(final BlobStore objectStore, final CacheBuilderSpec cacheBuilderSpec) {
         this.blobStore = RetryProxy.newInstance(BlobStore.class, objectStore);
+        this.cache = CacheBuilder.from(cacheBuilderSpec)
+                .build(
+                    new CacheLoader<BlobRef, byte[]>() {
+                        @Override
+                        public byte[] load(final BlobRef key) throws Exception {
+                            return blobStore.get(key);
+                        }
+                    });
     }
 
     @Override
