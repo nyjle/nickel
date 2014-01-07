@@ -28,7 +28,7 @@ public interface Mapper {
     /**
      * Applies the given {@link Function} to the input data, returning an {@link Iterator}. 
      * Results may be returned out-of-order. Returned
-     * {@link Iterators} are not guaranteed to be thread safe.
+     * {@link Iterator}s are not guaranteed to be thread safe.
      */
      <F, T> Iterator<T> map(Iterator<F> pInputs, Function<F, T> function);
 }
