@@ -23,19 +23,33 @@ test {
 }
 
 version = '0.0.1'
+group = 'org.nickelproject'
+
 jar {
     manifest {
         attributes 'Implementation-Title': 'nickel', 'Implementation-Version': version
     }
 }
 
+//compileJava.options.compilerArgs << '-Xlint'
+compileJava.options.compilerArgs << '-Werror'
+
 task sourcesJar(type: Jar, dependsOn: classes) {
 	classifier = 'sources'
 	from sourceSets.main.allSource
 }
 
-//compileJava.options.compilerArgs << '-Xlint'
-compileJava.options.compilerArgs << '-Werror'
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from 'build/docs/javadoc'
+}
+
+artifacts {
+    archives jar
+
+    archives javadocJar
+    archives sourcesJar
+}
 
 repositories {
 	mavenCentral()
@@ -101,3 +115,53 @@ apply plugin: 'checkstyle'
 	
 apply plugin: 'pmd'
 apply plugin: 'jdepend'
+
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+signing {
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+              authentication(userName: sonatypeUsername, password: sonatypePassword)
+            }
+
+            pom.project {
+	        		name 'Nickel'
+	        		packaging 'jar'
+	        		description 'A distributed analytics database'
+	        		url 'http://nickelproject.org/'
+	            inceptionYear '2013'
+	            licenses {
+	                license {
+	                    name 'The Apache Software License, Version 2.0'
+	                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+	                    distribution 'repo'
+	                }
+	            }
+		        scm {
+		        		connection 'scm:git:git@github.com:nyjle/nickelproject.git'
+		    			developerConnection 'scm:git:git@github.com:nyjle/nickelproject.git'
+		    			url 'git@github.com:nyjle/nickelproject.git'
+		  		}
+		  		parent {
+		    			groupId 'org.sonatype.oss'
+		    			artifactId 'oss-parent'
+		    			version '7'
+		    		}
+		       	developers {
+		           developer {
+		               id 'nyjle'
+		               name 'Nigel Duffy'
+		           }
+		       	}  			
+           }
+        }
+    }
+}

@@ -48,7 +48,6 @@ import java.io.Serializable;
  *            The type of the values to be reduced
  * @param <U>
  *            The type of the reduced result
- * @see com.numerati.numatix.core.component
  */
 public interface Reducer<T, U> extends Serializable {
     /**
