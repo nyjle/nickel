@@ -8,10 +8,10 @@ import org.nickelproject.nickel.externalReference.ExternalReference;
 
 import com.google.common.base.Function;
 
-public final class GetExternal<T> implements Function<ExternalReference<T>, T>, Serializable {
+public final class PutExternal<T> implements Function<T, ExternalReference<T>>, Serializable {
 
     @Override
-    public T apply(@Nonnull final ExternalReference<T> input) {
-        return input.get();
+    public ExternalReference<T> apply(@Nonnull final T input) {
+        return ExternalReference.of(input);
     }
 }
