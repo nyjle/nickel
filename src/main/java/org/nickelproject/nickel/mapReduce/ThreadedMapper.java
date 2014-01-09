@@ -23,6 +23,7 @@ import java.util.concurrent.ThreadFactory;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 /**
  * A {@link Mapper} that executes map operations concurrently via a thread-pool.
@@ -41,7 +42,7 @@ public final class ThreadedMapper extends ConcurrentMapper {
      * @param pNumThreads the (fixed) size of the thread-pool
      */
     @Inject
-    ThreadedMapper(final int pNumThreads) {
+    public ThreadedMapper(@Named("NumMapperThreads") final int pNumThreads) {
         this(pNumThreads, new ThreadFactoryBuilder().setDaemon(true).build());
     }
     
@@ -52,7 +53,7 @@ public final class ThreadedMapper extends ConcurrentMapper {
      * @param pThreadFactory the ThreadFactory with which to create the
      *        thread-pool's threads.
      */
-    ThreadedMapper(final int pNumThreads, final ThreadFactory pThreadFactory) {
+    public ThreadedMapper(final int pNumThreads, final ThreadFactory pThreadFactory) {
         mMaxNumOutstanding = pNumThreads;
         mExecutor = Executors.newFixedThreadPool(pNumThreads, pThreadFactory);
     }
