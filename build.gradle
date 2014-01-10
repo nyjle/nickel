@@ -15,14 +15,13 @@
  */
 
 apply plugin: 'eclipse'
-
 apply plugin: 'java'
 
 test {
 	maxHeapSize = "2048m"
 }
 
-version = '0.0.1'
+version = '0.0.2'
 group = 'org.nickelproject'
 
 jar {
@@ -116,6 +115,21 @@ apply plugin: 'checkstyle'
 apply plugin: 'pmd'
 apply plugin: 'jdepend'
 
+//apply plugin: 'jacoco'
+//
+//jacoco {
+//    toolVersion = "0.6.4.201312101107"
+//    reportsDir = file("$buildDir/reports/jacoco")
+//}
+//
+//jacocoTestReport {
+//    reports {
+//        xml.enabled false
+//        csv.enabled false
+//        html.destination "${buildDir}/reports/jacocoHtml"
+//    }
+//}
+
 apply plugin: 'maven'
 apply plugin: 'signing'
 
@@ -128,7 +142,7 @@ uploadArchives {
         mavenDeployer {
             beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2") {
               authentication(userName: sonatypeUsername, password: sonatypePassword)
             }
 
@@ -150,11 +164,6 @@ uploadArchives {
 		    			developerConnection 'scm:git:git@github.com:nyjle/nickelproject.git'
 		    			url 'git@github.com:nyjle/nickelproject.git'
 		  		}
-		  		parent {
-		    			groupId 'org.sonatype.oss'
-		    			artifactId 'oss-parent'
-		    			version '7'
-		    		}
 		       	developers {
 		           developer {
 		               id 'nyjle'
