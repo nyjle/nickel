@@ -13,12 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ 
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.10'
+}
 
 apply plugin: 'eclipse'
 apply plugin: 'java'
 
 test {
-	maxHeapSize = "2048m"
+	maxHeapSize = "3500m"
 }
 
 version = '0.0.2'
@@ -71,7 +75,7 @@ dependencies {
 apply plugin: 'findbugs'
 
 	findbugs {
-		toolVersion = "2.0.2"
+		toolVersion = "2.0.3"
 	}
 
 	tasks.withType(FindBugs) {
@@ -115,20 +119,20 @@ apply plugin: 'checkstyle'
 apply plugin: 'pmd'
 apply plugin: 'jdepend'
 
-//apply plugin: 'jacoco'
-//
-//jacoco {
-//    toolVersion = "0.6.4.201312101107"
-//    reportsDir = file("$buildDir/reports/jacoco")
-//}
-//
-//jacocoTestReport {
-//    reports {
-//        xml.enabled false
-//        csv.enabled false
-//        html.destination "${buildDir}/reports/jacocoHtml"
-//    }
-//}
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.6.4.201312101107"
+    reportsDir = file("$buildDir/reports/jacoco")
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination "${buildDir}/reports/jacocoHtml"
+    }
+}
 
 apply plugin: 'maven'
 apply plugin: 'signing'
