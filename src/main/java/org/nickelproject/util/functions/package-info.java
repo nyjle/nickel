@@ -13,23 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/**
+ * Provides some generally useful {@link Function}s, and utility methods related to {@link Function}s. 
+ */
 package org.nickelproject.util.functions;
-
-import javax.annotation.Nonnull;
-
-import com.google.common.base.Function;
-import com.google.common.base.Preconditions;
-
-public final class ArrayElementFunction<T> implements Function<T[], T> {
-    private final int index;
-    
-    public ArrayElementFunction(final int index) {
-        Preconditions.checkArgument(index >= 0);
-        this.index = index;
-    }
-    
-    @Override
-    public T apply(@Nonnull final T[] input) {
-        return (T) input[index];
-    }
-}

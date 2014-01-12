@@ -18,18 +18,32 @@ package org.nickelproject.util.functions;
 import javax.annotation.Nonnull;
 
 import com.google.common.base.Function;
+import com.google.common.base.Preconditions;
 
+/**
+ * Given a pre-specified start and end index this {@link Function} returns the substring of a
+ * {@link String} starting at the start index and ending 1 before the end index.
+ * 
+ * If the argument {@link String.length()} < start then an empty {@link String} is
+ * returned. 
+ * 
+ * If the argument {@link String.length()} < end then the substring up to the end of the argument
+ * {@link String} is returned.
+ */
 public final class SubString implements Function<String, String> {
     private final int start;
     private final int end;
     
     public SubString(final int start, final int end) {
+        Preconditions.checkArgument(start >= 0);
+        Preconditions.checkArgument(end > start);
         this.start = start;
         this.end = end;
     }
     
     @Override
     public String apply(@Nonnull final String input) {
-        return input.substring(start, end);
+        final int endIndex = Math.min(end, input.length());
+        return input.length() <= start ? "" : input.substring(start, endIndex);
     }
 }

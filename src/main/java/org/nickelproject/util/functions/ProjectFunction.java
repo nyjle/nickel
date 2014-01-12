@@ -16,10 +16,13 @@
 package org.nickelproject.util.functions;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
+
+import javax.annotation.Nonnull;
 
 import com.google.common.base.Function;
 
-public final class ProjectFunction implements Function<Object[], Object[]>, Serializable {
+public final class ProjectFunction<T> implements Function<T[], T[]>, Serializable {
     private static final long serialVersionUID = 1L;
     private final int[] fields;
     
@@ -28,8 +31,8 @@ public final class ProjectFunction implements Function<Object[], Object[]>, Seri
     }
 
     @Override
-    public Object[] apply(final Object[] pVal) {
-        final Object[] array = new Object[fields.length];
+    public T[] apply(@Nonnull final T[] pVal) {
+        final T[] array = (T[]) Array.newInstance(pVal.getClass().getComponentType(), fields.length);
         for (int i = 0; i < fields.length; i++) {
             array[i] = pVal[fields[i]];
         }

@@ -57,7 +57,7 @@ public final class ReducerTests {
     
     @Test
     public void toListReducerTest() {
-        final Reductor<Integer, List<Integer>> toListReductor = new ToListReducer().reductor();
+        final Reductor<Integer, List<Integer>> toListReductor = new ToListReducer<Integer>().reductor();
         for (final Integer datum : Sequences.integer(0, max)) {
             toListReductor.collect(datum);
         }

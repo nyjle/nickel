@@ -19,26 +19,34 @@ import org.nickelproject.util.tuple.Quadruple;
 
 import com.google.common.base.Function;
 
-public final class QuadrupleFunction implements
-        Function<Object[], Quadruple<Double, ? extends Object, Integer, ? extends Object>> {
-    private final Function<Object[], Double>           mWeightFunctor;
-    private final Function<Object[], ? extends Object> mLabelFunctor;
-    private final Function<Object[], Integer>          mWhichSetFunctor;
-    private final Function<Object[], ? extends Object> mPredictionFunctor;
+public final class QuadrupleFunction<S, A, B, C, D> implements Function<S[], Quadruple<A, B, C, D>> {
+    private final Function<S[], A> functionA;
+    private final Function<S[], B> functionB;
+    private final Function<S[], C> functionC;
+    private final Function<S[], D> functionD;
 
-    public QuadrupleFunction(final Function<Object[], Double> pWeightFunctor,
-            final Function<Object[], ? extends Object> pLabelFunctor,
-            final Function<Object[], Integer> pWhichSetFunctor,
-            final Function<Object[], ? extends Object> pPredictionFunctor) {
-        mWeightFunctor = pWeightFunctor;
-        mLabelFunctor = pLabelFunctor;
-        mWhichSetFunctor = pWhichSetFunctor;
-        mPredictionFunctor = pPredictionFunctor;
+    private QuadrupleFunction(
+            final Function<S[], A> functionA,
+            final Function<S[], B> functionB,
+            final Function<S[], C> functionC,
+            final Function<S[], D> functionD) {
+        this.functionA = functionA;
+        this.functionB = functionB;
+        this.functionC = functionC;
+        this.functionD = functionD;
     }
 
+    public static <S, A, B, C, D> QuadrupleFunction<S, A, B, C, D> of(
+            final Function<S[], A> functionA, 
+            final Function<S[], B> functionB, 
+            final Function<S[], C> functionC,
+            final Function<S[], D> functionD) {
+        return new QuadrupleFunction<S, A, B, C, D>(functionA, functionB, functionC, functionD);
+    }
+    
     @Override
-    public Quadruple<Double, ? extends Object, Integer, ? extends Object> apply(final Object[] pFrom) {
-        return Quadruple.of(mWeightFunctor.apply(pFrom), mLabelFunctor.apply(pFrom), mWhichSetFunctor.apply(pFrom),
-                mPredictionFunctor.apply(pFrom));
+    public Quadruple<A, B, C, D> apply(final S[] pFrom) {
+        return Quadruple.of(functionA.apply(pFrom), functionB.apply(pFrom), functionC.apply(pFrom),
+                functionD.apply(pFrom));
     }
 }
