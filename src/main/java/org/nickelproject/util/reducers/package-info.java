@@ -13,20 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/**
+ * Provides some generally useful {@link Reducer}s, and utility methods related to {@link Reducer}s. 
+ */
 package org.nickelproject.util.reducers;
-
-import org.nickelproject.nickel.dataflow.Reducer;
-import org.nickelproject.nickel.dataflow.Reducers;
-
-import com.google.common.base.Functions;
-
-public final class ReducerUtil {
-    
-    private ReducerUtil() {
-        // Prevents construction
-    }
-    
-    public static Reducer<Object, Integer> count() {
-        return Reducers.compose(Functions.constant(1), new IntegerSumReducer(), Functions.<Integer>identity());
-    }
-}

@@ -40,10 +40,6 @@ public final class IntegerSumReducer implements Reducer<Integer, Integer> {
     
     protected static final class IntegerSumReductor implements Reductor<Integer, Integer> {
         private int mSum;
-        
-        public IntegerSumReductor() {
-            this(0);
-        }
 
         public IntegerSumReductor(final int pInitial) {
             mSum = pInitial;
