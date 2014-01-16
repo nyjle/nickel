@@ -27,7 +27,7 @@ import org.nickelproject.suites.UnitAnnotation;
 
 @UnitAnnotation
 public final class InMemoryBlobStoreTest {
-    private final BlobStore blobStore = new InMemoryBlobStore();
+    private final BlobStore blobStore = new InMemoryBlobStore(0);
     private final byte[]    testBytes = "This is a test".getBytes(Charset.forName("UTF-8"));
 
     @Test

@@ -25,13 +25,20 @@ import org.nickelproject.util.RethrownException;
 import com.google.common.base.Preconditions;
 
 public abstract class BlobStoreBase implements BlobStore {
-
+    private final long checkContainsThreshold;
+    
+    public BlobStoreBase(final long checkContainsThreshold) {
+        this.checkContainsThreshold = checkContainsThreshold;
+    }
+    
     @Override
     public final BlobRef put(final byte[] bytes) {
         Preconditions.checkNotNull(bytes);
         Preconditions.checkArgument(bytes.length > 0);
         final BlobRef key = keyFromBytes(bytes);
-        putByteArray(key, bytes);
+        if (bytes.length < checkContainsThreshold || !contains(key)) {
+            putByteArray(key, bytes);
+        }
         return key;
     }
 

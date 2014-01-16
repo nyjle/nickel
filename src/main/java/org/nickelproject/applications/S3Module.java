@@ -30,9 +30,11 @@ import com.google.inject.Provides;
 import com.google.inject.name.Names;
 
 public final class S3Module extends AbstractModule {
+    private static final long halfMegaByte = 500000L;
 
     @Override
     protected void configure() {
+        bind(Long.class).annotatedWith(Names.named("CheckContainsThreshold")).toInstance(halfMegaByte);
         bind(String.class).annotatedWith(Names.named("BucketName")).toInstance("BlobStoreNigel");
         bind(BlobStore.class).to(S3BlobStore.class);
         bind(ObjectStore.class).to(CachingObjectStore.class);

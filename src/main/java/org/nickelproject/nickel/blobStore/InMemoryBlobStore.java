@@ -20,12 +20,19 @@ import java.io.InputStream;
 import java.util.Map;
 
 import com.google.common.collect.MapMaker;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 
 @Singleton
 public final class InMemoryBlobStore extends BlobStoreBase {
     private final Map<BlobRef, byte[]> store = new MapMaker().makeMap();
 
+    @Inject
+    public InMemoryBlobStore(@Named("CheckContainsThreshold") final long checkContainsThreshold) {
+        super(checkContainsThreshold);
+    }
+    
     @Override
     public boolean contains(final BlobRef blob) {
         return store.containsKey(blob);

@@ -36,9 +36,10 @@ public class S3BlobStore extends BlobStoreBase {
     private final String bucketName;
 
     @Inject
-    S3BlobStore(@Named("BucketName") final String bucketName) {
+    S3BlobStore(@Named("BucketName") final String bucketName,
+                @Named("CheckContainsThreshold") final long checkContainsThreshold) {
+        super(checkContainsThreshold);
         this.bucketName = bucketName;
-        System.out.println(bucketName);
     }
 
     @Override
