@@ -23,7 +23,7 @@ import java.lang.annotation.Target;
 
 /**
  * Annotation to identify classes that are part of the
- * {@link TestSuite}.
+ * {@link TaggedSuite}.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
