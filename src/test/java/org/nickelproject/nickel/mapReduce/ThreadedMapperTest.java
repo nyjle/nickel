@@ -16,7 +16,7 @@
  */
 package org.nickelproject.nickel.mapReduce;
 
-import org.nickelproject.suites.UnitAnnotation;
+import org.nickelproject.util.testUtil.UnitAnnotation;
 
 
 /**

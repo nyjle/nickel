@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.nickelproject.nickel.TestModule;
 import org.nickelproject.nickel.externalReference.ExternalReference;
-import org.nickelproject.suites.UnitAnnotation;
+import org.nickelproject.util.testUtil.UnitAnnotation;
 
 import com.google.common.base.Function;
 import com.google.inject.Guice;

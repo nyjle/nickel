@@ -17,6 +17,7 @@ package org.nickelproject.suites;
 
 import org.junit.runner.RunWith;
 import org.nickelproject.util.testUtil.TaggedSuite;
+import org.nickelproject.util.testUtil.UnitAnnotation;
 
 /**
  * A demonstration test suite.

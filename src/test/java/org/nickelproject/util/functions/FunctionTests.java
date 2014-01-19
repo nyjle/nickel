@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.nickelproject.nickel.types.IntegerDataType;
 import org.nickelproject.nickel.types.Record;
 import org.nickelproject.nickel.types.RecordDataType;
-import org.nickelproject.suites.UnitAnnotation;
+import org.nickelproject.util.testUtil.UnitAnnotation;
 import org.nickelproject.util.tuple.Pair;
 import org.nickelproject.util.tuple.Quadruple;
 

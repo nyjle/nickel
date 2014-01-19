@@ -18,7 +18,7 @@ package org.nickelproject.util.sources;
 import org.junit.Assert;
 import org.junit.Test;
 import org.nickelproject.nickel.dataflow.Source;
-import org.nickelproject.suites.UnitAnnotation;
+import org.nickelproject.util.testUtil.UnitAnnotation;
 
 @UnitAnnotation
 public final class SequencesTest {

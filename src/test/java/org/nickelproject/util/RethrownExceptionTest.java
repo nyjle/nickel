@@ -23,7 +23,7 @@ import static org.junit.Assert.fail;
 import java.io.IOException;
 
 import org.junit.Test;
-import org.nickelproject.suites.UnitAnnotation;
+import org.nickelproject.util.testUtil.UnitAnnotation;
 
 /**
  * Unit tests for {@link RethrownException}.

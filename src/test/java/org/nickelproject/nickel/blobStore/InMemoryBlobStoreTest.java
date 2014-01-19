@@ -23,7 +23,7 @@ import java.util.Arrays;
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
-import org.nickelproject.suites.UnitAnnotation;
+import org.nickelproject.util.testUtil.UnitAnnotation;
 
 @UnitAnnotation
 public final class InMemoryBlobStoreTest {

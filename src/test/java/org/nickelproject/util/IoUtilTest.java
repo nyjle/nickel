@@ -22,7 +22,7 @@ import java.util.Random;
 import org.apache.commons.codec.binary.Base64;
 import org.junit.Assert;
 import org.junit.Test;
-import org.nickelproject.suites.UnitAnnotation;
+import org.nickelproject.util.testUtil.UnitAnnotation;
 
 /**
  * Unit tests for {@link IoUtil}.

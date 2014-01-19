@@ -20,7 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.nickelproject.nickel.TestModule;
 import org.nickelproject.nickel.blobStore.BlobRef;
-import org.nickelproject.suites.UnitAnnotation;
+import org.nickelproject.util.testUtil.UnitAnnotation;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;

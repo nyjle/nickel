@@ -20,7 +20,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.nickelproject.nickel.TestModule;
 import org.nickelproject.nickel.dataflow.Source;
-import org.nickelproject.suites.UnitAnnotation;
+import org.nickelproject.util.testUtil.UnitAnnotation;
 
 import com.google.common.base.Preconditions;
 import com.google.inject.Guice;

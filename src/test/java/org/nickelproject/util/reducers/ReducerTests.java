@@ -23,8 +23,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.nickelproject.nickel.dataflow.Reducer;
 import org.nickelproject.nickel.dataflow.Reductor;
-import org.nickelproject.suites.UnitAnnotation;
 import org.nickelproject.util.sources.Sequences;
+import org.nickelproject.util.testUtil.UnitAnnotation;
 
 import com.google.common.collect.Lists;
 

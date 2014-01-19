@@ -26,7 +26,7 @@ import org.nickelproject.nickel.types.IntegerDataType;
 import org.nickelproject.nickel.types.Record;
 import org.nickelproject.nickel.types.RecordDataType;
 import org.nickelproject.nickel.types.StringDataType;
-import org.nickelproject.suites.UnitAnnotation;
+import org.nickelproject.util.testUtil.UnitAnnotation;
 
 @UnitAnnotation
 public final class CsvTest {

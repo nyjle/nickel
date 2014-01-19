@@ -18,7 +18,7 @@ package org.nickelproject.nickel.externalReference;
 import org.junit.Assert;
 import org.junit.Test;
 import org.nickelproject.nickel.TestModule;
-import org.nickelproject.suites.UnitAnnotation;
+import org.nickelproject.util.testUtil.UnitAnnotation;
 
 import com.google.inject.Guice;
 
