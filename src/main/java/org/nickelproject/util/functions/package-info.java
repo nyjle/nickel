@@ -15,6 +15,7 @@
  */
 
 /**
- * Provides some generally useful {@link Function}s, and utility methods related to {@link Function}s. 
+ * Provides some generally useful {@link com.google.common.base.Function}s, and utility methods related to 
+ * {@link com.google.common.base.Function}s. 
  */
 package org.nickelproject.util.functions;

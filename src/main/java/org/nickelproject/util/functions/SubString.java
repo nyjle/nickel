@@ -24,10 +24,10 @@ import com.google.common.base.Preconditions;
  * Given a pre-specified start and end index this {@link Function} returns the substring of a
  * {@link String} starting at the start index and ending 1 before the end index.
  * 
- * If the argument {@link String.length()} < start then an empty {@link String} is
+ * If the argument {@link String#length()} < start then an empty {@link String} is
  * returned. 
  * 
- * If the argument {@link String.length()} < end then the substring up to the end of the argument
+ * If the argument {@link String#length()} < end then the substring up to the end of the argument
  * {@link String} is returned.
  */
 public final class SubString implements Function<String, String> {

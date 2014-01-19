@@ -15,6 +15,7 @@
  */
 
 /**
- * Provides some generally useful {@link Reducer}s, and utility methods related to {@link Reducer}s. 
+ * Provides some generally useful {@link org.nickelproject.nickel.dataflow.Reducer}s, and utility methods
+ * related to {@link org.nickelproject.nickel.dataflow.Reducer}s. 
  */
 package org.nickelproject.util.reducers;
