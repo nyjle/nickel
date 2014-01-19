@@ -20,6 +20,8 @@ import org.nickelproject.nickel.blobStore.S3BlobStore;
 import org.nickelproject.nickel.externalReference.ExternalReference;
 import org.nickelproject.nickel.objectStore.CachingObjectStore;
 import org.nickelproject.nickel.objectStore.ObjectStore;
+import org.nickelproject.util.sources.S3CsvSource;
+import org.nickelproject.util.sources.S3MultiFileSource;
 
 import com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider;
 import com.amazonaws.services.s3.AmazonS3;
@@ -39,6 +41,8 @@ public final class S3Module extends AbstractModule {
         bind(BlobStore.class).to(S3BlobStore.class);
         bind(ObjectStore.class).to(CachingObjectStore.class);
         requestStaticInjection(ExternalReference.class);
+        requestStaticInjection(S3MultiFileSource.class);
+        requestStaticInjection(S3CsvSource.class);
     }
     
     @Provides
