@@ -32,6 +32,7 @@ jar {
     manifest {
         attributes 'Implementation-Title': 'nickel', 'Implementation-Version': version
     }
+    excludes << '**/AwsCredentials.properties'
 }
 
 //compileJava.options.compilerArgs << '-Xlint'
@@ -40,6 +41,7 @@ compileJava.options.compilerArgs << '-Werror'
 task sourcesJar(type: Jar, dependsOn: classes) {
 	classifier = 'sources'
 	from sourceSets.main.allSource
+    excludes << '**/AwsCredentials.properties'
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
