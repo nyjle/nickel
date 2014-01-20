@@ -23,12 +23,15 @@ import org.nickelproject.nickel.objectStore.ObjectStore;
 import org.nickelproject.util.sources.S3CsvSource;
 import org.nickelproject.util.sources.S3MultiFileSource;
 
+import com.amazonaws.auth.AWSCredentialsProviderChain;
 import com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider;
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.google.common.cache.CacheBuilderSpec;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import com.google.inject.name.Names;
 
 public final class S3Module extends AbstractModule {
@@ -45,9 +48,12 @@ public final class S3Module extends AbstractModule {
         requestStaticInjection(S3CsvSource.class);
     }
     
-    @Provides
+    @Provides @Singleton
     AmazonS3 provideS3Client() {
-        return new AmazonS3Client(new ClasspathPropertiesFileCredentialsProvider());
+        return new AmazonS3Client(
+                new AWSCredentialsProviderChain(
+                        new DefaultAWSCredentialsProviderChain(),
+                        new ClasspathPropertiesFileCredentialsProvider()));
     }
     
     @Provides
