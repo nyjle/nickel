@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Numerate, Inc
+ * Copyright (c) 2013 Nigel Duffy
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,23 @@
 package org.nickelproject.util.streamUtil;
 
 import java.io.InputStream;
-import java.io.Serializable;
 
-public interface InputStreamFactory extends Serializable {
-    InputStream getInputStream();
+import org.nickelproject.nickel.blobStore.BlobRef;
+import org.nickelproject.nickel.blobStore.BlobStore;
+
+import com.google.inject.Inject;
+
+public final class BlobStoreInputStreamFactory implements InputStreamFactory {
+    private static final long serialVersionUID = 1L;
+    @Inject private static BlobStore blobStore;
+    private final BlobRef blobRef;
+    
+    public BlobStoreInputStreamFactory(final BlobRef blobRef) {
+        this.blobRef = blobRef;
+    }
+
+    @Override
+    public InputStream getInputStream() {
+        return blobStore.getAsStream(blobRef);
+    }
 }

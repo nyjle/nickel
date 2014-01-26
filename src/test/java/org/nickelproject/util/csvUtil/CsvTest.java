@@ -15,7 +15,8 @@
  */
 package org.nickelproject.util.csvUtil;
 
-import java.io.StringReader;
+import java.io.ByteArrayInputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -26,6 +27,7 @@ import org.nickelproject.nickel.types.IntegerDataType;
 import org.nickelproject.nickel.types.Record;
 import org.nickelproject.nickel.types.RecordDataType;
 import org.nickelproject.nickel.types.StringDataType;
+import org.nickelproject.util.streamUtil.ByteArrayInputStreamFactory;
 import org.nickelproject.util.testUtil.UnitAnnotation;
 
 @UnitAnnotation
@@ -34,10 +36,11 @@ public final class CsvTest {
     private static final int size = 3;
 
     @Test
-    public void testReadSchema() {
+    public void testReadSchema() throws UnsupportedEncodingException {
         final StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("col1:String,col2:Int,col3:Double\n");
-        checkSchema(CsvIterator.readSchema(new StringReader(stringBuffer.toString())));
+        checkSchema(CsvIterator.readSchema(
+                new ByteArrayInputStream(stringBuffer.toString().getBytes("UTF-8"))));
     }
     
     @Test
@@ -56,18 +59,21 @@ public final class CsvTest {
     }
 
     @Test
-    public void testIterator1() {
+    public void testIterator1() throws UnsupportedEncodingException {
         final RecordDataType schema = createSchema();
         final StringBuffer stringBuffer = appendData(new StringBuffer());
-        testIteratorData(new CsvIterator(new StringReader(stringBuffer.toString()), schema));
+        testIteratorData(new CsvSource(
+                new ByteArrayInputStreamFactory(stringBuffer.toString().getBytes("UTF-8")), schema)
+                .iterator());
     }
     
     @Test
-    public void testIterator2() {
+    public void testIterator2() throws UnsupportedEncodingException {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("col1:String,col2:Int,col3:Double\n");
         stringBuffer = appendData(stringBuffer);
-        testIteratorData(new CsvIterator(new StringReader(stringBuffer.toString())));
+        testIteratorData(new CsvSource(
+                new ByteArrayInputStreamFactory(stringBuffer.toString().getBytes("UTF-8"))).iterator());
     }
     
     private void checkSchema(final RecordDataType schema) {

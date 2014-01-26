@@ -16,21 +16,24 @@
 package org.nickelproject.util.sources;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 
 import org.nickelproject.nickel.dataflow.Source;
 import org.nickelproject.nickel.dataflow.Sources;
 import org.nickelproject.util.RethrownException;
+import org.nickelproject.util.streamUtil.InputStreamFactory;
+
+import com.google.common.collect.UnmodifiableIterator;
 
 public final class FileLineSource implements Source<String> {
     private static final long serialVersionUID = 1L;
-    private final String      fileName;
+    private final InputStreamFactory inputStreamFactory;
 
-    public FileLineSource(final String fileName) {
-        this.fileName = fileName;
+    public FileLineSource(final InputStreamFactory inputStreamFactory) {
+        this.inputStreamFactory = inputStreamFactory;
     }
 
     @Override
@@ -38,14 +41,13 @@ public final class FileLineSource implements Source<String> {
         return new FileLineIterator();
     }
 
-    private final class FileLineIterator implements Iterator<String> {
+    private final class FileLineIterator extends UnmodifiableIterator<String> {
         private final BufferedReader mReader;
 
         public FileLineIterator() {
             try {
-                mReader = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "UTF-8"));
-            } catch (final Exception e) {
-                System.out.println("Can't find file: " + fileName);
+                mReader = new BufferedReader(new InputStreamReader(inputStreamFactory.getInputStream(), "UTF8"));
+            } catch (UnsupportedEncodingException e) {
                 throw RethrownException.rethrow(e);
             }
         }
@@ -58,7 +60,6 @@ public final class FileLineSource implements Source<String> {
             } catch (IOException e) {
                 throw RethrownException.rethrow(e);
             }
-            System.out.println("FileLineSource: " + vRetVal);
             return vRetVal;
         }
 
@@ -72,12 +73,6 @@ public final class FileLineSource implements Source<String> {
             }
             return vRetVal;
         }
-
-        @Override
-        public void remove() {
-            throw new RuntimeException("Cannot remove from a source iterator");
-        }
-
     }
 
     @Override

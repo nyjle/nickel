@@ -22,6 +22,7 @@ apply plugin: 'eclipse'
 apply plugin: 'java'
 
 test {
+	include "**/UnitSuite.class"
 	maxHeapSize = "3500m"
 }
 

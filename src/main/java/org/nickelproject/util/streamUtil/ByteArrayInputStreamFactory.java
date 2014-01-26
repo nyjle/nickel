@@ -15,9 +15,18 @@
  */
 package org.nickelproject.util.streamUtil;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.Serializable;
 
-public interface InputStreamFactory extends Serializable {
-    InputStream getInputStream();
+public final class ByteArrayInputStreamFactory implements InputStreamFactory {
+    private final byte[] data;
+
+    public ByteArrayInputStreamFactory(final byte[] data) {
+        this.data = data.clone();
+    }
+
+    @Override
+    public InputStream getInputStream() {
+        return new ByteArrayInputStream(data);
+    }
 }

@@ -22,6 +22,8 @@ import org.nickelproject.nickel.dataflow.Source;
 import org.nickelproject.nickel.dataflow.Sources;
 import org.nickelproject.nickel.types.Record;
 import org.nickelproject.nickel.types.RecordDataType;
+import org.nickelproject.util.csvUtil.CsvSource;
+import org.nickelproject.util.streamUtil.S3InputStreamFactory;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ListObjectsRequest;
@@ -35,8 +37,8 @@ public final class S3MultiFileSource implements Source<Record> {
     private static final long serialVersionUID = 1L;
     private final String bucketName;
     private final String key;
-    @Inject private static AmazonS3 s3Client;
     private final RecordDataType schema;
+    @Inject private static AmazonS3 s3Client;
     
     public S3MultiFileSource(final String bucketName, final String key, final RecordDataType schema) {
         this.bucketName = bucketName;
@@ -55,7 +57,7 @@ public final class S3MultiFileSource implements Source<Record> {
         return Sources.transform(keys, new Function<String, Source<Record>>() {
                 @Override
                 public Source<Record> apply(final String partKey) {
-                    return new S3CsvSource(bucketName, partKey, schema);
+                    return new CsvSource(new S3InputStreamFactory(bucketName, partKey), schema);
                 }
             });
     }

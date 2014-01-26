@@ -16,8 +16,9 @@
 package org.nickelproject.util.csvUtil;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.Iterator;
 import java.util.List;
 
 import org.nickelproject.nickel.types.Record;
@@ -28,16 +29,19 @@ import org.supercsv.io.CsvListReader;
 import org.supercsv.io.ICsvListReader;
 import org.supercsv.prefs.CsvPreference;
 
-public final class CsvIterator implements Iterator<Record> {
+import com.google.common.collect.UnmodifiableIterator;
+
+public final class CsvIterator extends UnmodifiableIterator<Record> {
     private final ICsvListReader  listReader;
     private Record                data;
     private final RecordDataType  schema;
     private final CellProcessor[] cellProcessors;
 
-    public static RecordDataType readSchema(final Reader reader) {
+    public static RecordDataType readSchema(final InputStream inputStream) {
         ICsvListReader listReader = null;
         final RecordDataType schema;
         try {
+            final Reader reader = new InputStreamReader(inputStream, "UTF-8");
             listReader = new CsvListReader(reader, CsvPreference.STANDARD_PREFERENCE);
             schema = Header.parseHeader(listReader.getHeader(true));
         } catch (final Exception e) {
@@ -93,10 +97,5 @@ public final class CsvIterator implements Iterator<Record> {
             throw RethrownException.rethrow(e);
         }
         return retVal;
-    }
-
-    @Override
-    public void remove() {
-        throw new UnsupportedOperationException();
     }
 }
