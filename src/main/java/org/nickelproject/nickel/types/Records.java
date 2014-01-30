@@ -15,6 +15,8 @@
  */
 package org.nickelproject.nickel.types;
 
+import javax.annotation.Nonnull;
+
 import com.google.common.base.Function;
 
 public final class Records {
@@ -28,6 +30,15 @@ public final class Records {
             @Override
             public Record apply(final Object[] input) {
                 return Record.of(schema, input);
+            }
+        };
+    }
+
+    public static Function<Record, Object[]> getFieldsFunction() {
+        return new Function<Record, Object[]>() {
+            @Override
+            public Object[] apply(@Nonnull final Record input) {
+                return input.getFields();
             }
         };
     }

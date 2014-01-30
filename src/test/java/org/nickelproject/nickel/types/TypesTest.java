@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.nickelproject.util.testUtil.UnitAnnotation;
 
+import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
 @UnitAnnotation
@@ -37,4 +38,14 @@ public final class TypesTest {
         Assert.assertEquals(IntegerDataType.class, projectedSchema.getType(1).getClass());   
         Assert.assertEquals(2, Lists.newArrayList(projectedSchema.getMembers()).size());
     }
+    
+    @Test
+    public void testGetFields() {
+        final Record record = Record.of(schema, 1.0, 1, 2);
+        final Function<Record, Object[]> function = Records.getFieldsFunction();
+        final Object[] result = function.apply(record);
+        Assert.assertEquals(result[1], Integer.valueOf(1));
+        Assert.assertEquals(result[2], Integer.valueOf(2));
+    }
+
 }

@@ -5,9 +5,6 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.nickelproject.nickel.types.IntegerDataType;
-import org.nickelproject.nickel.types.Record;
-import org.nickelproject.nickel.types.RecordDataType;
 import org.nickelproject.util.testUtil.UnitAnnotation;
 import org.nickelproject.util.tuple.Pair;
 import org.nickelproject.util.tuple.Quadruple;
@@ -25,19 +22,7 @@ public final class FunctionTests {
         final Map<Integer, String> map = function.apply(pair);
         Assert.assertEquals("one", map.get(1));
     }
-    
-    @Test
-    public void testGetFields() {
-        final RecordDataType schema = new RecordDataType.Builder().add("first", new IntegerDataType())
-                                                                  .add("second", new IntegerDataType())
-                                                                  .build();
-        final Record record = Record.of(schema, 1, 2);
-        final Function<Record, Object[]> function = new GetFields();
-        final Object[] result = function.apply(record);
-        Assert.assertEquals(result[0], Integer.valueOf(1));
-        Assert.assertEquals(result[1], Integer.valueOf(2));
-    }
-    
+        
     @Test
     public void testSubString() {
         final Function<String, String> function = new SubString(0, 5);
