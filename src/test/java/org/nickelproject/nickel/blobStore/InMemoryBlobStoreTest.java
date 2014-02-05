@@ -15,44 +15,14 @@
  */
 package org.nickelproject.nickel.blobStore;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.util.Arrays;
-
-import org.apache.commons.io.IOUtils;
-import org.junit.Assert;
-import org.junit.Test;
 import org.nickelproject.util.testUtil.UnitAnnotation;
 
 @UnitAnnotation
-public final class InMemoryBlobStoreTest {
+public final class InMemoryBlobStoreTest extends BlobStoreTestBase {
     private final BlobStore blobStore = new InMemoryBlobStore(0);
-    private final byte[]    testBytes = "This is a test".getBytes(Charset.forName("UTF-8"));
 
-    @Test
-    public void testContains() {
-        final BlobRef blobRef = blobStore.put(testBytes);
-        Assert.assertTrue(blobStore.contains(blobRef));
-        Assert.assertFalse(blobStore.contains(BlobRef.of("fdafdas")));
-    }
-
-    @Test
-    public void testRoundTrip() {
-        byte[] bytes = blobStore.get(BlobRef.of("fafetateaewt"));
-        Assert.assertNull(bytes);
-        final BlobRef blobRef = blobStore.put(testBytes);
-        bytes = blobStore.get(blobRef);
-        Assert.assertTrue(Arrays.equals(bytes, testBytes));
-    }
-
-    @Test
-    public void testStreamRoundTrip() throws Exception {
-        byte[] bytes = blobStore.get(BlobRef.of("fateqwtq"));
-        Assert.assertNull(bytes);
-        final BlobRef blobRef = blobStore.put(new ByteArrayInputStream(testBytes));
-        final InputStream stream = blobStore.getAsStream(blobRef);
-        bytes = IOUtils.toByteArray(stream);
-        Assert.assertTrue(Arrays.equals(bytes, testBytes));
-    }
+    @Override
+    protected BlobStore getBlobStore() {
+        return blobStore;
+    }    
 }

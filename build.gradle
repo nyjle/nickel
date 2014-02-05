@@ -73,6 +73,7 @@ dependencies {
 	compile "javassist:javassist:3.12.1.GA"
 	compile "org.slf4j:slf4j-api:1.7.5"
 	compile "junit:junit:4.11"	
+	testCompile 'org.easymock:easymock:3.2'
 }
 
 apply plugin: 'findbugs'
