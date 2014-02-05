@@ -26,7 +26,7 @@ test {
 	maxHeapSize = "3500m"
 }
 
-version = '0.0.2'
+version = '0.0.3'
 group = 'org.nickelproject'
 
 jar {
@@ -43,6 +43,7 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 	classifier = 'sources'
 	from sourceSets.main.allSource
     excludes << '**/AwsCredentials.properties'
+    excludes << '**/log4j.properties'
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
