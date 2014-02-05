@@ -19,6 +19,9 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.reflect.Reflection;
 
 // TODO Need to add a random delay
@@ -27,14 +30,16 @@ public final class RetryProxy<T> implements InvocationHandler {
     private static final long increment    = 2;
     private static final long maxRetries   = 3;
     private static final int  secondsToMillis = 1000;
+    private final Logger logger;
     private final T           obj;
 
     public static <T> T newInstance(final Class<T> pClass, final T obj) {
-        return Reflection.newProxy(pClass, new RetryProxy<T>(obj));
+        return Reflection.newProxy(pClass, new RetryProxy<T>(obj, LoggerFactory.getLogger(pClass)));
     }
 
-    private RetryProxy(final T obj) {
+    private RetryProxy(final T obj, final Logger logger) {
         this.obj = obj;
+        this.logger = logger;
     }
 
     @Override
@@ -47,6 +52,7 @@ public final class RetryProxy<T> implements InvocationHandler {
                 if (retryCount >= maxRetries) {
                     throw RethrownException.rethrow(e.getCause());
                 } else {
+                    logger.info("Retrying after exception", e.getCause());
                     Thread.sleep((initialDelay + retryCount * increment) * secondsToMillis);
                 }
             }
