@@ -17,10 +17,12 @@ package org.nickelproject.nickel.dataflow;
 
 import java.io.Serializable;
 
-public interface Source<T> extends Iterable<T>, Serializable {
-    int unknownSize = -1;
-    
-    // Size is just a guideline here.
-    Source<? extends Source<T>> partition(final int sizeGuideline);
-    int size();
+/**
+ * Do not extend this class.
+ *
+ * @param <T>
+ * @param <U>
+ */
+interface CollectorInterface<T, U> extends Serializable {
+    Reductor<T, U> reductor();
 }

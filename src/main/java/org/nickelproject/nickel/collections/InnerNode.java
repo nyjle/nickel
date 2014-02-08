@@ -29,7 +29,9 @@ import com.google.common.collect.Lists;
 
 final class InnerNode<T> implements DistributedCollection<T> {
     private static final long serialVersionUID = 1L;
+    //CHECKSTYLE:OFF 
     private final ExternalReference<DistributedCollection<T>[]> nodes;
+    //CHECKSTYLE:ON 
     private final int size;
     
     public InnerNode(final DistributedCollection<T>[] nodes) {

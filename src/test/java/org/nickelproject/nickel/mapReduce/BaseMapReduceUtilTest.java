@@ -25,7 +25,6 @@ import org.junit.Test;
 import org.nickelproject.nickel.dataflow.MapReduceUtil;
 import org.nickelproject.nickel.dataflow.Source;
 import org.nickelproject.nickel.dataflow.Sources;
-import org.nickelproject.nickel.mapReduce.Mapper;
 import org.nickelproject.util.reducers.IntegerSumReducer;
 import org.nickelproject.util.sources.Sequences;
 import org.nickelproject.util.testUtil.UnitAnnotation;

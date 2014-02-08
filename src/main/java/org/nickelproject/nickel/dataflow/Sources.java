@@ -77,7 +77,7 @@ public final class Sources {
 
         @Override
         public int size() {
-            return Source.UNKOWN_SIZE;
+            return Source.unknownSize;
         }
         
         @Override
@@ -109,7 +109,7 @@ public final class Sources {
         }
 
         public IterableSource(final Iterable<S> iterable) {
-            this(iterable, Source.UNKOWN_SIZE);
+            this(iterable, Source.unknownSize);
         }
         
         @Override
@@ -180,7 +180,7 @@ public final class Sources {
 
         @Override
         public int size() {
-            return Source.UNKOWN_SIZE;
+            return Source.unknownSize;
         }
         
         @Override

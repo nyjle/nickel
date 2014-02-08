@@ -48,7 +48,7 @@ public final class S3MultiFileSource implements Source<Record> {
     
     @Override
     public int size() {
-        return Source.UNKOWN_SIZE;
+        return Source.unknownSize;
     }
     
     @Override

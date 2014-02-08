@@ -42,7 +42,7 @@ public final class CsvSource implements RecordSource {
 
     @Override
     public int size() {
-        return Source.UNKOWN_SIZE;
+        return Source.unknownSize;
     }
     
     @Override

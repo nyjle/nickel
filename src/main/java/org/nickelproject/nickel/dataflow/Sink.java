@@ -15,12 +15,12 @@
  */
 package org.nickelproject.nickel.dataflow;
 
-import java.io.Serializable;
-
-public interface Source<T> extends Iterable<T>, Serializable {
-    int unknownSize = -1;
-    
-    // Size is just a guideline here.
-    Source<? extends Source<T>> partition(final int sizeGuideline);
-    int size();
+/**
+ * A Sink is a Collector that cannot be nested.
+ * Usually, this should involve output to a file, terminal, database, etc.
+ * 
+ * @param <T>
+ * @param <U>
+ */
+public interface Sink<T, U> extends CollectorInterface<T, U> {
 }

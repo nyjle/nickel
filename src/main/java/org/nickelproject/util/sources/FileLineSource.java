@@ -38,7 +38,7 @@ public final class FileLineSource implements Source<String> {
     
     @Override
     public int size() {
-        return Source.UNKOWN_SIZE;
+        return Source.unknownSize;
     }
 
     @Override

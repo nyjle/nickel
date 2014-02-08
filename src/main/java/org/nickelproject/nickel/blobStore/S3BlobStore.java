@@ -30,7 +30,7 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 public class S3BlobStore extends BlobStoreBase {
-    private final static int NotFoundCode = 404;
+    private static final int notFoundCode = 404;
     private final AmazonS3 s3Client;
     private final String bucketName;
 
@@ -68,7 +68,7 @@ public class S3BlobStore extends BlobStoreBase {
         try {
             s3Client.getObjectMetadata(bucketName, blobRef.toString());
         } catch (final AmazonS3Exception e) {
-            if(e.getStatusCode() == NotFoundCode) {
+            if (e.getStatusCode() == notFoundCode) {
                 retVal = false;
             } else {
                 throw RethrownException.rethrow(e);
