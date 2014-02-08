@@ -41,6 +41,11 @@ public final class CsvSource implements RecordSource {
     }
 
     @Override
+    public int size() {
+        return Source.UNKOWN_SIZE;
+    }
+    
+    @Override
     public Iterator<Record> iterator() {
         try {
             return schema == null 

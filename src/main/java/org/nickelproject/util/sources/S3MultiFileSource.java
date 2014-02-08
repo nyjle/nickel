@@ -47,6 +47,11 @@ public final class S3MultiFileSource implements Source<Record> {
     }
     
     @Override
+    public int size() {
+        return Source.UNKOWN_SIZE;
+    }
+    
+    @Override
     public Iterator<Record> iterator() {
         return Sources.concat(partition(0)).iterator();
     }

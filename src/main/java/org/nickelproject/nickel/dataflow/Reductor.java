@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013 Numerate, Inc
+ * Copyright (c) 2013 Nigel Duffy
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,33 +15,7 @@
  */
 package org.nickelproject.nickel.dataflow;
 
-/**
- * A {@link Reductor} processes a sequence of values submitted via the
- * {@link #collect} method and returns a value upon calling {@link #reduce}.
- * <p>
- * A {@link Reductor} is analogous to an {@link java.util.Iterator}, whereas
- * {@link Reducer} is analogous to {@link java.lang.Iterable}.
- *
- * @param <T>
- *            The type of the values to be reduced
- * @param <U>
- *            The type of the reduced result
- * @see Reducer
- */
 public interface Reductor<T, U> {
-    /**
-     * Collects the given value.
-     */
     void collect(T pVal);
-
-    /**
-     * Return the value of this {@link Reductor} given the input seen thus far.
-     * <p>
-     * If this method is called again after {@link #collect(Object)}ing more
-     * input data, the behavior is undefined: it may return the aggregate over
-     * all data already seen, or just for data seen since the last call to this
-     * method, or it may throw an exception. Current Numatix framework code will
-     * not call this method on a {@link Reductor} instance more than once.
-     */
     U reduce();
 }

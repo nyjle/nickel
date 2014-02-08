@@ -13,13 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nickelproject.nickel.mapReduce;
+package org.nickelproject.nickel.dataflow;
 
 import java.util.Iterator;
 
-import org.nickelproject.nickel.dataflow.Reducer;
-import org.nickelproject.nickel.dataflow.Reductor;
-import org.nickelproject.nickel.dataflow.Source;
+import org.nickelproject.nickel.mapReduce.Mapper;
 
 import com.google.common.base.Function;
 
@@ -30,9 +28,9 @@ public final class MapReduceUtil {
     }
 
     public static <T, U, V> V mapReduce(final Source<T> source, final Function<T, U> function,
-            final Reducer<U, V> reducer, final Mapper mapper) {
+            final CollectorInterface<U, V> reducer, final Mapper mapper) {
         final Iterator<U> results = mapper.map(source.iterator(), function);
-        final Reductor<? super U, ? extends V> reductor = reducer.reductor();
+        final Reductor<U, V> reductor = reducer.reductor();
         
         while (results.hasNext()) {
             reductor.collect(results.next());

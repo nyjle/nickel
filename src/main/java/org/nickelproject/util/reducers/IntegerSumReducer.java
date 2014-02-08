@@ -21,7 +21,7 @@ import org.nickelproject.nickel.dataflow.Reductor;
 /**
  * Collects integer values and calculates their sum.
  */
-public final class IntegerSumReducer implements Reducer<Integer, Integer> {
+public final class IntegerSumReducer implements Reducer<Integer> {
     private static final long serialVersionUID = 1L;
     private final int mInitial;
     

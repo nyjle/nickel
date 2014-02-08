@@ -29,16 +29,22 @@ import com.google.common.collect.Lists;
 
 final class InnerNode<T> implements DistributedCollection<T> {
     private static final long serialVersionUID = 1L;
-    //CHECKSTYLE:OFF 
-    private ExternalReference<DistributedCollection<T>[]> nodes; // Not final as serializable
-    //CHECKSTYLE:ON
+    private final ExternalReference<DistributedCollection<T>[]> nodes;
+    private final int size;
+    
     public InnerNode(final DistributedCollection<T>[] nodes) {
         this.nodes = ExternalReference.of(nodes);
+        this.size = nodes.length;
     }
 
     @SuppressWarnings("unchecked")
     public InnerNode(final List<DistributedCollection<T>> nodes) {
         this(nodes.toArray(new DistributedCollection[0]));
+    }
+    
+    @Override
+    public int size() {
+        return size;
     }
     
     @Override

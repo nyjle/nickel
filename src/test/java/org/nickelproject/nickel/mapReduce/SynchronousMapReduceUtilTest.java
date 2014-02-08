@@ -15,6 +15,7 @@
  */
 package org.nickelproject.nickel.mapReduce;
 
+import org.nickelproject.nickel.dataflow.MapReduceUtil;
 import org.nickelproject.util.testUtil.UnitAnnotation;
 
 

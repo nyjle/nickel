@@ -25,12 +25,19 @@ import com.google.common.collect.Iterators;
 
 final class LeafNode<T> implements DistributedCollection<T> {
     private static final long serialVersionUID = 1L;
-    private ExternalReference<T[]> data; // Not final because its Serialized
+    private final ExternalReference<T[]> data;
+    private final int size;
     
     public LeafNode(final T[] data) {
         this.data = ExternalReference.of(data);
+        this.size = data.length;
     }
 
+    @Override
+    public int size() {
+        return size;
+    }
+    
     @Override
     public Source<Source<T>> partition(final int partitionSize) {
         return Sources.singleton((Source<T>) this);

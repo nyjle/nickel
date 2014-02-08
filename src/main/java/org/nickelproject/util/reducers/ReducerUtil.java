@@ -15,8 +15,7 @@
  */
 package org.nickelproject.util.reducers;
 
-import org.nickelproject.nickel.dataflow.Reducer;
-import org.nickelproject.nickel.dataflow.Reducers;
+import org.nickelproject.nickel.dataflow.Collector;
 
 import com.google.common.base.Functions;
 
@@ -26,7 +25,7 @@ public final class ReducerUtil {
         // Prevents construction
     }
     
-    public static Reducer<Object, Integer> count() {
-        return Reducers.compose(Functions.constant(1), new IntegerSumReducer(), Functions.<Integer>identity());
+    public static Collector<Object, Integer, Integer> count() {
+        return Collector.create(Functions.constant(1), new IntegerSumReducer(), Functions.<Integer>identity());
     }
 }

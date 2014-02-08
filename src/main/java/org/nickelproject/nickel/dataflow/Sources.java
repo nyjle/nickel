@@ -18,6 +18,7 @@ package org.nickelproject.nickel.dataflow;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
@@ -59,7 +60,11 @@ public final class Sources {
     }
 
     public static <S> Source<S> from(final S[] array) {
-        return new IterableSource<S>(Arrays.asList(array));
+        return from(Arrays.asList(array));
+    }
+    
+    public static <S> Source<S> from(final List<S> list) {
+        return new IterableSource<S>(list, list.size());
     }
     
     private static class ConcatSource<S> implements Source<S> {
@@ -70,6 +75,11 @@ public final class Sources {
             this.sources = sources;
         }
 
+        @Override
+        public int size() {
+            return Source.UNKOWN_SIZE;
+        }
+        
         @Override
         public Iterator<S> iterator() {
             return Iterators.concat(
@@ -91,11 +101,22 @@ public final class Sources {
     private static class IterableSource<S> implements Source<S> {
         private static final long serialVersionUID = 1L;
         private final Iterable<S> iterable;
+        private final int size;
 
-        public IterableSource(final Iterable<S> iterable) {
+        public IterableSource(final Iterable<S> iterable, final int size) {
             this.iterable = iterable;
+            this.size = size;
         }
 
+        public IterableSource(final Iterable<S> iterable) {
+            this(iterable, Source.UNKOWN_SIZE);
+        }
+        
+        @Override
+        public int size() {
+            return size;
+        }
+        
         @Override
         public Iterator<S> iterator() {
             return iterable.iterator();
@@ -123,6 +144,11 @@ public final class Sources {
             this.transform = transform;
         }
 
+        @Override
+        public int size() {
+            return wrappedSource.size();
+        }
+        
         @Override
         public Iterator<T> iterator() {
             return Iterators.transform(wrappedSource.iterator(), transform);
@@ -152,6 +178,11 @@ public final class Sources {
             this.predicate = predicate;
         }
 
+        @Override
+        public int size() {
+            return Source.UNKOWN_SIZE;
+        }
+        
         @Override
         public Iterator<T> iterator() {
             return Iterators.filter(wrappedSource.iterator(), predicate);

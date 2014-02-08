@@ -18,7 +18,7 @@ package org.nickelproject.util.reducers;
 import org.nickelproject.nickel.dataflow.Reducer;
 import org.nickelproject.nickel.dataflow.Reductor;
 
-public final class MinReducer<T extends Comparable<T>> implements Reducer<T, T> {
+public final class MinReducer<T extends Comparable<T>> implements Reducer<T> {
     private static final long serialVersionUID = 1L;
 
     @Override

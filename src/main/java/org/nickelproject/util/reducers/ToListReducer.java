@@ -22,20 +22,20 @@ import org.nickelproject.nickel.dataflow.Reductor;
 
 import com.google.common.collect.Lists;
 
-public final class ToListReducer<T> implements Reducer<T, List<T>> {
+public final class ToListReducer<T> implements Reducer<List<T>> {
     private static final long serialVersionUID = 1L;
 
     @Override
-    public Reductor<T, List<T>> reductor() {
+    public Reductor<List<T>, List<T>> reductor() {
         return new ToListReductor<T>();
     }
 
-    private static class ToListReductor<T> implements Reductor<T, List<T>> {
+    private static class ToListReductor<T> implements Reductor<List<T>, List<T>> {
         private final List<T> mList = Lists.newArrayList();
 
         @Override
-        public void collect(final T pVal) {
-            mList.add(pVal);
+        public void collect(final List<T> pVal) {
+            mList.addAll(pVal);
         }
 
         @Override

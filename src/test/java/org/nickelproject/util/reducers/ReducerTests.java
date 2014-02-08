@@ -57,9 +57,9 @@ public final class ReducerTests {
     
     @Test
     public void toListReducerTest() {
-        final Reductor<Integer, List<Integer>> toListReductor = new ToListReducer<Integer>().reductor();
+        final Reductor<List<Integer>, List<Integer>> toListReductor = new ToListReducer<Integer>().reductor();
         for (final Integer datum : Sequences.integer(0, max)) {
-            toListReductor.collect(datum);
+            toListReductor.collect(Collections.singletonList(datum));
         }
         final List<Integer> list = toListReductor.reduce();
         final List<Integer> sequenceList = Lists.newArrayList(Sequences.integer(0, max));
@@ -99,7 +99,7 @@ public final class ReducerTests {
     
     @Test
     public void mapMergingReducerTest() {
-        final Reducer<Map<Integer, Integer>, Map<Integer, Integer>> mapReducer =
+        final Reducer<Map<Integer, Integer>> mapReducer =
                 MapMergingReducer.create(new MaxReducer<Integer>());
         final Reductor<Map<Integer, Integer>, Map<Integer, Integer>> reductor = mapReducer.reductor();
         final int mapSize = 10;

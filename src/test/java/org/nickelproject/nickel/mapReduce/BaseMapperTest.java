@@ -107,6 +107,11 @@ public abstract class BaseMapperTest {
         }
 
         @Override
+        public int size() {
+            return mSourceSize;
+        }
+        
+        @Override
         public Source<Source<byte[]>> partition(final int partitionSize) {
             throw new RuntimeException("Not Implemented");
         }

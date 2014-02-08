@@ -22,8 +22,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Test;
+import org.nickelproject.nickel.dataflow.MapReduceUtil;
 import org.nickelproject.nickel.dataflow.Source;
 import org.nickelproject.nickel.dataflow.Sources;
+import org.nickelproject.nickel.mapReduce.Mapper;
 import org.nickelproject.util.reducers.IntegerSumReducer;
 import org.nickelproject.util.sources.Sequences;
 import org.nickelproject.util.testUtil.UnitAnnotation;
@@ -72,6 +74,11 @@ public abstract class BaseMapReduceUtilTest {
             return ContiguousSet.create(Range.closedOpen(0, mNumElements), DiscreteDomain.integers()).iterator();
         }
 
+        @Override
+        public int size() {
+            return mNumElements;
+        }
+        
         @Override
         public Source<Source<Integer>> partition(final int pNumPartitions) {
             return Sources.from(Iterables.transform(

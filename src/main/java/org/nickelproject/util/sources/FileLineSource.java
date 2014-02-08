@@ -35,6 +35,11 @@ public final class FileLineSource implements Source<String> {
     public FileLineSource(final InputStreamFactory inputStreamFactory) {
         this.inputStreamFactory = inputStreamFactory;
     }
+    
+    @Override
+    public int size() {
+        return Source.UNKOWN_SIZE;
+    }
 
     @Override
     public Iterator<String> iterator() {
