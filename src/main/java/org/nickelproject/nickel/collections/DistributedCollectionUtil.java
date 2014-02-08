@@ -15,6 +15,11 @@
  */
 package org.nickelproject.nickel.collections;
 
+import java.lang.reflect.Array;
+import java.util.List;
+
+import com.google.common.base.Preconditions;
+
 
 public final class DistributedCollectionUtil {
 
@@ -26,8 +31,21 @@ public final class DistributedCollectionUtil {
         return new LeafNode<T>(data);
     }
     
+    public static <T> DistributedCollection<T> from(final List<T> data) {
+        Preconditions.checkArgument(data.size() > 0);
+        @SuppressWarnings("unchecked")
+        T[] array = (T[]) Array.newInstance(data.get(0).getClass(), data.size());
+        return new LeafNode<T>(data.toArray(array));
+    }
+    
     // This needs to be careful about size
     public static <T> DistributedCollection<T> concat(final DistributedCollection<T>[] collections) {
         return new InnerNode<T>(collections);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public static <T> DistributedCollection<T> concat(final List<DistributedCollection<T>> collections) {
+        Preconditions.checkArgument(collections.size() > 0);
+        return new InnerNode<T>(collections.toArray(new DistributedCollection[0]));
     }
 }

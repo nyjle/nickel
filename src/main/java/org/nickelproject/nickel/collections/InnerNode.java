@@ -27,7 +27,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 
-final class InnerNode<T> extends DistributedCollection<T> {
+final class InnerNode<T> implements DistributedCollection<T> {
     private static final long serialVersionUID = 1L;
     //CHECKSTYLE:OFF 
     private ExternalReference<DistributedCollection<T>[]> nodes; // Not final as serializable
@@ -39,11 +39,6 @@ final class InnerNode<T> extends DistributedCollection<T> {
     @SuppressWarnings("unchecked")
     public InnerNode(final List<DistributedCollection<T>> nodes) {
         this(nodes.toArray(new DistributedCollection[0]));
-    }
-    
-    @Override
-    public DistributedCollection<T>[] getNodes() {
-        return nodes.get();
     }
     
     @Override

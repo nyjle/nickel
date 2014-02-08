@@ -15,7 +15,6 @@
  */
 package org.nickelproject.nickel.collections;
 
-import java.util.Collections;
 import java.util.Iterator;
 
 import org.nickelproject.nickel.dataflow.Source;
@@ -24,7 +23,7 @@ import org.nickelproject.nickel.externalReference.ExternalReference;
 
 import com.google.common.collect.Iterators;
 
-final class LeafNode<T> extends DistributedCollection<T> {
+final class LeafNode<T> implements DistributedCollection<T> {
     private static final long serialVersionUID = 1L;
     private ExternalReference<T[]> data; // Not final because its Serialized
     
@@ -34,17 +33,11 @@ final class LeafNode<T> extends DistributedCollection<T> {
 
     @Override
     public Source<Source<T>> partition(final int partitionSize) {
-        return Sources.from(Collections.<Source<T>>singletonList(this));
+        return Sources.singleton((Source<T>) this);
     }
 
     @Override
     public Iterator<T> iterator() {
         return Iterators.forArray(data.get());
     }
-    
-    @SuppressWarnings("unchecked")
-    @Override
-    public DistributedCollection<T>[] getNodes() {
-        return new DistributedCollection[]{this};
-    }    
 }
