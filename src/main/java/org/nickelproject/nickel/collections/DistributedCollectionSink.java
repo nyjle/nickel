@@ -7,11 +7,11 @@ import org.nickelproject.nickel.dataflow.Sink;
 
 import com.google.common.collect.Lists;
 
-public final class DistributedCollectionReducer<T> implements Sink<T, DistributedCollection<T>> {
+public final class DistributedCollectionSink<T> implements Sink<T, DistributedCollection<T>> {
     private static final long serialVersionUID = 1L;
     private final int nodeSize;
     
-    public DistributedCollectionReducer(final int nodeSize) {
+    public DistributedCollectionSink(final int nodeSize) {
         this.nodeSize = nodeSize;
     }
     
