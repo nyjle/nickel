@@ -33,6 +33,16 @@ public final class IoUtilTest {
     private static final int sizeOfInt = 4;
     
     @Test
+    public void testSerhexDeserhex() throws Exception {
+        for (int i = 0; i < testSize * 2; i++) {
+            final int[] vInputArray = newIntArray(i);
+            final String serhex = IoUtil.serhex(vInputArray);
+            int[] vOutputArray = IoUtil.deserhex(serhex);
+            Arrays.equals(vInputArray, vOutputArray);
+        }
+    }
+    
+    @Test
     public void testSerializeDeserialize() throws Exception {
         for (int i = 0; i < testSize * 2; i++) {
             final int[] vInputArray = newIntArray(i);

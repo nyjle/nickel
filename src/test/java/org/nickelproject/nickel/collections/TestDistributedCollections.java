@@ -19,6 +19,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.nickelproject.nickel.TestModule;
+import org.nickelproject.nickel.dataflow.Reductor;
 import org.nickelproject.nickel.dataflow.Source;
 import org.nickelproject.util.testUtil.UnitAnnotation;
 
@@ -33,6 +34,22 @@ public final class TestDistributedCollections {
     @BeforeClass
     public static void setup() {
         Guice.createInjector(new TestModule());
+    }
+    
+    @Test
+    public void testSink() {
+        final int partSize = 5;
+        final Reductor<Integer, DistributedCollection<Integer>> reductor = 
+                new DistributedCollectionSink<Integer>(partSize).reductor();
+        for (int i = 0; i < testSize; i++) {
+            reductor.collect(i);
+        }
+        final DistributedCollection<Integer> collection = reductor.reduce();
+        int i = 0;
+        for (final Integer integer : collection) {
+            Assert.assertEquals(i++, integer.intValue());
+        }
+        Assert.assertEquals(testSize, i);
     }
     
     @Test
