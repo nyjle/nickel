@@ -15,6 +15,8 @@
  */
 package org.nickelproject.util.functions;
 
+import javax.annotation.Nullable;
+
 import org.nickelproject.nickel.externalReference.ExternalReference;
 
 import com.google.common.base.Function;
@@ -29,5 +31,22 @@ public final class FunctionUtil {
     public static <F, T> Function<ExternalReference<F>, ExternalReference<T>>
                             externalize(final Function<F, T> function) {
         return Functions.compose(new PutExternal<T>(), Functions.compose(function, new GetExternal<F>()));
+    }
+    
+    public static <F, T> Function<F, T> constant(final T constant) {
+        return new ConstantFunction<F, T>(constant);
+    }
+    
+    private static class ConstantFunction<F, T> implements Function<F, T> {
+        private final T constant;
+        
+        ConstantFunction(final T constant) {
+            this.constant = constant;
+        }
+        
+        @Override
+        public T apply(@Nullable final F input) {
+            return constant;
+        }
     }
 }

@@ -15,8 +15,15 @@
  */
 package org.nickelproject.util.reducers;
 
-import org.nickelproject.nickel.dataflow.Collector;
+import javax.annotation.Nonnull;
 
+import org.nickelproject.nickel.dataflow.Collector;
+import org.nickelproject.nickel.dataflow.Reducer;
+import org.nickelproject.util.functions.FunctionUtil;
+import org.nickelproject.util.functions.PairFunction;
+import org.nickelproject.util.tuple.Pair;
+
+import com.google.common.base.Function;
 import com.google.common.base.Functions;
 
 public final class ReducerUtil {
@@ -26,6 +33,20 @@ public final class ReducerUtil {
     }
     
     public static Collector<Object, Integer, Integer> count() {
-        return Collector.create(Functions.constant(1), new IntegerSumReducer(), Functions.<Integer>identity());
+        return Collector.create(FunctionUtil.constant(1), new IntegerSumReducer(), Functions.<Integer>identity());
+    }
+    
+    public static Collector<Double, Pair<Integer, Double>, Double> average() {
+        final Reducer<Pair<Integer, Double>> reducer =
+                new PairReducer<Integer, Double>(new IntegerSumReducer(), new DoubleSumReducer());
+        final Function<Double, Pair<Integer, Double>> function = 
+                PairFunction.of(FunctionUtil.<Double, Integer>constant(1), Functions.<Double>identity());
+        final Function<Pair<Integer, Double>, Double> divide = new Function<Pair<Integer, Double>, Double>() {
+            @Override
+            public Double apply(@Nonnull final Pair<Integer, Double> from) {
+                return from.getB() / from.getA();
+            }
+        };
+        return Collector.create(function, reducer, divide);
     }
 }

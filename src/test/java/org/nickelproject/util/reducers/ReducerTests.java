@@ -76,6 +76,17 @@ public final class ReducerTests {
     }
     
     @Test
+    public void averageReducerTest() {
+        final Reductor<Double, Double> averageReductor = ReducerUtil.average().reductor();
+        double sum = 0;
+        for (double i = 0; i < max; i++) {
+            averageReductor.collect(i);
+            sum += i;
+        }
+        Assert.assertEquals(sum / max, averageReductor.reduce(), Math.ulp(0.0));
+    }
+    
+    @Test
     public void maxReducerTest() {
         final List<Integer> data = Lists.newArrayList(Sequences.integer(min, max));
         Collections.shuffle(data);
