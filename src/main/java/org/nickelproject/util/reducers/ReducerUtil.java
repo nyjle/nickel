@@ -15,12 +15,15 @@
  */
 package org.nickelproject.util.reducers;
 
+import java.util.List;
+
 import javax.annotation.Nonnull;
 
 import org.nickelproject.nickel.dataflow.Collector;
 import org.nickelproject.nickel.dataflow.Reducer;
 import org.nickelproject.util.functions.FunctionUtil;
 import org.nickelproject.util.functions.PairFunction;
+import org.nickelproject.util.functions.ToListFunction;
 import org.nickelproject.util.tuple.Pair;
 
 import com.google.common.base.Function;
@@ -32,11 +35,11 @@ public final class ReducerUtil {
         // Prevents construction
     }
     
-    public static Collector<Object, Integer, Integer> count() {
-        return Collector.create(FunctionUtil.constant(1), new IntegerSumReducer(), Functions.<Integer>identity());
+    public static <T> Collector<T, Integer> count() {
+        return Collector.create(FunctionUtil.<T, Integer>constant(1), new IntegerSumReducer());
     }
     
-    public static Collector<Double, Pair<Integer, Double>, Double> average() {
+    public static Collector<Double, Double> average() {
         final Reducer<Pair<Integer, Double>> reducer =
                 new PairReducer<Integer, Double>(new IntegerSumReducer(), new DoubleSumReducer());
         final Function<Double, Pair<Integer, Double>> function = 
@@ -48,5 +51,9 @@ public final class ReducerUtil {
             }
         };
         return Collector.create(function, reducer, divide);
+    }
+    
+    public static <T> Collector<T, List<T>> toList() {
+        return Collector.create(new ToListFunction<T>(), new MergeListReducer<T>());
     }
 }

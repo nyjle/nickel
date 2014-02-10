@@ -22,7 +22,7 @@ import org.nickelproject.nickel.dataflow.Reductor;
 
 import com.google.common.collect.Lists;
 
-public final class ToListReducer<T> implements Reducer<List<T>> {
+public final class MergeListReducer<T> implements Reducer<List<T>> {
     private static final long serialVersionUID = 1L;
 
     @Override
