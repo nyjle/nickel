@@ -30,6 +30,7 @@ public final class BlobRef implements Serializable {
 
     private BlobRef(final String cryptoHash) {
         Preconditions.checkArgument(cryptoHash != null);
+        Preconditions.checkArgument(cryptoHash.length() > 0);
         this.cryptoHash = cryptoHash;
     }
 
