@@ -38,7 +38,15 @@ public class MapperUtil {
         
         @Override
         public Source<? extends Source<S>> partition(int sizeGuideline) {
-            return Sources.singleton(this);
+            final Function<Source<T>, Source<S>> sourceTransform = new Function<Source<T>, Source<S>>() {
+                @Override
+                public Source<S> apply(final Source<T> input) {
+                    return mapSource(input, transform, mapper);
+                }
+            };
+            final Source<Source<T>> wrappedPartitions = 
+                    (Source<Source<T>>) originalSource.partition(sizeGuideline);
+            return Sources.transform(wrappedPartitions, sourceTransform);
         }
         
         @Override
