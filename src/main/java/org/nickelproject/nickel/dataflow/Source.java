@@ -17,6 +17,8 @@ package org.nickelproject.nickel.dataflow;
 
 import java.io.Serializable;
 
+
+// Rather than Size could have upperBound, lowerBound
 public interface Source<T> extends Iterable<T>, Serializable {
     int unknownSize = -1;
     
