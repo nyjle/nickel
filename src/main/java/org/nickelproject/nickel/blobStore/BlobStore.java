@@ -19,12 +19,8 @@ import java.io.InputStream;
 
 public interface BlobStore {
     boolean contains(BlobRef blobRef);
-
     byte[] get(BlobRef blobRef);
-
     BlobRef put(byte[] bytes);
-
     InputStream getAsStream(BlobRef blobRef);
-
     BlobRef put(InputStream stream);
 }

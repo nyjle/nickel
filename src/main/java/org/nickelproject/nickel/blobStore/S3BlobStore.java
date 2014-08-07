@@ -22,9 +22,7 @@ import java.io.InputStream;
 import org.apache.commons.io.IOUtils;
 import org.nickelproject.util.RethrownException;
 
-import com.amazonaws.auth.ClasspathPropertiesFileCredentialsProvider;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -32,14 +30,17 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
 public class S3BlobStore extends BlobStoreBase {
-    private static final AmazonS3 s3Client   = new AmazonS3Client(new ClasspathPropertiesFileCredentialsProvider());
+    private static final int notFoundCode = 404;
+    private final AmazonS3 s3Client;
     private final String bucketName;
 
     @Inject
-    S3BlobStore(@Named("BucketName") final String bucketName,
-                @Named("CheckContainsThreshold") final long checkContainsThreshold) {
+    S3BlobStore(final AmazonS3 s3Client,
+            @Named("BucketName") final String bucketName,
+            @Named("CheckContainsThreshold") final long checkContainsThreshold) {
         super(checkContainsThreshold);
         this.bucketName = bucketName;
+        this.s3Client = s3Client;
     }
 
     @Override
@@ -47,7 +48,7 @@ public class S3BlobStore extends BlobStoreBase {
         InputStream inputStream = null;
         try {
             inputStream = getAsStream(blobRef);
-            return inputStream == null ? null : IOUtils.toByteArray(getAsStream(blobRef));
+            return inputStream == null ? null : IOUtils.toByteArray(inputStream);
         } catch (final IOException e) {
             throw RethrownException.rethrow(e);
         } finally {
@@ -67,7 +68,11 @@ public class S3BlobStore extends BlobStoreBase {
         try {
             s3Client.getObjectMetadata(bucketName, blobRef.toString());
         } catch (final AmazonS3Exception e) {
-            retVal = false;
+            if (e.getStatusCode() == notFoundCode) {
+                retVal = false;
+            } else {
+                throw RethrownException.rethrow(e);
+            }
         }
         return retVal;
     }
