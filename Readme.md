@@ -6,4 +6,4 @@ that can answer aggregation queries on 1 trillion rows with multiple PetaBytes o
 
 Homepage: www.nickelproject.org
 
-Available at Maven Central: "org.nickelproject:nickel:0.0.2"
+Available at Maven Central: "org.nickelproject:nickel:0.0.3"
