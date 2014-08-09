@@ -15,7 +15,7 @@
  */
  
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.10'
+    gradleVersion = '2.0'
 }
 
 apply plugin: 'eclipse'
@@ -26,7 +26,7 @@ test {
 	maxHeapSize = "3500m"
 }
 
-version = '0.0.3-SNAPSHOT'
+version = '0.0.4-SNAPSHOT'
 group = 'org.nickelproject'
 
 jar {
