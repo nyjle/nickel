@@ -47,7 +47,7 @@ public final class DoubleSumReducer implements Reducer<Double> {
         
         @Override
         public void collect(final Double from) {
-            sum += from.intValue();
+            sum += from.doubleValue();
         }
         
         @Override

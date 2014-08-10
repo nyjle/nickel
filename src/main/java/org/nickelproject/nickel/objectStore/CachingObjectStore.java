@@ -15,6 +15,7 @@
  */
 package org.nickelproject.nickel.objectStore;
 
+import java.io.Serializable;
 import java.util.concurrent.ExecutionException;
 
 import org.nickelproject.nickel.blobStore.BlobRef;
@@ -31,29 +32,25 @@ import com.google.inject.Singleton;
 
 @Singleton
 public final class CachingObjectStore implements ObjectStore {
-    private final ObjectStore                   objectStore;
+    private final BlobStore                   blobStore;
     private final LoadingCache<BlobRef, Object> cache;
 
-    public CachingObjectStore(final ObjectStore pObjectStore, final CacheBuilderSpec cacheBuilderSpec) {
-        this.objectStore = RetryProxy.newInstance(ObjectStore.class, pObjectStore);
+    @Inject
+    public CachingObjectStore(final BlobStore blobStore, final CacheBuilderSpec cacheBuilderSpec) {
+        this.blobStore = RetryProxy.newInstance(BlobStore.class, blobStore);
         this.cache = CacheBuilder.from(cacheBuilderSpec)
                 .build(
                     new CacheLoader<BlobRef, Object>() {
                         @Override
                         public Object load(final BlobRef key) throws Exception {
-                            return objectStore.get(key);
+                            return Util.objectFromStream(blobStore.getAsStream(key));
                         }
                     });
     }
 
-    @Inject
-    public CachingObjectStore(final BlobStore blobStore, final CacheBuilderSpec cacheBuilderSpec) {
-        this(new WrappedBlobStore(blobStore), cacheBuilderSpec);
-    }
-
     @Override
     public boolean contains(final BlobRef blob) {
-        return cache.getIfPresent(blob) != null || objectStore.contains(blob);
+        return cache.getIfPresent(blob) != null || blobStore.contains(blob);
     }
 
     @Override
@@ -67,8 +64,12 @@ public final class CachingObjectStore implements ObjectStore {
 
     @Override
     public BlobRef put(final Object data) {
-        final BlobRef blobRef = objectStore.put(data);
-        cache.put(blobRef, data);
+        final byte[] bytes = Util.bytesFromObject((Serializable) data);
+        BlobRef blobRef = BlobRef.keyFromBytes(bytes);
+        if (cache.getIfPresent(blobRef) == null) {
+            blobRef = blobStore.put(bytes);
+            cache.put(blobRef, data);
+        }
         return blobRef;
     }
 }

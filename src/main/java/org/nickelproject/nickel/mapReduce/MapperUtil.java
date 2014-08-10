@@ -9,10 +9,14 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
 
 /**
- * This is temporary, we have to figure out how to do this right moving forward
+ * This is temporary, we have to figure out how to do this right moving forward.
  */
 @Beta
-public class MapperUtil {
+public final class MapperUtil {
+    
+    private MapperUtil() {
+        // Prevents Construction
+    }
     
     public static <S, T> Source<S> mapSource(final Source<T> source, final Function<T, S> transform,
             final Mapper map) {
@@ -37,7 +41,7 @@ public class MapperUtil {
         }
         
         @Override
-        public Source<? extends Source<S>> partition(int sizeGuideline) {
+        public Source<? extends Source<S>> partition(final int sizeGuideline) {
             final Function<Source<T>, Source<S>> sourceTransform = new Function<Source<T>, Source<S>>() {
                 @Override
                 public Source<S> apply(final Source<T> input) {

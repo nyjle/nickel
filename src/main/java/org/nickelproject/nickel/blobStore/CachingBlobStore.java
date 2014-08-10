@@ -38,8 +38,8 @@ public final class CachingBlobStore implements BlobStore {
     private final LoadingCache<BlobRef, byte[]> cache; 
 
     @Inject
-    public CachingBlobStore(final BlobStore objectStore, final CacheBuilderSpec cacheBuilderSpec) {
-        this.blobStore = RetryProxy.newInstance(BlobStore.class, objectStore);
+    public CachingBlobStore(final BlobStore blobStore, final CacheBuilderSpec cacheBuilderSpec) {
+        this.blobStore = RetryProxy.newInstance(BlobStore.class, blobStore);
         this.cache = CacheBuilder.from(cacheBuilderSpec)
                 .build(
                     new CacheLoader<BlobRef, byte[]>() {
@@ -66,8 +66,11 @@ public final class CachingBlobStore implements BlobStore {
 
     @Override
     public BlobRef put(final byte[] data) {
-        final BlobRef blobRef = blobStore.put(data);
-        cache.put(blobRef, data);
+        BlobRef blobRef = BlobRef.keyFromBytes(data);
+        if (cache.getIfPresent(blobRef) == null) {
+            blobRef = blobStore.put(data);
+            cache.put(blobRef, data);
+        }
         return blobRef;
     }
 

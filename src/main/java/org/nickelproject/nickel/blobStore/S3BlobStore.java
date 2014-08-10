@@ -48,7 +48,7 @@ public class S3BlobStore extends BlobStoreBase {
         InputStream inputStream = null;
         try {
             inputStream = getAsStream(blobRef);
-            return inputStream == null ? null : IOUtils.toByteArray(getAsStream(blobRef));
+            return inputStream == null ? null : IOUtils.toByteArray(inputStream);
         } catch (final IOException e) {
             throw RethrownException.rethrow(e);
         } finally {

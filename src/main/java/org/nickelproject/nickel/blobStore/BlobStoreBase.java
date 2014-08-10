@@ -18,7 +18,6 @@ package org.nickelproject.nickel.blobStore;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
 import org.nickelproject.util.RethrownException;
 
@@ -35,7 +34,7 @@ public abstract class BlobStoreBase implements BlobStore {
     public final BlobRef put(final byte[] bytes) {
         Preconditions.checkNotNull(bytes);
         Preconditions.checkArgument(bytes.length > 0);
-        final BlobRef key = keyFromBytes(bytes);
+        final BlobRef key = BlobRef.keyFromBytes(bytes);
         if (bytes.length < checkContainsThreshold || !contains(key)) {
             putByteArray(key, bytes);
         }
@@ -53,8 +52,4 @@ public abstract class BlobStoreBase implements BlobStore {
     }
 
     protected abstract void putByteArray(BlobRef blobRef, byte[] bytes);
-
-    private BlobRef keyFromBytes(final byte[] bytes) {
-        return BlobRef.of(DigestUtils.sha256Hex(bytes));
-    }
 }

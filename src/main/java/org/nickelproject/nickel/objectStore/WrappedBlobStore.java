@@ -18,7 +18,6 @@ package org.nickelproject.nickel.objectStore;
 import java.io.InputStream;
 import java.io.Serializable;
 
-import org.apache.commons.lang.SerializationUtils;
 import org.nickelproject.nickel.blobStore.BlobRef;
 import org.nickelproject.nickel.blobStore.BlobStore;
 
@@ -36,20 +35,12 @@ public final class WrappedBlobStore implements ObjectStore {
 
     @Override
     public BlobRef put(final Object pObject) {
-        return blobStore.put(bytesFromObject((Serializable) pObject));
+        return blobStore.put(Util.bytesFromObject((Serializable) pObject));
     }
 
     @Override
     public Object get(final BlobRef blobRef) {
         final InputStream stream = blobStore.getAsStream(blobRef);
-        return stream == null ? null : objectFromStream(stream);
-    }
-
-    private byte[] bytesFromObject(final Serializable object) {
-        return SerializationUtils.serialize(object);
-    }
-
-    private Object objectFromStream(final InputStream stream) {
-        return SerializationUtils.deserialize(stream);
+        return stream == null ? null : Util.objectFromStream(stream);
     }
 }
