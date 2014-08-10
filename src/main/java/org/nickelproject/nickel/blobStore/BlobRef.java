@@ -17,6 +17,8 @@ package org.nickelproject.nickel.blobStore;
 
 import java.io.Serializable;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 import com.google.common.base.Preconditions;
 
 /**
@@ -64,5 +66,9 @@ public final class BlobRef implements Serializable {
             return false;
         }
         return true;
+    }
+    
+    public static BlobRef keyFromBytes(final byte[] bytes) {
+        return BlobRef.of(DigestUtils.sha256Hex(bytes));
     }
 }
