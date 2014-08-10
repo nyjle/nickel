@@ -22,6 +22,8 @@ import java.util.List;
 import org.nickelproject.nickel.dataflow.Source;
 import org.nickelproject.nickel.dataflow.Sources;
 import org.nickelproject.nickel.externalReference.ExternalReference;
+import org.nickelproject.util.CloseableIterator;
+import org.nickelproject.util.TrivialCloseableIterator;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Iterators;
@@ -57,8 +59,8 @@ final class InnerNode<T> implements DistributedCollection<T> {
     }
 
     @Override
-    public Iterator<T> iterator() {
-        return Iterators.concat(
+    public CloseableIterator<T> iterator() {
+        return TrivialCloseableIterator.create(Iterators.concat(
                 Iterators.transform(Arrays.asList(nodes.get()).iterator(), 
                     new Function<DistributedCollection<T>, Iterator<T>>() {
                         @Override
@@ -66,6 +68,6 @@ final class InnerNode<T> implements DistributedCollection<T> {
                             return input.iterator();
                         }
                     })
-                );
+                ));
     }
 }

@@ -15,11 +15,11 @@
  */
 package org.nickelproject.nickel.collections;
 
-import java.util.Iterator;
-
 import org.nickelproject.nickel.dataflow.Source;
 import org.nickelproject.nickel.dataflow.Sources;
 import org.nickelproject.nickel.externalReference.ExternalReference;
+import org.nickelproject.util.CloseableIterator;
+import org.nickelproject.util.TrivialCloseableIterator;
 
 import com.google.common.collect.Iterators;
 
@@ -44,7 +44,7 @@ final class LeafNode<T> implements DistributedCollection<T> {
     }
 
     @Override
-    public Iterator<T> iterator() {
-        return Iterators.forArray(data.get());
+    public CloseableIterator<T> iterator() {
+        return TrivialCloseableIterator.create(Iterators.forArray(data.get()));
     }
 }

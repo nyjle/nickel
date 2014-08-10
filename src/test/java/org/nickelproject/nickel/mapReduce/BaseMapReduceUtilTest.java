@@ -18,22 +18,13 @@ package org.nickelproject.nickel.mapReduce;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Iterator;
-import java.util.List;
-
 import org.junit.Test;
 import org.nickelproject.nickel.dataflow.MapReduceUtil;
-import org.nickelproject.nickel.dataflow.Source;
-import org.nickelproject.nickel.dataflow.Sources;
 import org.nickelproject.util.reducers.IntegerSumReducer;
 import org.nickelproject.util.sources.Sequences;
 import org.nickelproject.util.testUtil.UnitAnnotation;
 
 import com.google.common.base.Function;
-import com.google.common.collect.ContiguousSet;
-import com.google.common.collect.DiscreteDomain;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Range;
 
 /**
  * Tests for {@link MapReduceUtil}.
@@ -46,7 +37,7 @@ public abstract class BaseMapReduceUtilTest {
     public final void testBasic() {
         final int kNumElements = 1000;
 
-        final Integer vResult = MapReduceUtil.mapReduce(new SeqSource(kNumElements),
+        final Integer vResult = MapReduceUtil.mapReduce(Sequences.integer(0, kNumElements),
                 new MultiplyFunction(), new IntegerSumReducer(), getMapper());
         assertEquals((kNumElements * (kNumElements - 1)) / 2 * MultiplyFunction.kFactor, vResult.intValue());
     }
@@ -57,37 +48,6 @@ public abstract class BaseMapReduceUtilTest {
         @Override
         public Integer apply(final Integer pFrom) {
             return Integer.valueOf(pFrom.intValue() * kFactor);
-        }
-    }
-
-    private static class SeqSource implements Source<Integer> {
-        private static final long serialVersionUID = 1L;
-        private final int mNumElements;
-
-        SeqSource(final int pNumElements) {
-            mNumElements = pNumElements;
-        }
-
-        @Override
-        public Iterator<Integer> iterator() {
-            return ContiguousSet.create(Range.closedOpen(0, mNumElements), DiscreteDomain.integers()).iterator();
-        }
-
-        @Override
-        public int size() {
-            return mNumElements;
-        }
-        
-        @Override
-        public Source<Source<Integer>> partition(final int pNumPartitions) {
-            return Sources.from(Iterables.transform(
-                    Iterables.partition(Sequences.integer(0, mNumElements), pNumPartitions),
-                    new Function<List<Integer>, Source<Integer>>() {
-                        @Override
-                        public Source<Integer> apply(final List<Integer> pInput) {
-                            return Sources.from(pInput);
-                        }
-                    }));
         }
     }
 }

@@ -26,7 +26,9 @@ import java.util.Set;
 import org.junit.Assert;
 import org.junit.Test;
 import org.nickelproject.nickel.dataflow.Source;
+import org.nickelproject.util.CloseableIterator;
 import org.nickelproject.util.RethrownException;
+import org.nickelproject.util.UnmodifiableCloseableIterator;
 import org.nickelproject.util.testUtil.UnitAnnotation;
 import org.nickelproject.util.tuple.Pair;
 import org.slf4j.Logger;
@@ -116,7 +118,7 @@ public abstract class BaseMapperTest {
             throw new RuntimeException("Not Implemented");
         }
         
-        private class SourceIterator implements Iterator<byte[]> {
+        private class SourceIterator extends UnmodifiableCloseableIterator<byte[]> {
             private int mRemaining = mSourceSize;
             private final Random mRandom = new Random();
             
@@ -144,13 +146,13 @@ public abstract class BaseMapperTest {
             }
 
             @Override
-            public void remove() {
-                throw new UnsupportedOperationException();
+            public void close() {
+                // Intentionally blank
             }  
         }
 
         @Override
-        public Iterator<byte[]> iterator() {
+        public CloseableIterator<byte[]> iterator() {
             return new SourceIterator();
         }
     }

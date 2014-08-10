@@ -16,6 +16,7 @@
  */
 package org.nickelproject.nickel.mapReduce;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.concurrent.Callable;
@@ -23,6 +24,7 @@ import java.util.concurrent.CompletionService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import org.nickelproject.util.CloseableIterator;
 import org.nickelproject.util.RethrownException;
 
 import com.google.common.base.Function;
@@ -69,8 +71,8 @@ public abstract class ConcurrentMapper implements Mapper {
     
     // TODO Not thread safe
     @Override
-    public final <F, T> Iterator<T> map(final Iterator<F> inputs, final Function<F, T> function) {
-        return new Iterator<T>() {
+    public final <F, T> CloseableIterator<T> map(final Iterator<F> inputs, final Function<F, T> function) {
+        return new CloseableIterator<T>() {
             private int outstandingCount = 0;
             private final CompletionService<T> completionService = newCompletionService();
             
@@ -115,6 +117,12 @@ public abstract class ConcurrentMapper implements Mapper {
             @Override
             public void remove() {
                 throw new UnsupportedOperationException();
+            }
+
+            @Override
+            public void close() throws IOException {
+                // Nothing to be done here, if we weren't using a competionservice we could perhaps
+                // cancel all outstanding jobs.
             }
         };
     }

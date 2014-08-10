@@ -1,9 +1,8 @@
 package org.nickelproject.nickel.mapReduce;
 
-import java.util.Iterator;
-
 import org.nickelproject.nickel.dataflow.Source;
 import org.nickelproject.nickel.dataflow.Sources;
+import org.nickelproject.util.CloseableIterator;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
@@ -36,7 +35,7 @@ public final class MapperUtil {
         }
         
         @Override
-        public Iterator<S> iterator() {
+        public CloseableIterator<S> iterator() {
             return mapper.map(originalSource.iterator(), transform);
         }
         

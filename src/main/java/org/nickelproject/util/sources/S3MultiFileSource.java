@@ -15,13 +15,13 @@
  */
 package org.nickelproject.util.sources;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.nickelproject.nickel.dataflow.Source;
 import org.nickelproject.nickel.dataflow.Sources;
 import org.nickelproject.nickel.types.Record;
 import org.nickelproject.nickel.types.RecordDataType;
+import org.nickelproject.util.CloseableIterator;
 import org.nickelproject.util.csvUtil.CsvSource;
 import org.nickelproject.util.streamUtil.S3InputStreamFactory;
 
@@ -52,7 +52,7 @@ public final class S3MultiFileSource implements Source<Record> {
     }
     
     @Override
-    public Iterator<Record> iterator() {
+    public CloseableIterator<Record> iterator() {
         return Sources.concat(partition(0)).iterator();
     }
 

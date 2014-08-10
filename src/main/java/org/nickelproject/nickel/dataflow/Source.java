@@ -17,10 +17,14 @@ package org.nickelproject.nickel.dataflow;
 
 import java.io.Serializable;
 
+import org.nickelproject.util.CloseableIterator;
+
 
 // Rather than Size could have upperBound, lowerBound
-public interface Source<T> extends Iterable<T>, Serializable {
+public interface Source<T> extends Serializable {
     int unknownSize = -1;
+    
+    CloseableIterator<T> iterator();
     
     // Size is just a guideline here.
     Source<? extends Source<T>> partition(final int sizeGuideline);

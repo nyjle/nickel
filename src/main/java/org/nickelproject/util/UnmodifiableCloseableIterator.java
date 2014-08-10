@@ -13,27 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nickelproject.util.streamUtil;
+package org.nickelproject.util;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 
-import org.nickelproject.util.RethrownException;
+public abstract class UnmodifiableCloseableIterator<T> implements CloseableIterator<T> {
+    /** Constructor for use by subclasses. */
+    protected UnmodifiableCloseableIterator() { }
 
-public final class FileInputStreamFactory implements InputStreamFactory {
-    private final String mFileName;
-
-    public FileInputStreamFactory(final String pFileName) {
-        mFileName = pFileName;
-    }
-
+    /**
+     * Guaranteed to throw an exception and leave the underlying data unmodified.
+     *
+     * @throws UnsupportedOperationException always
+     * @deprecated Unsupported operation.
+     */
+    @Deprecated
     @Override
-    public InputStream getInputStream() {
-        try {
-            return new FileInputStream(mFileName);
-        } catch (final FileNotFoundException e) {
-            throw RethrownException.rethrow(e);
-        }
+    public final void remove() {
+      throw new UnsupportedOperationException();
     }
 }

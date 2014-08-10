@@ -17,6 +17,9 @@ package org.nickelproject.nickel.mapReduce;
 
 import java.util.Iterator;
 
+import org.nickelproject.util.CloseableIterator;
+import org.nickelproject.util.TrivialCloseableIterator;
+
 import com.google.common.base.Function;
 import com.google.common.collect.Iterators;
 import com.google.inject.Inject;
@@ -34,7 +37,7 @@ public final class SynchronousMapper implements Mapper {
     }
     
     @Override
-    public <F, T> Iterator<T> map(final Iterator<F> iterator, final Function<F, T> function) {
-        return Iterators.transform(iterator, function);
+    public <F, T> CloseableIterator<T> map(final Iterator<F> iterator, final Function<F, T> function) {
+        return TrivialCloseableIterator.create(Iterators.transform(iterator, function));
     }
 }

@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nickelproject.util.streamUtil;
+package org.nickelproject.util;
 
-import java.io.InputStream;
-import java.io.Serializable;
+import java.io.Closeable;
+import java.util.Iterator;
 
-public interface InputStreamFactory extends Serializable {
-    InputStream getInputStream();
+
+public interface CloseableIterator<T> extends Iterator<T>, Closeable {
 }

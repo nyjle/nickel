@@ -21,6 +21,7 @@ import org.junit.Test;
 import org.nickelproject.nickel.TestModule;
 import org.nickelproject.nickel.dataflow.Reductor;
 import org.nickelproject.nickel.dataflow.Source;
+import org.nickelproject.nickel.sources.SourceTestUtil;
 import org.nickelproject.util.testUtil.UnitAnnotation;
 
 import com.google.common.base.Preconditions;
@@ -46,7 +47,7 @@ public final class TestDistributedCollections {
         }
         final DistributedCollection<Integer> collection = reductor.reduce();
         int i = 0;
-        for (final Integer integer : collection) {
+        for (final Integer integer : SourceTestUtil.toIterable(collection)) {
             Assert.assertEquals(i++, integer.intValue());
         }
         Assert.assertEquals(testSize, i);
@@ -56,7 +57,7 @@ public final class TestDistributedCollections {
     public void testCreation() {
         final DistributedCollection<Double> collection = create(0, testSize);
         int counter = 0;
-        for (final Double value : collection) {
+        for (final Double value : SourceTestUtil.toIterable(collection)) {
             counter++;
         }
         Assert.assertEquals(testSize, counter);
@@ -67,7 +68,7 @@ public final class TestDistributedCollections {
         final DistributedCollection<Double>[] array = createMany(testSize, concatSize);
         final DistributedCollection<Double> concat = DistributedCollectionUtil.concat(array);
         int counter = 0;
-        for (final Double value : concat) {
+        for (final Double value : SourceTestUtil.toIterable(concat)) {
             counter++;
         }
         Assert.assertEquals(testSize * concatSize, counter);        
@@ -79,7 +80,7 @@ public final class TestDistributedCollections {
         final DistributedCollection<Double> concat = DistributedCollectionUtil.concat(array);
         final Source<? extends Source<Double>> parts = concat.partition(concatSize);
         int counter = 0;
-        for (final Source<Double> source : parts) {
+        for (final Source<Double> source : SourceTestUtil.toIterable(parts)) {
             counter++;
         }
         Assert.assertEquals(concatSize, counter);

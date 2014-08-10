@@ -15,9 +15,12 @@
  */
 package org.nickelproject.nickel.dataflow;
 
+import java.io.IOException;
 import java.util.Iterator;
 
 import org.nickelproject.nickel.mapReduce.Mapper;
+import org.nickelproject.util.CloseableIterator;
+import org.nickelproject.util.RethrownException;
 
 import com.google.common.base.Function;
 
@@ -29,11 +32,17 @@ public final class MapReduceUtil {
 
     public static <T, U, V> V mapReduce(final Source<T> source, final Function<T, U> function,
             final CollectorInterface<U, V> reducer, final Mapper mapper) {
-        final Iterator<U> results = mapper.map(source.iterator(), function);
+        final CloseableIterator<T> iterator = source.iterator();
+        final Iterator<U> results = mapper.map(iterator, function);
         final Reductor<U, V> reductor = reducer.reductor();
         
         while (results.hasNext()) {
             reductor.collect(results.next());
+        }
+        try {
+            iterator.close();
+        } catch (IOException e) {
+            throw RethrownException.rethrow(e);
         }
         return reductor.reduce();
     }

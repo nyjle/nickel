@@ -19,14 +19,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.util.Iterator;
 
 import org.nickelproject.nickel.dataflow.Source;
 import org.nickelproject.nickel.dataflow.Sources;
+import org.nickelproject.util.CloseableIterator;
 import org.nickelproject.util.RethrownException;
+import org.nickelproject.util.UnmodifiableCloseableIterator;
 import org.nickelproject.util.streamUtil.InputStreamFactory;
-
-import com.google.common.collect.UnmodifiableIterator;
 
 public final class FileLineSource implements Source<String> {
     private static final long serialVersionUID = 1L;
@@ -42,16 +41,16 @@ public final class FileLineSource implements Source<String> {
     }
 
     @Override
-    public Iterator<String> iterator() {
+    public CloseableIterator<String> iterator() {
         return new FileLineIterator();
     }
 
-    private final class FileLineIterator extends UnmodifiableIterator<String> {
-        private final BufferedReader mReader;
+    private final class FileLineIterator extends UnmodifiableCloseableIterator<String> {
+        private final BufferedReader reader;
 
         public FileLineIterator() {
             try {
-                mReader = new BufferedReader(new InputStreamReader(inputStreamFactory.getInputStream(), "UTF8"));
+                reader = new BufferedReader(new InputStreamReader(inputStreamFactory.getInputStream(), "UTF8"));
             } catch (UnsupportedEncodingException e) {
                 throw RethrownException.rethrow(e);
             }
@@ -61,7 +60,7 @@ public final class FileLineSource implements Source<String> {
         public boolean hasNext() {
             boolean vRetVal;
             try {
-                vRetVal = mReader.ready();
+                vRetVal = reader.ready();
             } catch (IOException e) {
                 throw RethrownException.rethrow(e);
             }
@@ -72,11 +71,16 @@ public final class FileLineSource implements Source<String> {
         public String next() {
             String vRetVal;
             try {
-                vRetVal = mReader.readLine();
+                vRetVal = reader.readLine();
             } catch (IOException e) {
                 throw RethrownException.rethrow(e);
             }
             return vRetVal;
+        }
+
+        @Override
+        public void close() throws IOException {
+            reader.close();
         }
     }
 

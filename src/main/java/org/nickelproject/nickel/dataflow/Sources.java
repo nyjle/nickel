@@ -20,6 +20,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.nickelproject.util.CloseableIterator;
+import org.nickelproject.util.TrivialCloseableIterator;
+
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -32,7 +35,25 @@ public final class Sources {
     }
     
     public static <S> Source<S> limit(final Source<S> pSource, final int pLimit) {
-        return from(Iterables.limit(pSource, pLimit));
+        return new Source<S>() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public CloseableIterator<S> iterator() {
+                return TrivialCloseableIterator.create(
+                        Iterators.limit(pSource.iterator(), pLimit));
+            }
+
+            @Override
+            public Source<? extends Source<S>> partition(final int sizeGuideline) {
+                return Sources.singleton(this);
+            }
+
+            @Override
+            public int size() {
+                return pLimit;
+            }           
+        };
     }
 
     public static <S> Source<S> singleton(final S object) {
@@ -81,15 +102,16 @@ public final class Sources {
         }
         
         @Override
-        public Iterator<S> iterator() {
-            return Iterators.concat(
-                    Iterators.transform(sources.iterator(), 
-                            new Function<Source<S>, Iterator<S>>() {
-                                @Override
-                                public Iterator<S> apply(final Source<S> input) {
-                                    return input.iterator();
-                                }
-                            }));
+        public CloseableIterator<S> iterator() {
+            return TrivialCloseableIterator.create(
+                    Iterators.concat(
+                            Iterators.transform(sources.iterator(), 
+                                    new Function<Source<S>, Iterator<S>>() {
+                                        @Override
+                                        public Iterator<S> apply(final Source<S> input) {
+                                            return input.iterator();
+                                        }
+                                })));
         }
 
         @Override
@@ -118,8 +140,8 @@ public final class Sources {
         }
         
         @Override
-        public Iterator<S> iterator() {
-            return iterable.iterator();
+        public CloseableIterator<S> iterator() {
+            return TrivialCloseableIterator.create(iterable.iterator());
         }
 
         @Override
@@ -150,8 +172,9 @@ public final class Sources {
         }
         
         @Override
-        public Iterator<T> iterator() {
-            return Iterators.transform(wrappedSource.iterator(), transform);
+        public CloseableIterator<T> iterator() {
+            return TrivialCloseableIterator.create(
+                    Iterators.transform(wrappedSource.iterator(), transform));
         }
 
         @Override
@@ -184,8 +207,9 @@ public final class Sources {
         }
         
         @Override
-        public Iterator<T> iterator() {
-            return Iterators.filter(wrappedSource.iterator(), predicate);
+        public CloseableIterator<T> iterator() {
+            return TrivialCloseableIterator.create(
+                    Iterators.filter(wrappedSource.iterator(), predicate));
         }
 
         @Override

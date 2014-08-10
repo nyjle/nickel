@@ -23,6 +23,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.nickelproject.nickel.dataflow.Reducer;
 import org.nickelproject.nickel.dataflow.Reductor;
+import org.nickelproject.nickel.sources.SourceTestUtil;
 import org.nickelproject.util.sources.Sequences;
 import org.nickelproject.util.testUtil.UnitAnnotation;
 
@@ -37,7 +38,7 @@ public final class ReducerTests {
     public void integerSumReducerTest1() {
         int sum = min;
         final Reductor<Integer, Integer> integerSumReductor = new IntegerSumReducer(min).reductor();
-        for (final Integer datum : Sequences.integer(0, max)) {
+        for (final Integer datum : SourceTestUtil.toIterable(Sequences.integer(0, max))) {
             integerSumReductor.collect(datum);
             sum += datum.intValue();
         }
@@ -48,7 +49,7 @@ public final class ReducerTests {
     public void integerSumReducerTest2() {
         int sum = 0;
         final Reductor<Integer, Integer> integerSumReductor = new IntegerSumReducer().reductor();
-        for (final Integer datum : Sequences.integer(0, max)) {
+        for (final Integer datum : SourceTestUtil.toIterable(Sequences.integer(0, max))) {
             integerSumReductor.collect(datum);
             sum += datum.intValue();
         }
@@ -58,18 +59,19 @@ public final class ReducerTests {
     @Test
     public void toListReducerTest() {
         final Reductor<List<Integer>, List<Integer>> toListReductor = new MergeListReducer<Integer>().reductor();
-        for (final Integer datum : Sequences.integer(0, max)) {
+        for (final Integer datum : SourceTestUtil.toIterable(Sequences.integer(0, max))) {
             toListReductor.collect(Collections.singletonList(datum));
         }
         final List<Integer> list = toListReductor.reduce();
-        final List<Integer> sequenceList = Lists.newArrayList(Sequences.integer(0, max));
+        final List<Integer> sequenceList = Lists.newArrayList(
+                SourceTestUtil.toIterable(Sequences.integer(0, max)));
         Assert.assertEquals(sequenceList, list);
     }
     
     @Test
     public void countReducerTest() {
         final Reductor<Object, Integer> countReductor = ReducerUtil.count().reductor();
-        for (final Integer datum : Sequences.integer(0, max)) {
+        for (final Integer datum : SourceTestUtil.toIterable(Sequences.integer(0, max))) {
             countReductor.collect(datum);
         }
         Assert.assertTrue(max == countReductor.reduce());
@@ -88,7 +90,8 @@ public final class ReducerTests {
     
     @Test
     public void maxReducerTest() {
-        final List<Integer> data = Lists.newArrayList(Sequences.integer(min, max));
+        final List<Integer> data = Lists.newArrayList(
+                SourceTestUtil.toIterable(Sequences.integer(min, max)));
         Collections.shuffle(data);
         final Reductor<Integer, Integer> maxReductor = new MaxReducer<Integer>().reductor();
         for (final Integer datum : data) {
@@ -99,7 +102,7 @@ public final class ReducerTests {
 
     @Test
     public void minReducerTest() {
-        final List<Integer> data = Lists.newArrayList(Sequences.integer(min, max));
+        final List<Integer> data = Lists.newArrayList(SourceTestUtil.toIterable(Sequences.integer(min, max)));
         Collections.shuffle(data);
         final Reductor<Integer, Integer> minReductor = new MinReducer<Integer>().reductor();
         for (final Integer datum : data) {
@@ -116,7 +119,7 @@ public final class ReducerTests {
         final int mapSize = 10;
         final List<Map<Integer, Integer>> list = Lists.newArrayList();
         for (int i = 1; i < mapSize; i++) {
-            for (final Integer datum : Sequences.integer(min * i, max * i)) {
+            for (final Integer datum : SourceTestUtil.toIterable(Sequences.integer(min * i, max * i))) {
                 list.add(Collections.singletonMap(i, datum));
             }
         }

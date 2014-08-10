@@ -18,6 +18,7 @@ package org.nickelproject.util.sources;
 import org.junit.Assert;
 import org.junit.Test;
 import org.nickelproject.nickel.dataflow.Source;
+import org.nickelproject.nickel.sources.SourceTestUtil;
 import org.nickelproject.util.testUtil.UnitAnnotation;
 
 @UnitAnnotation
@@ -39,7 +40,7 @@ public final class SequencesTest {
     private void doTest(final int pStart, final int pEnd, final int pStep) {
         final Source<Integer> sequence = Sequences.integer(pStart, pEnd, pStep);
         int count = pStart;
-        for (final Integer val : sequence) {
+        for (final Integer val : SourceTestUtil.toIterable(sequence)) {
              Assert.assertEquals(count, val.intValue());
              count += pStep;
         }

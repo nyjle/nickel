@@ -16,13 +16,13 @@
 package org.nickelproject.util.csvUtil;
 
 import java.io.InputStreamReader;
-import java.util.Iterator;
 
 import org.nickelproject.nickel.dataflow.Source;
 import org.nickelproject.nickel.dataflow.Sources;
 import org.nickelproject.nickel.types.Record;
 import org.nickelproject.nickel.types.RecordDataType;
 import org.nickelproject.nickel.types.RecordSource;
+import org.nickelproject.util.CloseableIterator;
 import org.nickelproject.util.RethrownException;
 import org.nickelproject.util.streamUtil.InputStreamFactory;
 
@@ -46,7 +46,7 @@ public final class CsvSource implements RecordSource {
     }
     
     @Override
-    public Iterator<Record> iterator() {
+    public CloseableIterator<Record> iterator() {
         try {
             return schema == null 
                     ? new CsvIterator(

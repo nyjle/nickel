@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.nickelproject.nickel.sources.SourceTestUtil;
 import org.nickelproject.util.sources.Sequences;
 import org.nickelproject.util.testUtil.UnitAnnotation;
 
@@ -35,7 +36,7 @@ public class CrossProductTest {
             sources.add(Sequences.integer(0, size));
         }
         final Source<List<Object>> crossProduct = CrossProduct.crossProduct(sources);
-        final List<List<Object>> list = Lists.newArrayList(crossProduct);
+        final List<List<Object>> list = Lists.newArrayList(SourceTestUtil.toIterable(crossProduct));
         for (final Object integer : list.get(0)) {
             Assert.assertEquals(integer, Integer.valueOf(0));
         }

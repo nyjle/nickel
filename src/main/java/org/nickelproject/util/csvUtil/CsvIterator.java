@@ -24,14 +24,13 @@ import java.util.List;
 import org.nickelproject.nickel.types.Record;
 import org.nickelproject.nickel.types.RecordDataType;
 import org.nickelproject.util.RethrownException;
+import org.nickelproject.util.UnmodifiableCloseableIterator;
 import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.io.CsvListReader;
 import org.supercsv.io.ICsvListReader;
 import org.supercsv.prefs.CsvPreference;
 
-import com.google.common.collect.UnmodifiableIterator;
-
-public final class CsvIterator extends UnmodifiableIterator<Record> {
+public final class CsvIterator extends UnmodifiableCloseableIterator<Record> {
     private final ICsvListReader  listReader;
     private Record                data;
     private final RecordDataType  schema;
@@ -97,5 +96,10 @@ public final class CsvIterator extends UnmodifiableIterator<Record> {
             throw RethrownException.rethrow(e);
         }
         return retVal;
+    }
+
+    @Override
+    public void close() throws IOException {
+        listReader.close();
     }
 }

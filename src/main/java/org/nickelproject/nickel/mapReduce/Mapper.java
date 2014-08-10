@@ -17,6 +17,8 @@ package org.nickelproject.nickel.mapReduce;
 
 import java.util.Iterator;
 
+import org.nickelproject.util.CloseableIterator;
+
 import com.google.common.base.Function;
 
 /**
@@ -30,5 +32,5 @@ public interface Mapper {
      * Results may be returned out-of-order. Returned
      * {@link Iterator}s are not guaranteed to be thread safe.
      */
-     <F, T> Iterator<T> map(Iterator<F> pInputs, Function<F, T> function);
+     <F, T> CloseableIterator<T> map(Iterator<F> pInputs, Function<F, T> function);
 }
