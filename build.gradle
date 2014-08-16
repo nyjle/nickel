@@ -68,7 +68,7 @@ dependencies {
     compile "com.amazonaws:aws-java-sdk:1.6.4"
     compile "commons-codec:commons-codec:1.8"
 	compile "commons-io:commons-io:2.4"
-   	compile "commons-lang:commons-lang:2.6"
+   	compile "org.apache.commons:commons-lang3:3.3.2"
    	compile "com.google.code.findbugs:annotations:2.0.0"
    	compile "com.google.inject:guice:3.0"
 	compile "javassist:javassist:3.12.1.GA"

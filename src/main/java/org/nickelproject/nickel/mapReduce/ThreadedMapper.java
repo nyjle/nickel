@@ -21,6 +21,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 
+import org.apache.commons.lang3.concurrent.BasicThreadFactory;
+
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -41,9 +43,24 @@ public final class ThreadedMapper extends ConcurrentMapper {
      * 
      * @param pNumThreads the (fixed) size of the thread-pool
      */
-    @Inject
     public ThreadedMapper(@Named("NumMapperThreads") final int pNumThreads) {
         this(pNumThreads, new ThreadFactoryBuilder().setDaemon(true).build());
+    }
+    
+    /**
+     * Creates a new ThreadedMapper backed by a thread-pool of the given size.
+     * 
+     * @param pNumThreads the (fixed) size of the thread-pool
+     * @param threadGroupPrefix the prefix of the thread name for the threads used by this mapper
+     */
+    @Inject
+    public ThreadedMapper(@Named("NumMapperThreads") final int pNumThreads,
+            @Named("ThreadNamePrefix") final String threadGroupPrefix) {
+        mMaxNumOutstanding = pNumThreads;
+        final ThreadFactory threadFactory = new BasicThreadFactory.Builder()
+                                                    .namingPattern(threadGroupPrefix+"-%d")
+                                                    .build();
+        mExecutor = Executors.newFixedThreadPool(pNumThreads, threadFactory);
     }
     
     /**
