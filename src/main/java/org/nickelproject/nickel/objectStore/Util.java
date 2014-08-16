@@ -3,7 +3,7 @@ package org.nickelproject.nickel.objectStore;
 import java.io.InputStream;
 import java.io.Serializable;
 
-import org.apache.commons.lang.SerializationUtils;
+import org.apache.commons.lang3.SerializationUtils;
 
 public final class Util {
 

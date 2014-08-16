@@ -30,8 +30,11 @@ public final class MapReduceUtil {
         // Prevents construction
     }
 
-    public static <T, U, V> V mapReduce(final Source<T> source, final Function<T, U> function,
-            final CollectorInterface<U, V> reducer, final Mapper mapper) {
+    public static <T, U, V> V mapReduce(
+            final Source<T> source, 
+            final Function<T, U> function,
+            final CollectorInterface<U, V> reducer, 
+            final Mapper mapper) {
         final CloseableIterator<T> iterator = source.iterator();
         final Iterator<U> results = mapper.map(iterator, function);
         final Reductor<U, V> reductor = reducer.reductor();

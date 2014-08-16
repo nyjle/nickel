@@ -27,10 +27,10 @@ public final class MergeListReducer<T> implements Reducer<List<T>> {
 
     @Override
     public Reductor<List<T>, List<T>> reductor() {
-        return new ToListReductor<T>();
+        return new MergeListReductor<T>();
     }
 
-    private static class ToListReductor<T> implements Reductor<List<T>, List<T>> {
+    private static class MergeListReductor<T> implements Reductor<List<T>, List<T>> {
         private final List<T> mList = Lists.newArrayList();
 
         @Override
