@@ -21,7 +21,6 @@ import org.nickelproject.nickel.externalReference.ExternalReference;
 import org.nickelproject.nickel.objectStore.CachingObjectStore;
 import org.nickelproject.nickel.objectStore.ObjectStore;
 import org.nickelproject.util.sources.S3MultiFileSource;
-import org.nickelproject.util.streamUtil.BlobStoreInputStreamFactory;
 import org.nickelproject.util.streamUtil.S3InputStreamFactory;
 
 import com.amazonaws.auth.AWSCredentialsProviderChain;
@@ -47,7 +46,6 @@ public final class S3Module extends AbstractModule {
         requestStaticInjection(ExternalReference.class);
         requestStaticInjection(S3MultiFileSource.class);
         requestStaticInjection(S3InputStreamFactory.class);
-        requestStaticInjection(BlobStoreInputStreamFactory.class);
     }
     
     @Provides @Singleton

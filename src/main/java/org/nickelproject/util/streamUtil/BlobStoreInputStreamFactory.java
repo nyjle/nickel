@@ -20,15 +20,14 @@ import java.io.InputStream;
 import org.nickelproject.nickel.blobStore.BlobRef;
 import org.nickelproject.nickel.blobStore.BlobStore;
 
-import com.google.inject.Inject;
-
 public final class BlobStoreInputStreamFactory implements InputStreamFactory {
     private static final long serialVersionUID = 1L;
-    @Inject private static BlobStore blobStore;
+    private final BlobStore blobStore;
     private final BlobRef blobRef;
     
-    public BlobStoreInputStreamFactory(final BlobRef blobRef) {
+    public BlobStoreInputStreamFactory(final BlobStore blobStore, final BlobRef blobRef) {
         this.blobRef = blobRef;
+        this.blobStore = blobStore;
     }
 
     @Override
