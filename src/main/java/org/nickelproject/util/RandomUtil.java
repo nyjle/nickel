@@ -18,12 +18,17 @@ package org.nickelproject.util;
 import java.util.Random;
 
 public final class RandomUtil {
-	public static double[] randomDoubleArray(final int mDimensionality) {
-		final Random random = new Random();
-		final double[] retVal = new double[mDimensionality];
-		for (int i = 0; i < retVal.length; i++) {
-			retVal[i] = random.nextDouble();
-		}
-		return retVal;
-	}
+    
+    private RandomUtil() {
+        // Prevents construction
+    }
+    
+    public static double[] randomDoubleArray(final int mDimensionality) {
+        final Random random = new Random();
+        final double[] retVal = new double[mDimensionality];
+        for (int i = 0; i < retVal.length; i++) {
+            retVal[i] = random.nextDouble();
+        }
+        return retVal;
+    }
 }

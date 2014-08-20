@@ -29,14 +29,18 @@ import org.nickelproject.util.TrivialCloseableIterator;
 import org.nickelproject.util.functions.ToListFunction;
 import org.nickelproject.util.reducers.MergeListReducer;
 
-public class SourceUtil {
+public final class SourceUtil {
 
-    public static final <T> List<T> toList(final Source<T> source) {
+    private SourceUtil() {
+        // Prevents construction
+    }
+    
+    public static <T> List<T> toList(final Source<T> source) {
         final Mapper mapper = new SynchronousMapper();
         return MapReduceUtil.mapReduce(source, new ToListFunction<T>(), new MergeListReducer<T>(), mapper);
     }
     
-    public static final Source<File> files(final String directoryName, final String[] suffices, 
+    public static Source<File> files(final String directoryName, final String[] suffices, 
             final boolean recursive) {
         return new Source<File>() {
 
@@ -47,7 +51,7 @@ public class SourceUtil {
             }
 
             @Override
-            public Source<? extends Source<File>> partition(int sizeGuideline) {
+            public Source<? extends Source<File>> partition(final int sizeGuideline) {
                 return Sources.singleton(this);
             }
 

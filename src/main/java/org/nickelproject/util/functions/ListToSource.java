@@ -17,6 +17,7 @@ package org.nickelproject.util.functions;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.nickelproject.nickel.dataflow.Source;
@@ -24,10 +25,10 @@ import org.nickelproject.nickel.dataflow.Sources;
 
 import com.google.common.base.Function;
 
-public class ListToSource<T> implements Function<List<T>, Source<T>> {
+public final class ListToSource<T> implements Function<List<T>, Source<T>> {
 
     @Override @Nullable
-    public Source<T> apply(@Nullable List<T> input) {
+    public Source<T> apply(@Nonnull final List<T> input) {
         return Sources.from(input);
     }
 }
