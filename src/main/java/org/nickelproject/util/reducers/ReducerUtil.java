@@ -24,6 +24,7 @@ import org.nickelproject.nickel.dataflow.Reducer;
 import org.nickelproject.util.functions.FunctionUtil;
 import org.nickelproject.util.functions.PairFunction;
 import org.nickelproject.util.functions.ToListFunction;
+import org.nickelproject.util.functions.ToPairFunction;
 import org.nickelproject.util.tuple.Pair;
 
 import com.google.common.base.Function;
@@ -42,7 +43,7 @@ public final class ReducerUtil {
     public static Collector<Double, Double> average() {
         final Reducer<Pair<Integer, Double>> reducer =
                 new PairReducer<Integer, Double>(new IntegerSumReducer(), new DoubleSumReducer());
-        final Function<Double, Pair<Integer, Double>> function = 
+        final Function<Pair<Double, Double>, Pair<Integer, Double>> function = 
                 PairFunction.of(FunctionUtil.<Double, Integer>constant(1), Functions.<Double>identity());
         final Function<Pair<Integer, Double>, Double> divide = new Function<Pair<Integer, Double>, Double>() {
             @Override
@@ -50,7 +51,7 @@ public final class ReducerUtil {
                 return from.getB() / from.getA();
             }
         };
-        return Collector.create(function, reducer, divide);
+        return Collector.create(Functions.compose(function, new ToPairFunction<Double>()), reducer, divide);
     }
     
     public static <T> Collector<T, List<T>> toList() {

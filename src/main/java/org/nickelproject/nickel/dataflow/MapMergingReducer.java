@@ -13,13 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.nickelproject.util.reducers;
+package org.nickelproject.nickel.dataflow;
 
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.nickelproject.nickel.dataflow.Reducer;
-import org.nickelproject.nickel.dataflow.Reductor;
 
 import com.google.common.collect.Maps;
 

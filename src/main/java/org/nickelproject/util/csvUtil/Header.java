@@ -48,7 +48,7 @@ public final class Header {
         for (final String field : fields) {
             final String[] splits = field.split(":");
             final String name = splits[0];
-            final String typeString = splits[1];
+            final String typeString = splits.length == 2 ? splits[1] : "String";
             final DataType dataType = parseDataType(typeString);
             builder.add(name, dataType);
         }

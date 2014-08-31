@@ -21,12 +21,11 @@ import org.nickelproject.nickel.dataflow.Source;
 import org.nickelproject.nickel.dataflow.Sources;
 import org.nickelproject.nickel.types.Record;
 import org.nickelproject.nickel.types.RecordDataType;
-import org.nickelproject.nickel.types.RecordSource;
 import org.nickelproject.util.CloseableIterator;
 import org.nickelproject.util.RethrownException;
 import org.nickelproject.util.streamUtil.InputStreamFactory;
 
-public final class CsvSource implements RecordSource {
+public final class CsvSource implements Source<Record> {
     private static final long serialVersionUID = 1L;
     private final InputStreamFactory inputStreamFactory;
     private final RecordDataType schema;
@@ -56,11 +55,6 @@ public final class CsvSource implements RecordSource {
         } catch (final Exception e) {
             throw RethrownException.rethrow(e);
         }
-    }
-
-    @Override
-    public RecordDataType schema() {
-        return schema;
     }
 
     @Override

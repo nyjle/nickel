@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.nickelproject.nickel.dataflow.MapMergingReducer;
 import org.nickelproject.nickel.dataflow.Reducer;
 import org.nickelproject.nickel.dataflow.Reductor;
 import org.nickelproject.nickel.sources.SourceTestUtil;

@@ -16,8 +16,46 @@
 package org.nickelproject.nickel.types;
 
 import org.nickelproject.nickel.dataflow.Source;
+import org.nickelproject.nickel.dataflow.Sources;
+import org.nickelproject.util.CloseableIterator;
+
+import com.google.common.base.Function;
 
 
-public interface RecordSource extends Source<Record> {
-    RecordDataType schema();
+public final class RecordSource implements Source<Record> {
+    private final Source<Record> source;
+    private final RecordDataType schema;
+    
+    public RecordSource(final Source<Record> source, final RecordDataType schema) {
+        this.source = source;
+        this.schema = schema;
+    }
+    
+    public final RecordDataType schema() {
+        return schema;
+    }
+
+    @Override
+    public CloseableIterator<Record> iterator() {
+        return source.iterator();
+    }
+
+    @Override
+    public Source<? extends Source<Record>> partition(int sizeGuideline) {
+        return Sources.transform(source.partition(sizeGuideline), toRecordSource(schema));
+    }
+
+    @Override
+    public int size() {
+        return source.size();
+    }
+    
+    private static final Function<Source<Record>, RecordSource> toRecordSource(final RecordDataType schema) {
+        return new Function<Source<Record>, RecordSource>() {
+            @Override
+            public RecordSource apply(final Source<Record> input) {
+                return new RecordSource(input, schema);
+            }
+        };
+    }
 }

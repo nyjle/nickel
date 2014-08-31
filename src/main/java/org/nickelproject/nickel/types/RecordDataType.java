@@ -82,4 +82,9 @@ public final class RecordDataType implements DataType {
         }
         return retVal;
     }
+    
+    @Override
+    public String toString() {
+        return getMembers().toString();
+    }
 }

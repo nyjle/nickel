@@ -38,4 +38,9 @@ public final class Pair<A, B> implements Serializable {
     public  B getB() {
         return b;
     }
+    
+    @Override
+    public String toString() {
+        return "(" + a.toString() + "," + b.toString() + ")";
+    }
 }

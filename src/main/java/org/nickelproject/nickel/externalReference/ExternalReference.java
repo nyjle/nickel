@@ -28,14 +28,18 @@ public final class ExternalReference<T> implements Serializable {
     @Inject private static ObjectStore objectStore;
     private final BlobRef            blobRef;
 
-    private ExternalReference(final T data) {
-        blobRef = objectStore.put(data);
+    private ExternalReference(final BlobRef blobRef) {
+        this.blobRef = blobRef;
     }
 
     public static <T> ExternalReference<T> of(final T data) {
-        return new ExternalReference<T>(data);
+        return new ExternalReference<T>(objectStore.put(data));
     }
 
+    public static <T> ExternalReference<T> from(final BlobRef blobRef, Class<T> typeClass) {
+        return new ExternalReference<T>(blobRef);
+    }
+    
     @SuppressWarnings("unchecked")
     public T get() {
         return (T) objectStore.get(blobRef);

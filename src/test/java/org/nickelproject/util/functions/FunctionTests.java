@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.nickelproject.nickel.dataflow.ToMapFunction;
 import org.nickelproject.util.testUtil.UnitAnnotation;
 import org.nickelproject.util.tuple.Pair;
 import org.nickelproject.util.tuple.Quadruple;
@@ -35,9 +36,9 @@ public final class FunctionTests {
     public void testPairFunction() {
         final Function<String, String> firstFunction = new SubString(0, 2);
         final Function<String, String> secondFunction = new SubString(2, 4);
-        final Function<String, Pair<String, String>> pairFunction =
+        final Function<Pair<String, String>, Pair<String, String>> pairFunction =
                 PairFunction.of(firstFunction, secondFunction);
-        final Pair<String, String> pair = pairFunction.apply("01234");
+        final Pair<String, String> pair = pairFunction.apply(Pair.of("01234", "1234"));
         Assert.assertEquals("01", pair.getA());
         Assert.assertEquals("23", pair.getB());
     }

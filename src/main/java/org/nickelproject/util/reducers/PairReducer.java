@@ -8,7 +8,7 @@ public final class PairReducer<A, B> implements Reducer<Pair<A, B>> {
     private final Reducer<A> reducerA;
     private final Reducer<B> reducerB;
     
-    PairReducer(final Reducer<A> reducerA, final Reducer<B> reducerB) {
+    public PairReducer(final Reducer<A> reducerA, final Reducer<B> reducerB) {
         this.reducerA = reducerA;
         this.reducerB = reducerB;
     }

@@ -21,8 +21,10 @@ import org.nickelproject.nickel.dataflow.Source;
 import org.nickelproject.nickel.dataflow.Sources;
 import org.nickelproject.nickel.types.Record;
 import org.nickelproject.nickel.types.RecordDataType;
+import org.nickelproject.nickel.types.RecordSource;
 import org.nickelproject.util.CloseableIterator;
 import org.nickelproject.util.csvUtil.CsvSource;
+import org.nickelproject.util.streamUtil.InputStreamFactory;
 import org.nickelproject.util.streamUtil.S3InputStreamFactory;
 
 import com.amazonaws.services.s3.AmazonS3;
@@ -30,44 +32,49 @@ import com.amazonaws.services.s3.model.ListObjectsRequest;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.google.common.base.Function;
+import com.google.common.base.Functions;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 
-public final class S3MultiFileSource implements Source<Record> {
-    private static final long serialVersionUID = 1L;
-    private final String bucketName;
-    private final String key;
-    private final RecordDataType schema;
+public final class S3MultiFileSource<T> {
     @Inject private static AmazonS3 s3Client;
     
-    public S3MultiFileSource(final String bucketName, final String key, final RecordDataType schema) {
-        this.bucketName = bucketName;
-        this.key = key;
-        this.schema = schema;
+    private S3MultiFileSource() {
+        // Prevents construction
     }
     
-    @Override
-    public int size() {
-        return Source.unknownSize;
+    public static final Source<String> getS3BucketEntries(final String bucketName, final String key) {
+        return Sources.from(listKeysInDirectory(bucketName, key));
     }
     
-    @Override
-    public CloseableIterator<Record> iterator() {
-        return Sources.concat(partition(0)).iterator();
-    }
-
-    @Override
-    public Source<Source<Record>> partition(final int partitionSize) {
-        final Source<String> keys = Sources.from(listKeysInDirectory(key));
-        return Sources.transform(keys, new Function<String, Source<Record>>() {
-                @Override
-                public Source<Record> apply(final String partKey) {
-                    return new CsvSource(new S3InputStreamFactory(bucketName, partKey), schema);
-                }
-            });
+    public static final Function<String, InputStreamFactory> s3InputStream(final String bucketName) {
+        return new Function<String, InputStreamFactory>() {
+            @Override
+            public InputStreamFactory apply(final String partKey) {
+                return new S3InputStreamFactory(bucketName, partKey);
+            }
+        };
     }
     
-    private List<String> listKeysInDirectory(final String prefix) {
+    public static final Function<InputStreamFactory, Source<Record>> 
+                                    asCsvRecords(final RecordDataType schema) {
+        return new Function<InputStreamFactory, Source<Record>>() {
+            @Override
+            public Source<Record> apply(final InputStreamFactory inputStreamFactory) {
+                return new CsvSource(inputStreamFactory, schema);
+            }
+        };
+    }
+    
+    public static final RecordSource getS3MultiFileSource(final String bucketName, final String key,
+            final RecordDataType schema) {
+        return new RecordSource(Sources.concat(
+                Sources.transform(getS3BucketEntries(bucketName, key), 
+                        Functions.compose(asCsvRecords(schema), s3InputStream(bucketName)))),
+                schema);
+    }
+    
+    private static List<String> listKeysInDirectory(final String bucketName, final String prefix) {
         final String delimiter = "/";
         final String fixedPrefix = prefix.endsWith(delimiter) ? prefix : prefix + delimiter;
 

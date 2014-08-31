@@ -1,5 +1,11 @@
 package org.nickelproject.nickel.dataflow;
 
+import java.util.Map;
+
+import org.nickelproject.util.functions.PairFunction;
+import org.nickelproject.util.functions.ToPairFunction;
+import org.nickelproject.util.tuple.Pair;
+
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 
@@ -41,6 +47,29 @@ public final class Collector<T, U> implements CollectorInterface<T, U> {
     public static <S, T, V> Collector<S, V> create(final Function<S, T> preFunction, 
             final Collector<T, V> collector) {
         return create(preFunction, collector, Functions.<V>identity());
+    }
+    
+    public static <T, V, W> Collector<T, W> create( 
+            final Collector<T, V> collector, final Function<V, W> postFunction) {
+        return create(Functions.<T>identity(), collector, postFunction);
+    }
+    
+    public static <I, K, T, V> Collector<I, Source<Pair<K, V>>> 
+                    groupBy(final Function<I, K> keyFunction, final Collector<I, V> aggregator) {
+        final Reducer<Map<K, T>> mapReducer = 
+                                    MapMergingReducer.create((Reducer<T>) aggregator.collectorBase.reducer);
+        final Function<I, Pair<I, I>> toPairFunction = new ToPairFunction<I>();
+        final Function<Pair<I, I>, Pair<K, T>> pairFunction = 
+                PairFunction.of(keyFunction, (Function<I, T>) aggregator.collectorBase.preFunctor);
+        final Function<Pair<K, T>, Map<K, T>> toMap = new ToMapFunction();
+        return Collector.create(
+                Functions.compose(toMap, 
+                        Functions.compose(pairFunction, toPairFunction)),
+                mapReducer, Functions.compose(
+                        new TransformSourceFunction(
+                                PairFunction.of(Functions.<K>identity(), 
+                                        (Function<T, V>) aggregator.collectorBase.postFunctor)),
+                        new MapToPairSourceFunction<K, T>()));
     }
       
     @Override
