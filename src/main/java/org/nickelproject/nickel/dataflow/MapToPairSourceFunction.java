@@ -9,16 +9,16 @@ import org.nickelproject.util.tuple.Pair;
 
 import com.google.common.base.Function;
 
-public class MapToPairSourceFunction<K, V> implements Function<Map<K, V>, Source<Pair<K, V>>> {
+public final class MapToPairSourceFunction<K, V> implements Function<Map<K, V>, Source<Pair<K, V>>> {
 
     @Override
-    public Source<Pair<K, V>> apply(@Nonnull Map<K, V> input) {
+    public Source<Pair<K, V>> apply(@Nonnull final Map<K, V> input) {
         return Sources.transform(
                 Sources.from(input.entrySet()), 
                     new Function<Map.Entry<K, V>, Pair<K, V>>() {
     
                         @Override
-                        public Pair<K, V> apply(@Nonnull Entry<K, V> input) {
+                        public Pair<K, V> apply(@Nonnull final Entry<K, V> input) {
                             return Pair.of(input.getKey(), input.getValue());
                         }                    
                     }

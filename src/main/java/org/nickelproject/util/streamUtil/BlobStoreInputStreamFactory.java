@@ -22,7 +22,7 @@ import org.nickelproject.nickel.blobStore.BlobStore;
 
 public final class BlobStoreInputStreamFactory implements InputStreamFactory {
     private static final long serialVersionUID = 1L;
-    private final BlobStore blobStore;
+    private final transient BlobStore blobStore;
     private final BlobRef blobRef;
     
     public BlobStoreInputStreamFactory(final BlobStore blobStore, final BlobRef blobRef) {

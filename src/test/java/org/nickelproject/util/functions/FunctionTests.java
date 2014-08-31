@@ -38,7 +38,7 @@ public final class FunctionTests {
         final Function<String, String> secondFunction = new SubString(2, 4);
         final Function<Pair<String, String>, Pair<String, String>> pairFunction =
                 PairFunction.of(firstFunction, secondFunction);
-        final Pair<String, String> pair = pairFunction.apply(Pair.of("01234", "1234"));
+        final Pair<String, String> pair = pairFunction.apply(Pair.of("01234", "01234"));
         Assert.assertEquals("01", pair.getA());
         Assert.assertEquals("23", pair.getB());
     }

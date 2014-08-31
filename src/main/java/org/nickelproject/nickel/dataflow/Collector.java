@@ -49,7 +49,7 @@ public final class Collector<T, U> implements CollectorInterface<T, U> {
         return create(preFunction, collector, Functions.<V>identity());
     }
     
-    public static <T, V, W> Collector<T, W> create( 
+    public static <T, V, W> Collector<T, W> create(
             final Collector<T, V> collector, final Function<V, W> postFunction) {
         return create(Functions.<T>identity(), collector, postFunction);
     }

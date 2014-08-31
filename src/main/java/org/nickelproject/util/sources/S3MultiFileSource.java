@@ -17,12 +17,13 @@ package org.nickelproject.util.sources;
 
 import java.util.List;
 
+import javax.annotation.Nonnull;
+
 import org.nickelproject.nickel.dataflow.Source;
 import org.nickelproject.nickel.dataflow.Sources;
 import org.nickelproject.nickel.types.Record;
 import org.nickelproject.nickel.types.RecordDataType;
 import org.nickelproject.nickel.types.RecordSource;
-import org.nickelproject.util.CloseableIterator;
 import org.nickelproject.util.csvUtil.CsvSource;
 import org.nickelproject.util.streamUtil.InputStreamFactory;
 import org.nickelproject.util.streamUtil.S3InputStreamFactory;
@@ -43,20 +44,20 @@ public final class S3MultiFileSource<T> {
         // Prevents construction
     }
     
-    public static final Source<String> getS3BucketEntries(final String bucketName, final String key) {
+    public static Source<String> getS3BucketEntries(final String bucketName, final String key) {
         return Sources.from(listKeysInDirectory(bucketName, key));
     }
     
-    public static final Function<String, InputStreamFactory> s3InputStream(final String bucketName) {
+    public static Function<String, InputStreamFactory> s3InputStream(final String bucketName) {
         return new Function<String, InputStreamFactory>() {
             @Override
-            public InputStreamFactory apply(final String partKey) {
+            public InputStreamFactory apply(@Nonnull final String partKey) {
                 return new S3InputStreamFactory(bucketName, partKey);
             }
         };
     }
     
-    public static final Function<InputStreamFactory, Source<Record>> 
+    public static Function<InputStreamFactory, Source<Record>> 
                                     asCsvRecords(final RecordDataType schema) {
         return new Function<InputStreamFactory, Source<Record>>() {
             @Override
@@ -66,7 +67,7 @@ public final class S3MultiFileSource<T> {
         };
     }
     
-    public static final RecordSource getS3MultiFileSource(final String bucketName, final String key,
+    public static RecordSource getS3MultiFileSource(final String bucketName, final String key,
             final RecordDataType schema) {
         return new RecordSource(Sources.concat(
                 Sources.transform(getS3BucketEntries(bucketName, key), 
@@ -83,7 +84,7 @@ public final class S3MultiFileSource<T> {
         ObjectListing objects = s3Client.listObjects(listObjectsRequest);
         return Lists.transform(objects.getObjectSummaries(), new Function<S3ObjectSummary, String>() {
                 @Override
-                public String apply(final S3ObjectSummary input) {
+                public String apply(@Nonnull final S3ObjectSummary input) {
                     return input.getKey();
                 }            
             });

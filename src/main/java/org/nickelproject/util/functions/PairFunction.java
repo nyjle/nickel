@@ -15,7 +15,10 @@
  */
 package org.nickelproject.util.functions;
 
+import javax.annotation.Nonnull;
+
 import org.nickelproject.util.tuple.Pair;
+
 import com.google.common.base.Function;
 
 public final class PairFunction<S, T, U, V> implements Function<Pair<S, T>, Pair<U, V>> {
@@ -33,7 +36,7 @@ public final class PairFunction<S, T, U, V> implements Function<Pair<S, T>, Pair
     }
     
     @Override
-    public Pair<U, V> apply(final Pair<S ,T> input) {
+    public Pair<U, V> apply(@Nonnull final Pair<S, T> input) {
         return Pair.of(functionA.apply(input.getA()), functionB.apply(input.getB()));
     }
 }

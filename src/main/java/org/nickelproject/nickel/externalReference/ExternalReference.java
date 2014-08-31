@@ -36,7 +36,7 @@ public final class ExternalReference<T> implements Serializable {
         return new ExternalReference<T>(objectStore.put(data));
     }
 
-    public static <T> ExternalReference<T> from(final BlobRef blobRef, Class<T> typeClass) {
+    public static <T> ExternalReference<T> from(final BlobRef blobRef, final Class<T> typeClass) {
         return new ExternalReference<T>(blobRef);
     }
     

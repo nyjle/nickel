@@ -23,6 +23,7 @@ import com.google.common.base.Function;
 
 
 public final class RecordSource implements Source<Record> {
+    private static final long serialVersionUID = 1L;
     private final Source<Record> source;
     private final RecordDataType schema;
     
@@ -31,7 +32,7 @@ public final class RecordSource implements Source<Record> {
         this.schema = schema;
     }
     
-    public final RecordDataType schema() {
+    public RecordDataType schema() {
         return schema;
     }
 
@@ -41,7 +42,7 @@ public final class RecordSource implements Source<Record> {
     }
 
     @Override
-    public Source<? extends Source<Record>> partition(int sizeGuideline) {
+    public Source<? extends Source<Record>> partition(final int sizeGuideline) {
         return Sources.transform(source.partition(sizeGuideline), toRecordSource(schema));
     }
 
@@ -50,7 +51,7 @@ public final class RecordSource implements Source<Record> {
         return source.size();
     }
     
-    private static final Function<Source<Record>, RecordSource> toRecordSource(final RecordDataType schema) {
+    private static Function<Source<Record>, RecordSource> toRecordSource(final RecordDataType schema) {
         return new Function<Source<Record>, RecordSource>() {
             @Override
             public RecordSource apply(final Source<Record> input) {

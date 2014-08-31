@@ -8,7 +8,7 @@ import org.nickelproject.util.tuple.Pair;
 
 import com.google.common.base.Function;
 
-public class PairToRecord<A, B> implements Function<Pair<A, B>, Record> {
+public final class PairToRecord<A, B> implements Function<Pair<A, B>, Record> {
     private final RecordDataType schema;
     
     public PairToRecord(final RecordDataType schema) {
@@ -16,7 +16,7 @@ public class PairToRecord<A, B> implements Function<Pair<A, B>, Record> {
     }
     
     @Override
-    public Record apply(@Nonnull Pair<A, B> input) {
+    public Record apply(@Nonnull final Pair<A, B> input) {
         return Record.of(schema, input.getA(), input.getB());
     }
 }

@@ -6,10 +6,10 @@ import org.nickelproject.util.tuple.Pair;
 
 import com.google.common.base.Function;
 
-public class ToPairFunction<T> implements Function<T, Pair<T, T>>{
+public final class ToPairFunction<T> implements Function<T, Pair<T, T>> {
 
     @Override
-    public Pair<T, T> apply(@Nonnull T input) {
+    public Pair<T, T> apply(@Nonnull final T input) {
         return Pair.of(input, input);
     }
 }
