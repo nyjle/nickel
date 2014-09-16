@@ -27,6 +27,6 @@ public final class PutExternal<T> implements Function<T, ExternalReference<T>>, 
 
     @Override
     public ExternalReference<T> apply(@Nonnull final T input) {
-        return ExternalReference.of(input);
+        return input == null ? null : ExternalReference.of(input);
     }
 }

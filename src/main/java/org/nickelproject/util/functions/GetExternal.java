@@ -27,6 +27,6 @@ public final class GetExternal<T> implements Function<ExternalReference<T>, T>, 
 
     @Override
     public T apply(@Nonnull final ExternalReference<T> input) {
-        return input.get();
+        return input == null ? null : input.get();
     }
 }

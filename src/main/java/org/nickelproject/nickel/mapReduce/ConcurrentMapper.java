@@ -101,6 +101,7 @@ public abstract class ConcurrentMapper implements Mapper {
                     try {
                         vFuture = completionService.poll(getTimeOut(), TimeUnit.MILLISECONDS);
                     } catch (final InterruptedException e) {
+                        Thread.interrupted();
                         throw RethrownException.rethrow(e);
                     }
                     if (vFuture != null) {
