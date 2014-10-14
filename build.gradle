@@ -65,7 +65,7 @@ repositories {
 dependencies {
 	compile "net.sf.supercsv:super-csv:2.1.0"
     compile "com.google.guava:guava:15.0"
-    compile "com.amazonaws:aws-java-sdk:1.9"
+    compile "com.amazonaws:aws-java-sdk:1.9.0"
     compile "commons-codec:commons-codec:1.8"
 	compile "commons-io:commons-io:2.4"
    	compile "org.apache.commons:commons-lang3:3.3.2"
