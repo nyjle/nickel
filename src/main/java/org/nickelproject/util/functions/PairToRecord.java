@@ -1,5 +1,7 @@
 package org.nickelproject.util.functions;
 
+import java.io.Serializable;
+
 import javax.annotation.Nonnull;
 
 import org.nickelproject.nickel.types.Record;
@@ -8,7 +10,7 @@ import org.nickelproject.util.tuple.Pair;
 
 import com.google.common.base.Function;
 
-public final class PairToRecord<A, B> implements Function<Pair<A, B>, Record> {
+public final class PairToRecord<A, B> implements Function<Pair<A, B>, Record>, Serializable {
     private final RecordDataType schema;
     
     public PairToRecord(final RecordDataType schema) {

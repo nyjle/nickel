@@ -15,6 +15,8 @@
  */
 package org.nickelproject.util.functions;
 
+import java.io.Serializable;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -22,7 +24,7 @@ import org.nickelproject.util.tuple.Pair;
 
 import com.google.common.base.Function;
 
-public final class PairGetA<A, B> implements Function<Pair<A, B>, A> {
+public final class PairGetA<A, B> implements Function<Pair<A, B>, A>, Serializable {
 
     @Override @Nullable
     public A apply(@Nonnull final Pair<A, B> input) {

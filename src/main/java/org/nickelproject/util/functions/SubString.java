@@ -15,6 +15,8 @@
  */
 package org.nickelproject.util.functions;
 
+import java.io.Serializable;
+
 import javax.annotation.Nonnull;
 
 import com.google.common.base.Function;
@@ -30,7 +32,7 @@ import com.google.common.base.Preconditions;
  * If the argument {@link String#length()} < end then the substring up to the end of the argument
  * {@link String} is returned.
  */
-public final class SubString implements Function<String, String> {
+public final class SubString implements Function<String, String>, Serializable {
     private final int start;
     private final int end;
     

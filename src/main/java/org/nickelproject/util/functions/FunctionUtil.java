@@ -15,6 +15,8 @@
  */
 package org.nickelproject.util.functions;
 
+import java.io.Serializable;
+
 import javax.annotation.Nullable;
 
 import org.nickelproject.nickel.externalReference.ExternalReference;
@@ -37,7 +39,7 @@ public final class FunctionUtil {
         return new ConstantFunction<F, T>(constant);
     }
     
-    private static class ConstantFunction<F, T> implements Function<F, T> {
+    private static class ConstantFunction<F, T> implements Function<F, T>, Serializable {
         private final T constant;
         
         ConstantFunction(final T constant) {

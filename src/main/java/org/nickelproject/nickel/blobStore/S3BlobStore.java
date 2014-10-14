@@ -26,6 +26,9 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.transfer.TransferManager;
+import com.amazonaws.services.s3.transfer.TransferManagerConfiguration;
+import com.amazonaws.services.s3.transfer.Upload;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
@@ -33,6 +36,7 @@ public class S3BlobStore extends BlobStoreBase {
     private static final int notFoundCode = 404;
     private final AmazonS3 s3Client;
     private final String bucketName;
+    private final TransferManager transferManager;
 
     @Inject
     S3BlobStore(final AmazonS3 s3Client,
@@ -41,6 +45,12 @@ public class S3BlobStore extends BlobStoreBase {
         super(checkContainsThreshold);
         this.bucketName = bucketName;
         this.s3Client = s3Client;
+        this.transferManager = new TransferManager(s3Client);
+        final TransferManagerConfiguration transferManagerConfiguration = 
+                transferManager.getConfiguration();
+//        transferManagerConfiguration.setMinimumUploadPartSize(1000000L);
+//        transferManagerConfiguration.setMultipartUploadThreshold(1000000L);
+        transferManager.setConfiguration(transferManagerConfiguration);
     }
 
     @Override
@@ -87,6 +97,13 @@ public class S3BlobStore extends BlobStoreBase {
         final ByteArrayInputStream vByteArrayInputStream = new ByteArrayInputStream(pBytes);
         final ObjectMetadata vMetadata = new ObjectMetadata();
         vMetadata.setContentLength(pBytes.length);
-        s3Client.putObject(new PutObjectRequest(bucketName, blobRef.toString(), vByteArrayInputStream, vMetadata));
+        Upload upload = transferManager.upload(new PutObjectRequest(bucketName, 
+                blobRef.toString(), vByteArrayInputStream, vMetadata));
+        try {
+            upload.waitForCompletion();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw RethrownException.rethrow(e);
+        }
     }
 }

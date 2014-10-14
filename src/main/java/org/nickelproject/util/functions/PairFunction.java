@@ -15,13 +15,15 @@
  */
 package org.nickelproject.util.functions;
 
+import java.io.Serializable;
+
 import javax.annotation.Nonnull;
 
 import org.nickelproject.util.tuple.Pair;
 
 import com.google.common.base.Function;
 
-public final class PairFunction<S, T, U, V> implements Function<Pair<S, T>, Pair<U, V>> {
+public final class PairFunction<S, T, U, V> implements Function<Pair<S, T>, Pair<U, V>>, Serializable {
     private final Function<S, U> functionA; 
     private final Function<T, V> functionB;
     

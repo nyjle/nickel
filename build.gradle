@@ -26,7 +26,7 @@ test {
 	maxHeapSize = "3500m"
 }
 
-version = '0.0.5.2-SNAPSHOT'
+version = '0.0.4'
 group = 'org.nickelproject'
 
 jar {
@@ -65,7 +65,7 @@ repositories {
 dependencies {
 	compile "net.sf.supercsv:super-csv:2.1.0"
     compile "com.google.guava:guava:15.0"
-    compile "com.amazonaws:aws-java-sdk:1.6.4"
+    compile "com.amazonaws:aws-java-sdk:1.9"
     compile "commons-codec:commons-codec:1.8"
 	compile "commons-io:commons-io:2.4"
    	compile "org.apache.commons:commons-lang3:3.3.2"
@@ -73,7 +73,7 @@ dependencies {
    	compile "com.google.inject:guice:3.0"
 	compile "javassist:javassist:3.12.1.GA"
 	compile "org.slf4j:slf4j-api:1.7.+"
-	compile "org.slf4j:slf4j-log4j12:1.7.+"
+	testCompile "org.slf4j:slf4j-log4j12:1.7.+"
 	compile "junit:junit:4.11"	
 	testCompile 'org.easymock:easymock:3.2'
 }

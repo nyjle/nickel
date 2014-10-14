@@ -15,12 +15,14 @@
  */
 package org.nickelproject.util.functions;
 
+import java.io.Serializable;
+
 import javax.annotation.Nonnull;
 
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 
-public final class ArrayElementFunction<T> implements Function<T[], T> {
+public final class ArrayElementFunction<T> implements Function<T[], T>, Serializable {
     private final int index;
     
     public ArrayElementFunction(final int index) {

@@ -15,11 +15,14 @@
  */
 package org.nickelproject.util.functions;
 
+import java.io.Serializable;
+
 import org.nickelproject.util.tuple.Quadruple;
 
 import com.google.common.base.Function;
 
-public final class QuadrupleFunction<S, A, B, C, D> implements Function<S[], Quadruple<A, B, C, D>> {
+public final class QuadrupleFunction<S, A, B, C, D> implements 
+                        Function<S[], Quadruple<A, B, C, D>>, Serializable {
     private final Function<S[], A> functionA;
     private final Function<S[], B> functionB;
     private final Function<S[], C> functionC;

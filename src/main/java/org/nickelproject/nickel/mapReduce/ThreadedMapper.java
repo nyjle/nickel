@@ -59,6 +59,7 @@ public final class ThreadedMapper extends ConcurrentMapper {
         mMaxNumOutstanding = pNumThreads;
         final ThreadFactory threadFactory = new BasicThreadFactory.Builder()
                                                     .namingPattern(threadGroupPrefix + "-%d")
+                                                    .daemon(true)
                                                     .build();
         mExecutor = Executors.newFixedThreadPool(pNumThreads, threadFactory);
     }

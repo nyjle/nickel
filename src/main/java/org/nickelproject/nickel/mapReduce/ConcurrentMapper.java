@@ -16,6 +16,7 @@
  */
 package org.nickelproject.nickel.mapReduce;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -101,7 +102,7 @@ public abstract class ConcurrentMapper implements Mapper {
                     try {
                         vFuture = completionService.poll(getTimeOut(), TimeUnit.MILLISECONDS);
                     } catch (final InterruptedException e) {
-                        Thread.interrupted();
+                        Thread.currentThread().interrupt();
                         throw RethrownException.rethrow(e);
                     }
                     if (vFuture != null) {
@@ -122,8 +123,12 @@ public abstract class ConcurrentMapper implements Mapper {
 
             @Override
             public void close() throws IOException {
-                // Nothing to be done here, if we weren't using a competionservice we could perhaps
-                // cancel all outstanding jobs.
+                if (inputs instanceof Closeable) {
+                    ((Closeable) inputs).close();
+                }
+                if (completionService instanceof Closeable) {
+                    ((Closeable) completionService).close();
+                }
             }
         };
     }

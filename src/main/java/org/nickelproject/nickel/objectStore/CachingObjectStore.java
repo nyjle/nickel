@@ -18,6 +18,7 @@ package org.nickelproject.nickel.objectStore;
 import java.io.Serializable;
 import java.util.concurrent.ExecutionException;
 
+import org.apache.commons.lang3.SerializationUtils;
 import org.nickelproject.nickel.blobStore.BlobRef;
 import org.nickelproject.nickel.blobStore.BlobStore;
 import org.nickelproject.util.RethrownException;
@@ -36,14 +37,19 @@ public final class CachingObjectStore implements ObjectStore {
     private final LoadingCache<BlobRef, Object> cache;
 
     @Inject
-    public CachingObjectStore(final BlobStore blobStore, final CacheBuilderSpec cacheBuilderSpec) {
-        this.blobStore = RetryProxy.newInstance(BlobStore.class, blobStore);
+    public CachingObjectStore(final BlobStore bStore, final CacheBuilderSpec cacheBuilderSpec) {
+        this.blobStore = RetryProxy.newInstance(BlobStore.class, bStore);
         this.cache = CacheBuilder.from(cacheBuilderSpec)
                 .build(
                     new CacheLoader<BlobRef, Object>() {
                         @Override
                         public Object load(final BlobRef key) throws Exception {
-                            return Util.objectFromStream(blobStore.getAsStream(key));
+                            final byte[] bytes = blobStore.get(key);
+                            if (bytes == null) {
+                                throw new RuntimeException("Unable to load for key: " + key);
+                            } else {
+                                return SerializationUtils.deserialize(bytes); 
+                            }
                         }
                     });
     }
