@@ -39,6 +39,7 @@ public final class TestModule extends AbstractModule {
     
     @Provides
     CacheBuilderSpec providesCacheBuilderSpec() {
-        return CacheBuilderSpec.parse("softValues");
+        final long maxCacheSize = 1024 * 1024;
+        return CacheBuilderSpec.parse("softValues,maximumWeight=" + maxCacheSize + ",recordStats");
     }
 }

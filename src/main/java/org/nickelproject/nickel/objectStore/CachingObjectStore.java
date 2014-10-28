@@ -23,32 +23,42 @@ import org.nickelproject.nickel.blobStore.BlobRef;
 import org.nickelproject.nickel.blobStore.BlobStore;
 import org.nickelproject.util.RethrownException;
 import org.nickelproject.util.RetryProxy;
+import org.nickelproject.util.tuple.Pair;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheBuilderSpec;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.cache.Weigher;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
 public final class CachingObjectStore implements ObjectStore {
     private final BlobStore                   blobStore;
-    private final LoadingCache<BlobRef, Object> cache;
+    private final LoadingCache<BlobRef, Pair<Integer, Object>> cache;
 
     @Inject
     public CachingObjectStore(final BlobStore bStore, final CacheBuilderSpec cacheBuilderSpec) {
         this.blobStore = RetryProxy.newInstance(BlobStore.class, bStore);
         this.cache = CacheBuilder.from(cacheBuilderSpec)
-                .build(
-                    new CacheLoader<BlobRef, Object>() {
+                .weigher(
+                    new Weigher<BlobRef, Pair<Integer, Object>>() {
+
                         @Override
-                        public Object load(final BlobRef key) throws Exception {
+                        public int weigh(BlobRef key, Pair<Integer, Object> value) {
+                            return value.getA();
+                        }                        
+                    })
+                .build(
+                    new CacheLoader<BlobRef, Pair<Integer, Object>>() {
+                        @Override
+                        public Pair<Integer, Object> load(final BlobRef key) throws Exception {
                             final byte[] bytes = blobStore.get(key);
                             if (bytes == null) {
                                 throw new RuntimeException("Unable to load for key: " + key);
                             } else {
-                                return SerializationUtils.deserialize(bytes); 
+                                return Pair.of(bytes.length, SerializationUtils.deserialize(bytes)); 
                             }
                         }
                     });
@@ -62,7 +72,7 @@ public final class CachingObjectStore implements ObjectStore {
     @Override
     public Object get(final BlobRef blob) {
         try {
-            return contains(blob) ? cache.get(blob) : null;
+            return contains(blob) ? cache.get(blob).getB() : null;
         } catch (final ExecutionException e) {
             throw RethrownException.rethrow(e);
         }
@@ -74,7 +84,7 @@ public final class CachingObjectStore implements ObjectStore {
         BlobRef blobRef = BlobRef.keyFromBytes(bytes);
         if (cache.getIfPresent(blobRef) == null) {
             blobRef = blobStore.put(bytes);
-            cache.put(blobRef, data);
+            cache.put(blobRef, Pair.of(bytes.length, data));
         }
         return blobRef;
     }

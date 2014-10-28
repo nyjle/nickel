@@ -22,6 +22,7 @@ import java.io.InputStream;
 import org.nickelproject.util.RethrownException;
 
 public final class FileInputStreamFactory implements InputStreamFactory {
+    private static final long serialVersionUID = 1L;
     private final String mFileName;
 
     public FileInputStreamFactory(final String pFileName) {

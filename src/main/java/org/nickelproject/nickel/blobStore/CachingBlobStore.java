@@ -29,6 +29,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheBuilderSpec;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.cache.Weigher;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -41,6 +42,13 @@ public final class CachingBlobStore implements BlobStore {
     public CachingBlobStore(final BlobStore blobStore, final CacheBuilderSpec cacheBuilderSpec) {
         this.blobStore = RetryProxy.newInstance(BlobStore.class, blobStore);
         this.cache = CacheBuilder.from(cacheBuilderSpec)
+                .weigher(new Weigher<BlobRef, byte[]>() {
+
+                    @Override
+                    public int weigh(BlobRef key, byte[] value) {
+                        return value.length;
+                    }
+                })
                 .build(
                     new CacheLoader<BlobRef, byte[]>() {
                         @Override

@@ -19,6 +19,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 public final class ByteArrayInputStreamFactory implements InputStreamFactory {
+    private static final long serialVersionUID = 1L;
     private final byte[] data;
 
     public ByteArrayInputStreamFactory(final byte[] data) {
