@@ -43,9 +43,8 @@ public final class CachingBlobStore implements BlobStore {
         this.blobStore = RetryProxy.newInstance(BlobStore.class, blobStore);
         this.cache = CacheBuilder.from(cacheBuilderSpec)
                 .weigher(new Weigher<BlobRef, byte[]>() {
-
                     @Override
-                    public int weigh(BlobRef key, byte[] value) {
+                    public int weigh(final BlobRef key, final byte[] value) {
                         return value.length;
                     }
                 })

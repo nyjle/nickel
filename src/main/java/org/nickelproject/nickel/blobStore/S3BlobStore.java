@@ -56,7 +56,6 @@ public class S3BlobStore extends BlobStoreBase {
     private static final int notFoundCode = 404;
     private final AmazonS3 s3Client;
     private final String bucketName;
-//    private final TransferManager transferManager;
     private final ExecutorService executor = Executors.newFixedThreadPool(50, 
             new ThreadFactoryBuilder().setDaemon(true).setNameFormat("S3BlobStore-%s").build());
 
@@ -67,11 +66,6 @@ public class S3BlobStore extends BlobStoreBase {
         super(checkContainsThreshold);
         this.bucketName = bucketName;
         this.s3Client = s3Client;
-//        transferManager = new TransferManager(s3Client);
-//        final TransferManagerConfiguration transferManagerConfiguration = 
-//                transferManager.getConfiguration();
-//        transferManagerConfiguration.setMultipartUploadThreshold(10000000L);
-//        transferManager.setConfiguration(transferManagerConfiguration);
     }
 
     @Override
@@ -102,8 +96,7 @@ public class S3BlobStore extends BlobStoreBase {
                 throw RethrownException.rethrow(e);
             }
         }
-        return retVal;
-        
+        return retVal;        
     }
     
     @Override
@@ -147,20 +140,21 @@ public class S3BlobStore extends BlobStoreBase {
         }
     }
     
-    private final void putSinglePartByteArray(final BlobRef blobRef, final byte[] pBytes) {
+    private void putSinglePartByteArray(final BlobRef blobRef, final byte[] pBytes) {
         final ByteArrayInputStream vByteArrayInputStream = new ByteArrayInputStream(pBytes);
         final ObjectMetadata vMetadata = new ObjectMetadata();
         vMetadata.setContentLength(pBytes.length);
-        s3Client.putObject(new PutObjectRequest(bucketName, blobRef.toString(), vByteArrayInputStream, vMetadata));
+        s3Client.putObject(
+                new PutObjectRequest(bucketName, blobRef.toString(), vByteArrayInputStream, vMetadata));
     }
 
     
-    private final void putMultiPartByteArray(final BlobRef blobRef, final byte[] pBytes) {
+    private void putMultiPartByteArray(final BlobRef blobRef, final byte[] pBytes) {
         final CompletionService<PartETag> completionService = 
                 new ExecutorCompletionService<PartETag>(executor);
         final String key = blobRef.toString();
-        final PartGetterInterface partGetter = 
-                RetryProxy.newInstance(PartGetterInterface.class, new PartGetter());
+        final PartTransferInterface partGetter = 
+                RetryProxy.newInstance(PartTransferInterface.class, new PartTransfer());
         final String uploadId = partGetter.initiateUpload(key);
         int partNumber = 1;
         for (int start = 0; start < pBytes.length; start += uploadPartSize) {
@@ -181,18 +175,6 @@ public class S3BlobStore extends BlobStoreBase {
             }
         }
         partGetter.completeUpload(key, uploadId, partETags);
-//        
-//        final ByteArrayInputStream vByteArrayInputStream = new ByteArrayInputStream(pBytes);
-//        final ObjectMetadata vMetadata = new ObjectMetadata();
-//        vMetadata.setContentLength(pBytes.length);
-//        Upload upload = 
-//                transferManager.upload(bucketName, blobRef.toString(), vByteArrayInputStream, vMetadata);
-//        try {
-//            upload.waitForCompletion();
-//        } catch (InterruptedException e) {
-//            Thread.currentThread().interrupt();
-//            throw RethrownException.rethrow(e);
-//        }
     }
     
     private final class PutPartCallable implements Callable<PartETag> {
@@ -200,7 +182,6 @@ public class S3BlobStore extends BlobStoreBase {
         private final int length;
         private final byte[] bytes;
         private final int partNumber;
-//        private final String bucketName;
         private final String key;
         private final String uploadId;
         private final boolean isLast;
@@ -211,7 +192,6 @@ public class S3BlobStore extends BlobStoreBase {
             this.length = length;
             this.bytes = bytes;
             this.partNumber = partNumber;
-//            this.bucketName = bucketName;
             this.key = key;
             this.uploadId = uploadId;
             this.isLast = isLast;
@@ -219,8 +199,8 @@ public class S3BlobStore extends BlobStoreBase {
         
         @Override
         public PartETag call() throws Exception {
-            final PartGetterInterface partGetter = 
-                    RetryProxy.newInstance(PartGetterInterface.class, new PartGetter());
+            final PartTransferInterface partGetter = 
+                    RetryProxy.newInstance(PartTransferInterface.class, new PartTransfer());
             final ByteArrayInputStream stream = new ByteArrayInputStream(bytes, start, length);
             return partGetter.putPart(key, uploadId, partNumber, stream, isLast, length);
         } 
@@ -239,15 +219,15 @@ public class S3BlobStore extends BlobStoreBase {
         
         @Override
         public InputStream call() throws Exception {
-            PartGetterInterface partGetter = 
-                    RetryProxy.newInstance(PartGetterInterface.class, new PartGetter());            
+            PartTransferInterface partGetter = 
+                    RetryProxy.newInstance(PartTransferInterface.class, new PartTransfer());            
             GetObjectRequest rangeRequest = new GetObjectRequest(bucketName, blobRef.toString());
             rangeRequest.setRange(start, end);
             return new ByteArrayInputStream(partGetter.getPart(rangeRequest));
         }     
     }
     
-    public interface PartGetterInterface {
+    public interface PartTransferInterface {
         byte[] getPart(GetObjectRequest rangeRequest);
         PartETag putPart(String key, String uploadId, int partNumber, 
                 ByteArrayInputStream bytes, boolean isLast, int size);
@@ -255,7 +235,7 @@ public class S3BlobStore extends BlobStoreBase {
         String initiateUpload(String key);        
     }
     
-    private final class PartGetter implements PartGetterInterface {
+    private final class PartTransfer implements PartTransferInterface {
         
         @Override
         public byte[] getPart(final GetObjectRequest rangeRequest) {

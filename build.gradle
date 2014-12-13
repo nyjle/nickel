@@ -26,7 +26,7 @@ test {
 	maxHeapSize = "3500m"
 }
 
-version = '0.0.4.8-SNAPSHOT'
+version = '0.0.5'
 group = 'org.nickelproject'
 
 jar {

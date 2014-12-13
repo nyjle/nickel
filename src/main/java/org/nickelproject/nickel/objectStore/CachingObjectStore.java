@@ -44,9 +44,8 @@ public final class CachingObjectStore implements ObjectStore {
         this.cache = CacheBuilder.from(cacheBuilderSpec)
                 .weigher(
                     new Weigher<BlobRef, Pair<Integer, Object>>() {
-
                         @Override
-                        public int weigh(BlobRef key, Pair<Integer, Object> value) {
+                        public int weigh(final BlobRef key, final Pair<Integer, Object> value) {
                             return value.getA();
                         }                        
                     })
