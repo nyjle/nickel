@@ -44,7 +44,7 @@ public final class ThreadedMapper extends ConcurrentMapper {
      * @param pNumThreads the (fixed) size of the thread-pool
      */
     public ThreadedMapper(@Named("NumMapperThreads") final int pNumThreads) {
-        this(pNumThreads, new ThreadFactoryBuilder().setDaemon(true).build());
+        this(pNumThreads, pNumThreads, new ThreadFactoryBuilder().setDaemon(true).build());
     }
     
     /**
@@ -55,13 +55,12 @@ public final class ThreadedMapper extends ConcurrentMapper {
      */
     @Inject
     public ThreadedMapper(@Named("NumMapperThreads") final int pNumThreads,
+            @Named("MaxOutstandingTasks") final int maxOutstanding,
             @Named("ThreadNamePrefix") final String threadGroupPrefix) {
-        mMaxNumOutstanding = pNumThreads;
-        final ThreadFactory threadFactory = new BasicThreadFactory.Builder()
+        this(pNumThreads, maxOutstanding, new BasicThreadFactory.Builder()
                                                     .namingPattern(threadGroupPrefix + "-%d")
                                                     .daemon(true)
-                                                    .build();
-        mExecutor = Executors.newFixedThreadPool(pNumThreads, threadFactory);
+                                                    .build());
     }
     
     /**
@@ -71,8 +70,9 @@ public final class ThreadedMapper extends ConcurrentMapper {
      * @param pThreadFactory the ThreadFactory with which to create the
      *        thread-pool's threads.
      */
-    public ThreadedMapper(final int pNumThreads, final ThreadFactory pThreadFactory) {
-        mMaxNumOutstanding = pNumThreads;
+    public ThreadedMapper(final int pNumThreads, final int maxOutstanding,
+            final ThreadFactory pThreadFactory) {
+        mMaxNumOutstanding = Math.max(pNumThreads, maxOutstanding);
         mExecutor = Executors.newFixedThreadPool(pNumThreads, pThreadFactory);
     }
 

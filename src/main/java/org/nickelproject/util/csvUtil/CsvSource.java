@@ -25,6 +25,13 @@ import org.nickelproject.util.CloseableIterator;
 import org.nickelproject.util.RethrownException;
 import org.nickelproject.util.streamUtil.InputStreamFactory;
 
+/**
+ * Provides a source which parses a CSV file. Either a schema (RecordDataType) must be 
+ * provided or one will be parsed from the header of the CSV file (the first line.
+ * 
+ * The header must be of the form fieldName:Type for each field. The Type must be one of:
+ * "Int", "String", or "Double"
+ */
 public final class CsvSource implements Source<Record> {
     private static final long serialVersionUID = 1L;
     private final InputStreamFactory inputStreamFactory;

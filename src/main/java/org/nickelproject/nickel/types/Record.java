@@ -19,6 +19,13 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * A Record is the equivalent of a structure in C, or a JSON structure.
+ * It contains fields each of which has a type and a name.
+ * Fields are accessible only via their index for performance reasons.
+ * The preferred pattern is to obtain the index from the schema (really the type of the record)
+ * and then to use that to access the fields.
+ */
 public final class Record implements Serializable {
     private static final long serialVersionUID = 1L;
     private final RecordDataType schema;

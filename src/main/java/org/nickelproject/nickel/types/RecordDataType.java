@@ -25,6 +25,10 @@ import org.nickelproject.util.tuple.Triple;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+/**
+ * This class provides the schema for a record.
+ * That is it maintains a mapping from field names to their types and to their indices.
+ */
 public final class RecordDataType implements DataType {
     private static final long serialVersionUID = 1L;
     private final Map<String, DataType> memberTypes   = Maps.newHashMap();

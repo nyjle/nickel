@@ -22,7 +22,6 @@ import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.io.IOUtils;
 import org.nickelproject.util.RethrownException;
-import org.nickelproject.util.RetryProxy;
 
 import com.google.common.base.Preconditions;
 import com.google.common.cache.CacheBuilder;
@@ -40,7 +39,7 @@ public final class CachingBlobStore implements BlobStore {
 
     @Inject
     public CachingBlobStore(final BlobStore blobStore, final CacheBuilderSpec cacheBuilderSpec) {
-        this.blobStore = RetryProxy.newInstance(BlobStore.class, blobStore);
+        this.blobStore = blobStore;
         this.cache = CacheBuilder.from(cacheBuilderSpec)
                 .weigher(new Weigher<BlobRef, byte[]>() {
                     @Override

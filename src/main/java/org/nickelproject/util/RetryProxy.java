@@ -25,6 +25,14 @@ import org.slf4j.LoggerFactory;
 import com.google.common.reflect.Reflection;
 
 // TODO Need to add a random delay
+/**
+ * RetryProxy wraps an object and returns an object of a super class whereby
+ * all methods are wrapped with a retry. Specifically, if an exception is thrown
+ * the method call will be retried a fixed number of times (3) with an exponential 
+ * back-off.
+ * 
+ * @param <T> The type of the object being wrapped
+ */
 public final class RetryProxy<T> implements InvocationHandler {
     private static final long initialDelay = 1;
     private static final long increment    = 2;

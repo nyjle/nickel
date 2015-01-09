@@ -20,6 +20,7 @@ import org.nickelproject.nickel.blobStore.S3BlobStore;
 import org.nickelproject.nickel.externalReference.ExternalReference;
 import org.nickelproject.nickel.objectStore.CachingObjectStore;
 import org.nickelproject.nickel.objectStore.ObjectStore;
+import org.nickelproject.util.RetryProxy;
 import org.nickelproject.util.sources.S3MultiFileSource;
 import org.nickelproject.util.streamUtil.S3InputStreamFactory;
 
@@ -30,22 +31,30 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.google.common.cache.CacheBuilderSpec;
 import com.google.inject.AbstractModule;
+import com.google.inject.Injector;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.name.Names;
 
 public final class S3Module extends AbstractModule {
     private static final long halfMegaByte = 500000L;
+    private static final int s3BlobStoreThreadCount = 50;
 
     @Override
     protected void configure() {
         bind(Long.class).annotatedWith(Names.named("CheckContainsThreshold")).toInstance(halfMegaByte);
         bind(String.class).annotatedWith(Names.named("BucketName")).toInstance("BlobStoreNigel");
-        bind(BlobStore.class).to(S3BlobStore.class);
+        bind(Integer.class).annotatedWith(Names.named("S3BlobStoreThreadCount"))
+                            .toInstance(s3BlobStoreThreadCount);
         bind(ObjectStore.class).to(CachingObjectStore.class);
         requestStaticInjection(ExternalReference.class);
         requestStaticInjection(S3MultiFileSource.class);
         requestStaticInjection(S3InputStreamFactory.class);
+    }
+    
+    @Provides @Singleton
+    BlobStore provideBlobStore(final Injector injector) {
+        return RetryProxy.newInstance(BlobStore.class, injector.getInstance(S3BlobStore.class));
     }
     
     @Provides @Singleton

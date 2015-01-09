@@ -56,16 +56,18 @@ public class S3BlobStore extends BlobStoreBase {
     private static final int notFoundCode = 404;
     private final AmazonS3 s3Client;
     private final String bucketName;
-    private final ExecutorService executor = Executors.newFixedThreadPool(50, 
-            new ThreadFactoryBuilder().setDaemon(true).setNameFormat("S3BlobStore-%s").build());
+    private final ExecutorService executor;
 
     @Inject
     S3BlobStore(final AmazonS3 s3Client,
             @Named("BucketName") final String bucketName,
-            @Named("CheckContainsThreshold") final long checkContainsThreshold) {
+            @Named("CheckContainsThreshold") final long checkContainsThreshold,
+            @Named("S3BlobStoreThreadCount") final int noOfThreads) {
         super(checkContainsThreshold);
         this.bucketName = bucketName;
         this.s3Client = s3Client;
+        executor = Executors.newFixedThreadPool(noOfThreads, 
+                new ThreadFactoryBuilder().setDaemon(true).setNameFormat("S3BlobStore-%s").build());
     }
 
     @Override

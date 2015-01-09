@@ -22,7 +22,6 @@ import org.apache.commons.lang3.SerializationUtils;
 import org.nickelproject.nickel.blobStore.BlobRef;
 import org.nickelproject.nickel.blobStore.BlobStore;
 import org.nickelproject.util.RethrownException;
-import org.nickelproject.util.RetryProxy;
 import org.nickelproject.util.tuple.Pair;
 
 import com.google.common.cache.CacheBuilder;
@@ -40,7 +39,7 @@ public final class CachingObjectStore implements ObjectStore {
 
     @Inject
     public CachingObjectStore(final BlobStore bStore, final CacheBuilderSpec cacheBuilderSpec) {
-        this.blobStore = RetryProxy.newInstance(BlobStore.class, bStore);
+        this.blobStore = bStore;
         this.cache = CacheBuilder.from(cacheBuilderSpec)
                 .weigher(
                     new Weigher<BlobRef, Pair<Integer, Object>>() {
